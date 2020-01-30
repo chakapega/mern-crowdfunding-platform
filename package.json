@@ -2,15 +2,21 @@
   "name": "mern-crowdfunding-platform",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app.js",
+    "server": "nodemon app.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "config": "^3.2.5",
     "express": "^4.17.1",
     "mongoose": "^5.8.10"
+  },
+  "devDependencies": {
+    "concurrently": "^5.1.0",
+    "nodemon": "^2.0.2"
   }
 }
