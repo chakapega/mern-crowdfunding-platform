@@ -1,15 +1,15 @@
 import React from 'react';
-import 'materialize-css';
-import { useRoutes } from './routes';
-import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import store from './store/store';
 
-function App() {
-  const routes = useRoutes(false);
-  return (
-    <div className='container'>
-      <BrowserRouter>{routes}</BrowserRouter>
-    </div>
-  );
-}
+import Header from './components/header/Header';
+import Main from './components/main/Main';
+
+const App = () => (
+  <Provider store={store}>
+    <Header />
+    <Main />
+  </Provider>
+);
 
 export default App;
