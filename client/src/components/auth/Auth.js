@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import facebookLogo from '../../assets/images/auth_service_facebook.svg';
 import googleLogo from '../../assets/images/auth_service_google.svg';
-import { auth, facebookAuthProvider, googleAuthProvider } from '../../firebase/firebase';
+import { auth, arrayOfAuthProviders } from '../../firebase/firebase';
 import { setUserData } from '../../store/auth/actions';
 
 class Auth extends Component {
@@ -33,35 +33,19 @@ class Auth extends Component {
   signIn(authProvider) {
     const { setUserDataAction } = this.props;
 
-    if (authProvider === 'facebook') {
-      auth.signInWithPopup(facebookAuthProvider).then(result => {
-        const { uid, displayName, photoURL, email } = result.user;
-        this.isAutorized = true;
+    auth.signInWithPopup(arrayOfAuthProviders[authProvider]).then(result => {
+      const { uid, displayName, photoURL, email } = result.user;
+      this.isAutorized = true;
 
-        setUserDataAction({ uid, displayName, photoURL, email });
-        fetch('/api/auth/login', {
-          method: 'POST',
-          body: JSON.stringify({ uid, email }),
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        });
+      setUserDataAction({ uid, displayName, photoURL, email });
+      fetch('/api/auth/login', {
+        method: 'POST',
+        body: JSON.stringify({ uid, email }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
       });
-    } else if (authProvider === 'google') {
-      auth.signInWithPopup(googleAuthProvider).then(result => {
-        const { uid, displayName, photoURL, email } = result.user;
-        this.isAutorized = true;
-
-        setUserDataAction({ uid, displayName, photoURL, email });
-        fetch('/api/auth/login', {
-          method: 'POST',
-          body: JSON.stringify({ uid, email }),
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        });
-      });
-    }
+    });
   }
 
   render() {
