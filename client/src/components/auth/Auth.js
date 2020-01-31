@@ -33,19 +33,26 @@ class Auth extends Component {
   signIn(authProvider) {
     const { setUserDataAction } = this.props;
 
-    auth.signInWithPopup(arrayOfAuthProviders[authProvider]).then(result => {
-      const { uid, displayName, photoURL, email } = result.user;
-      this.isAutorized = true;
+    auth
+      .signInWithPopup(arrayOfAuthProviders[authProvider])
+      .then(result => {
+        const { uid, displayName, photoURL, email } = result.user;
+        this.isAutorized = true;
 
-      setUserDataAction({ uid, displayName, photoURL, email });
-      fetch('/api/auth/login', {
-        method: 'POST',
-        body: JSON.stringify({ uid, email }),
-        headers: {
-          'Content-Type': 'application/json'
+        setUserDataAction({ uid, displayName, photoURL, email });
+        fetch('/api/auth/login', {
+          method: 'POST',
+          body: JSON.stringify({ uid, email }),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+      })
+      .catch(error => {
+        if (window.M) {
+          window.M.toast({ html: error.message });
         }
       });
-    });
   }
 
   render() {
@@ -54,24 +61,22 @@ class Auth extends Component {
     } = this.props;
 
     return (
-      <div className='row justify-content-end mr-3'>
-        {!email && (
+      <ul className='right hide-on-med-and-down'>
+        {email ? (
+          <button className='btn btn-primary' type='button' onClick={this.signOut}>
+            Sign out
+          </button>
+        ) : (
           <>
-            <button className='btn btn-sm m-1' type='button' onClick={() => this.signIn('facebook')}>
+            <button className='btn waves-effect waves-light' type='button' onClick={() => this.signIn('facebook')}>
               <img src={facebookLogo} width='30' height='30' alt='auth-service-facebook' />
             </button>
-            <button className='btn btn-sm m-1' type='button' onClick={() => this.signIn('google')}>
+            <button className='btn waves-effect waves-light' type='button' onClick={() => this.signIn('google')}>
               <img src={googleLogo} width='28' height='28' alt='auth-service-google' />
             </button>
           </>
         )}
-
-        {email && (
-          <button className='btn btn-primary' type='button' onClick={this.signOut}>
-            Sign out
-          </button>
-        )}
-      </div>
+      </ul>
     );
   }
 }
