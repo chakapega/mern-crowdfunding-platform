@@ -3,9 +3,9 @@ import { SET_USER_DATA } from './actions';
 const initialState = {
   userData: {
     uid: '',
+    email: '',
     displayName: '',
-    photoURL: '',
-    email: ''
+    photoURL: ''
   }
 };
 

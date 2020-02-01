@@ -1,14 +1,36 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-import Auth from '../auth/Auth';
+export default class Header extends Component {
+  componentDidMount() {
+    const elems = document.querySelectorAll('.sidenav');
+    window.M.Sidenav.init(elems);
+  }
 
-const Header = () => (
-  <nav className='navbar navbar-light bg-primary'>
-    <a className='brand-logo' href='/'>
-      mern-crowdfunding-platform
-    </a>
-    <Auth />
-  </nav>
-);
+  render() {
+    return (
+      <>
+        <nav>
+          <div className='nav-wrapper'>
+            <a href='#!' className='brand-logo'>
+              MCP
+            </a>
+            <a href='#' data-target='mobile-demo' className='sidenav-trigger'>
+              <i className='material-icons'>menu</i>
+            </a>
+            <ul className='right hide-on-med-and-down'>
+              <li>
+                <a href='sass.html'>Sass</a>
+              </li>
+            </ul>
+          </div>
+        </nav>
 
-export default Header;
+        <ul className='sidenav' id='mobile-demo'>
+          <li>
+            <a href='sass.html'>Sass</a>
+          </li>
+        </ul>
+      </>
+    );
+  }
+}
