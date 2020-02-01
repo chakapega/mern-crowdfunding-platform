@@ -8,19 +8,22 @@ const PORT = config.get('port');
 
 app.use(express.json({ extended: true }));
 
-app.post('/api/auth/login', async (request, response) => {
+app.post('/api/auth', async (request, response) => {
   try {
-    const { email, uid } = request.body;
+    const { email, uid, displayName } = request.body;
     const user = await User.findOne({ uid });
 
     if (!user) {
       const user = new User({
         email,
-        uid
+        uid,
+        displayName
       });
 
       await user.save();
-      response.status(201).json({ message: 'Ok' });
+      response.status(201).json({ message: 'Account added to database' });
+    } else {
+      response.status(200).json({ message: 'The account exists in the database' });
     }
   } catch (error) {
     response.status(500).json({
