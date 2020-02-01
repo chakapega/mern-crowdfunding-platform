@@ -13,11 +13,11 @@ class Auth extends Component {
       const { setUserDataAction } = this.props;
 
       if (user) {
-        const { uid, displayName, photoURL, email } = user;
+        const { uid, email, displayName, photoURL } = user;
 
-        setUserDataAction({ uid, displayName, photoURL, email });
+        setUserDataAction({ uid, email, displayName, photoURL });
       } else {
-        setUserDataAction({ uid: '', displayName: '', photoURL: '', email: '' });
+        setUserDataAction({ uid: '', email: '', displayName: '', photoURL: '' });
       }
     });
   }
@@ -26,7 +26,7 @@ class Auth extends Component {
     const { setUserDataAction } = this.props;
 
     auth.signOut().then(() => {
-      setUserDataAction({ uid: '', displayName: '', photoURL: '', email: '' });
+      setUserDataAction({ uid: '', email: '', displayName: '', photoURL: '' });
     });
   };
 
@@ -36,13 +36,13 @@ class Auth extends Component {
     auth
       .signInWithPopup(arrayOfAuthProviders[authProvider])
       .then(result => {
-        const { uid, displayName, photoURL, email } = result.user;
+        const { uid, email, displayName, photoURL } = result.user;
         this.isAutorized = true;
 
-        setUserDataAction({ uid, displayName, photoURL, email });
-        fetch('/api/auth/login', {
+        setUserDataAction({ uid, email, displayName, photoURL });
+        fetch('/api/auth', {
           method: 'POST',
-          body: JSON.stringify({ uid, email }),
+          body: JSON.stringify({ uid, email, displayName }),
           headers: {
             'Content-Type': 'application/json'
           }
@@ -85,9 +85,9 @@ Auth.propTypes = {
   setUserDataAction: PropTypes.func.isRequired,
   userData: PropTypes.shape({
     uid: PropTypes.string.isRequired,
+    email: PropTypes.string.isRequired,
     displayName: PropTypes.string.isRequired,
-    photoURL: PropTypes.string.isRequired,
-    email: PropTypes.string.isRequired
+    photoURL: PropTypes.string.isRequired
   }).isRequired
 };
 
@@ -95,7 +95,7 @@ const mapStateToProps = state => ({
   userData: state.user.userData
 });
 const mapDispatchToProps = dispatch => ({
-  setUserDataAction: userUid => dispatch(setUserData(userUid))
+  setUserDataAction: userData => dispatch(setUserData(userData))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Auth);

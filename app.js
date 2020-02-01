@@ -1,26 +1,29 @@
 const express = require('express');
 const config = require('config');
 const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
 const User = require('./models/User');
 
 const app = express();
 const PORT = config.get('port');
-const jsonParser = bodyParser.json();
 
-app.post('/api/auth/login', jsonParser, async (request, response) => {
+app.use(express.json({ extended: true }));
+
+app.post('/api/auth', async (request, response) => {
   try {
-    const { email, uid } = request.body;
+    const { uid, email, displayName } = request.body;
     const user = await User.findOne({ uid });
 
     if (!user) {
       const user = new User({
+        uid,
         email,
-        uid
+        displayName
       });
 
       await user.save();
-      response.status(201).json({ message: 'User added' });
+      response.status(201).json({ message: 'Account added to database' });
+    } else {
+      response.status(200).json({ message: 'The account exists in the database' });
     }
   } catch (error) {
     response.status(500).json({
