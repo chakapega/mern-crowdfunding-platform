@@ -50,7 +50,7 @@ class Router extends Component {
 
     return (
       <BrowserRouter>
-        <Header userData={{ uid, displayName }} />
+        <Header userData={{ uid, displayName, photoURL }} />
         <Switch>
           <Route path='/' exact>
             <ProjectsPage />

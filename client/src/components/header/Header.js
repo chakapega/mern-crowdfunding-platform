@@ -47,7 +47,6 @@ export default function Header(props) {
 Header.propTypes = {
   userData: PropTypes.shape({
     uid: PropTypes.string.isRequired,
-    email: PropTypes.string.isRequired,
     displayName: PropTypes.string.isRequired,
     photoURL: PropTypes.string.isRequired
   }).isRequired
