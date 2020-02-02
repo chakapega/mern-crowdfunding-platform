@@ -4,9 +4,10 @@ import PropTypes from 'prop-types';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 
 import { auth } from './firebase/firebase';
+import { setUserData } from './store/auth/actions';
 import Header from './components/header/Header';
 import ProjectsPage from './components/projects/ProjectsPage';
-import { setUserData } from './store/auth/actions';
+import CreateProjectPage from './components/projects/CreateProjectPage';
 
 class Router extends Component {
   constructor(props) {
@@ -27,16 +28,19 @@ class Router extends Component {
 
   render() {
     const {
-      userData: { uid }
+      userData: { uid, displayName, photoURL }
     } = this.props;
 
-    if (!uid) {
+    if (uid) {
       return (
         <BrowserRouter>
-          <Header />
+          <Header userData={{ uid, displayName, photoURL }} />
           <Switch>
             <Route path='/' exact>
               <ProjectsPage />
+            </Route>
+            <Route path='/create-project' exact>
+              <CreateProjectPage />
             </Route>
             <Redirect to='/' />
           </Switch>
@@ -46,7 +50,7 @@ class Router extends Component {
 
     return (
       <BrowserRouter>
-        <Header />
+        <Header userData={{ uid, displayName }} />
         <Switch>
           <Route path='/' exact>
             <ProjectsPage />

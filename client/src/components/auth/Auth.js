@@ -59,7 +59,7 @@ class Auth extends Component {
     const { isError, error } = this.state;
 
     return (
-      <Nav className='ml-auto'>
+      <>
         {uid ? (
           <Nav.Link onClick={this.signOut}>Sign out</Nav.Link>
         ) : (
@@ -92,7 +92,7 @@ class Auth extends Component {
             <Toast.Body>{error}</Toast.Body>
           </Toast>
         )}
-      </Nav>
+      </>
     );
   }
 }
