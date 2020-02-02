@@ -1,14 +1,17 @@
 import React from 'react';
+// import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from './store/store';
 
-import Header from './components/header/Header';
-import Main from './components/main/Main';
+import Router from './Router';
+// import Header from './components/header/Header';
 
 const App = () => (
   <Provider store={store}>
-    <Header />
-    <Main />
+    {/* <BrowserRouter> */}
+      {/* <Header /> */}
+      <Router />
+    {/* </BrowserRouter> */}
   </Provider>
 );
 
