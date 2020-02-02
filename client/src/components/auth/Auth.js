@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Nav, NavDropdown } from 'react-bootstrap';
+import { Nav, NavDropdown, Toast } from 'react-bootstrap';
 
 import facebookLogo from '../../assets/images/auth_service_facebook.svg';
 import googleLogo from '../../assets/images/auth_service_google.svg';
@@ -9,6 +9,15 @@ import { auth, arrayOfAuthProviders } from '../../firebase/firebase';
 import { setUserData } from '../../store/auth/actions';
 
 class Auth extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      isError: false,
+      error: ''
+    };
+  }
+
   signOut = () => {
     const { setUserDataAction } = this.props;
 
@@ -36,9 +45,10 @@ class Auth extends Component {
         });
       })
       .catch(error => {
-        if (window.M) {
-          window.M.toast({ html: error.message });
-        }
+        this.setState({
+          isError: true,
+          error: error.message
+        });
       });
   }
 
@@ -46,6 +56,7 @@ class Auth extends Component {
     const {
       userData: { uid }
     } = this.props;
+    const { isError, error } = this.state;
 
     return (
       <Nav className='ml-auto'>
@@ -68,6 +79,18 @@ class Auth extends Component {
               Facebook
             </NavDropdown.Item>
           </NavDropdown>
+        )}
+        {isError && (
+          <Toast
+            className='bootstrap-toast'
+            onClose={() => this.setState({ isError: false, error: '' })}
+            show={isError}
+          >
+            <Toast.Header>
+              <strong className='mr-auto'>Error</strong>
+            </Toast.Header>
+            <Toast.Body>{error}</Toast.Body>
+          </Toast>
         )}
       </Nav>
     );
