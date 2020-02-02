@@ -5,7 +5,7 @@ import Projects from './Projects';
 export default class ProjectsPage extends Component {
   render() {
     return (
-      <div className='row'>
+      <div className='container row m-auto'>
         <Projects />
       </div>
     );
