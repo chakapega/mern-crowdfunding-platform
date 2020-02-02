@@ -1,25 +1,19 @@
 import React from 'react';
+import { Card, Button } from 'react-bootstrap';
 
 import cycoProjectImage from '../../assets/images/cyco-project-image.png';
 
 export default function Project() {
   return (
-    <div className='col s5'>
-      <div className='card'>
-        <div className='card-image'>
-          <img src={cycoProjectImage} alt='cyco' />
-          <span className='card-title'>Cyco project</span>
-        </div>
-        <div className='card-content'>
-          <p>
-            I am a very simple card. I am good at containing small bits of information. I am convenient because I
-            require little markup to use effectively.
-          </p>
-        </div>
-        <div className='card-action'>
-          <a href='#'>This is a link</a>
-        </div>
-      </div>
-    </div>
+    <Card className='m-3' style={{ width: '20rem' }}>
+      <Card.Img variant='top' src={cycoProjectImage} />
+      <Card.Body>
+        <Card.Title>Card Title</Card.Title>
+        <Card.Text>
+          Some quick example text to build on the card title and make up the bulk of the cards content.
+        </Card.Text>
+        <Button variant='primary'>Go somewhere</Button>
+      </Card.Body>
+    </Card>
   );
 }

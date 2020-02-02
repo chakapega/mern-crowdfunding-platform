@@ -10,13 +10,13 @@ app.use(express.json({ extended: true }));
 
 app.post('/api/auth', async (request, response) => {
   try {
-    const { email, uid, displayName } = request.body;
+    const { uid, email, displayName } = request.body;
     const user = await User.findOne({ uid });
 
     if (!user) {
       const user = new User({
-        email,
         uid,
+        email,
         displayName
       });
 

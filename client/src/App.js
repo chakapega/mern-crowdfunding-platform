@@ -1,17 +1,13 @@
 import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import store from './store/store';
 
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { useRoutes } from './routes';
-import Header from './components/header/Header';
+import Router from './Router';
 
-export default function App() {
-  const routes = useRoutes(false);
+const App = () => (
+  <Provider store={store}>
+    <Router />
+  </Provider>
+);
 
-  return (
-    <BrowserRouter>
-      <Header />
-      {routes}
-    </BrowserRouter>
-  );
-}
+export default App;
