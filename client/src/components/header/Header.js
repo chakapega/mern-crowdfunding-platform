@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Navbar, Nav } from 'react-bootstrap';
+import { Navbar, Nav, Container, Image } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
 import Auth from '../auth/Auth';
@@ -12,17 +12,17 @@ export default function Header(props) {
 
   return (
     <Navbar bg='light' expand='lg'>
-      <div className='container'>
-        <NavLink className='navbar-brand' to='/'>
+      <Container>
+        <Navbar.Brand as={NavLink} to='/'>
           MCP
-        </NavLink>
+        </Navbar.Brand>
         <Navbar.Toggle aria-controls='basic-navbar-nav' />
         <Navbar.Collapse id='basic-navbar-nav'>
           <Nav className='ml-auto'>
             {uid && (
               <>
                 <Navbar.Brand>
-                  <img
+                  <Image
                     src={photoURL}
                     width='30'
                     height='30'
@@ -31,15 +31,15 @@ export default function Header(props) {
                   />
                   {displayName}
                 </Navbar.Brand>
-                <NavLink className='nav-link' to='/create-project'>
+                <Nav.Link as={NavLink} to='/create-project'>
                   Create project
-                </NavLink>
+                </Nav.Link>
               </>
             )}
             <Auth />
           </Nav>
         </Navbar.Collapse>
-      </div>
+      </Container>
     </Navbar>
   );
 }
