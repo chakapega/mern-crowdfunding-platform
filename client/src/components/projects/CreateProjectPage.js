@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Form, Tabs, Tab, Button } from 'react-bootstrap';
+import ImageUploader from 'react-images-upload';
 
 export default class CreateProjectPage extends Component {
   constructor(props) {
@@ -9,7 +10,8 @@ export default class CreateProjectPage extends Component {
       name: '',
       description: '',
       category: 'Technology',
-      tags: ''
+      tags: '',
+      images: []
     };
   }
 
@@ -26,7 +28,12 @@ export default class CreateProjectPage extends Component {
   handleSubmit = event => {
     event.preventDefault();
     console.log(this.state);
-    console.log(this.fileInput.current.files);
+  };
+
+  onDrop = images => {
+    this.setState({
+      images
+    });
   };
 
   render() {
@@ -60,8 +67,7 @@ export default class CreateProjectPage extends Component {
           </Tab>
           <Tab className='m-1' eventKey='media' title='Media'>
             <Form.Group>
-              <Form.Label>Upload images</Form.Label>
-              <Form.Control className='border rounded-sm' type='file' accept='image/*' multiple ref={this.fileInput} />
+              <ImageUploader onChange={this.onDrop} withPreview />
             </Form.Group>
           </Tab>
           <Tab className='m-1' eventKey='crowdfunding details' title='Crowdfunding details'>
