@@ -61,7 +61,7 @@ export default class CreateProjectPage extends Component {
           <Tab className='m-1' eventKey='media' title='Media'>
             <Form.Group>
               <Form.Label>Upload images</Form.Label>
-              <Form.Control type='file' accept='image/*' multiple ref={this.fileInput} />
+              <Form.Control className='border rounded-sm' type='file' accept='image/*' multiple ref={this.fileInput} />
             </Form.Group>
           </Tab>
           <Tab className='m-1' eventKey='crowdfunding details' title='Crowdfunding details'>
