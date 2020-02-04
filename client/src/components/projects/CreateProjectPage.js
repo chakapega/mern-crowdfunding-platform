@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Tabs, Tab, Button } from 'react-bootstrap';
+import { Form, Button, InputGroup } from 'react-bootstrap';
 import ImageUploader from 'react-images-upload';
 
 export default class CreateProjectPage extends Component {
@@ -11,7 +11,8 @@ export default class CreateProjectPage extends Component {
       description: '',
       category: 'Technology',
       tags: '',
-      images: []
+      images: [],
+      video: ''
     };
   }
 
@@ -39,42 +40,49 @@ export default class CreateProjectPage extends Component {
   render() {
     return (
       <Form className='container mt-3' id='create-project-form' onSubmit={this.handleSubmit}>
-        <Tabs>
-          <Tab className='m-1' eventKey='description' title='Description'>
-            <Form.Group>
-              <Form.Label>Project name</Form.Label>
-              <Form.Control name='name' type='text' placeholder='Project name' onChange={this.handleInputChange} />
-            </Form.Group>
-            <Form.Group>
-              <Form.Label>Project description</Form.Label>
-              <Form.Control name='description' as='textarea' rows='3' onChange={this.handleInputChange} />
-            </Form.Group>
-            <Form.Group>
-              <Form.Label>Category</Form.Label>
-              <Form.Control name='category' as='select' onChange={this.handleInputChange}>
-                <option>Technology</option>
-                <option>Education</option>
-                <option>Food</option>
-                <option>Games</option>
-                <option>Fashion</option>
-              </Form.Control>
-            </Form.Group>
-            <Form.Group>
-              <Form.Label>Tags</Form.Label>
-              <Form.Control name='tags' type='text' placeholder='Tags...' onChange={this.handleInputChange} />
-              <Form.Text className='text-muted'>Enter tags separated by commas</Form.Text>
-            </Form.Group>
-          </Tab>
-          <Tab className='m-1' eventKey='media' title='Media'>
-            <Form.Group>
-              <ImageUploader onChange={this.onDrop} withPreview />
-            </Form.Group>
-          </Tab>
-          <Tab className='m-1' eventKey='crowdfunding details' title='Crowdfunding details'>
-            fdsfsdf
-          </Tab>
-        </Tabs>
-        <Button type='submit'>Create project</Button>
+        <Form.Group>
+          <Form.Label>Project name</Form.Label>
+          <Form.Control name='name' type='text' placeholder='Project name' onChange={this.handleInputChange} />
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>Project description</Form.Label>
+          <Form.Control name='description' as='textarea' rows='3' onChange={this.handleInputChange} />
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>Category</Form.Label>
+          <Form.Control name='category' as='select' onChange={this.handleInputChange}>
+            <option>Technology</option>
+            <option>Education</option>
+            <option>Food</option>
+            <option>Games</option>
+            <option>Fashion</option>
+          </Form.Control>
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>Tags</Form.Label>
+          <Form.Control name='tags' type='text' placeholder='Tags...' onChange={this.handleInputChange} />
+          <Form.Text className='text-muted'>Enter tags separated by commas</Form.Text>
+        </Form.Group>
+        <Form.Group>
+          <ImageUploader onChange={this.onDrop} withPreview />
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>Link to YouTube video</Form.Label>
+          <Form.Control name='video' type='url' placeholder='Link to YouTube video' onChange={this.handleInputChange} />
+          <Form.Text className='text-muted'>Example: https://www.youtube.com/...</Form.Text>
+        </Form.Group>
+        <label htmlFor='target-amount-of-money'>Target amount of money</label>
+        <InputGroup className='mb-3'>
+          <Form.Control type='number' />
+          <InputGroup.Append>
+            <InputGroup.Text id='target-amount-of-money'>$</InputGroup.Text>
+          </InputGroup.Append>
+        </InputGroup>
+        <Form.Group>
+          <Form.Label>Fundraising End Date</Form.Label>
+          <Form.Control name='fundraisingEndDate' type='date' min='2020-02-04' onChange={this.handleInputChange} />
+        </Form.Group>
+        <Button className='mb-5' type='submit'>Create project</Button>
       </Form>
     );
   }
