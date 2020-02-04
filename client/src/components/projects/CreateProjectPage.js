@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Form, Button, InputGroup, FormControl } from 'react-bootstrap';
 import ImageUploader from 'react-images-upload';
+import { storage } from '../../firebase/firebase';
 
 export default class CreateProjectPage extends Component {
   constructor(props) {
@@ -43,8 +44,72 @@ export default class CreateProjectPage extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    console.log(this.state);
+    console.log('handleSubmit - 1');
+
+    const {
+      userData: { uid, email }
+    } = this.props;
+    const {
+      name,
+      description,
+      category,
+      tags,
+      fundraisingEndDate,
+      target,
+      bonusTen,
+      bonusTwentyFive,
+      bonusFifty,
+      video
+    } = this.state;
+    const imageLinks = this.uploadImagesToStorage();
+
+    console.log('fetch');
+    fetch('/api/create-project', {
+      method: 'POST',
+      body: JSON.stringify({
+        uid,
+        email,
+        name,
+        description,
+        category,
+        tags,
+        fundraisingEndDate,
+        target,
+        bonusTen,
+        bonusTwentyFive,
+        bonusFifty,
+        video,
+        imageLinks
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
   };
+
+  uploadImagesToStorage() {
+    const imageLinks = [];
+    const { images } = this.state;
+
+    images.forEach(image => {
+      const storageRef = storage.ref('images/' + image.name);
+      const task = storageRef.put(image);
+
+      task.on(
+        'state_changed',
+        function progress() {},
+        function error() {},
+        function complete() {
+          task.snapshot.ref.getDownloadURL().then(downloadURL => {
+            console.log('link completed', downloadURL);
+            imageLinks.push(downloadURL);
+          });
+        }
+      );
+    });
+
+    return imageLinks;
+  }
 
   onDrop = images => {
     this.setState({
@@ -53,7 +118,7 @@ export default class CreateProjectPage extends Component {
   };
 
   render() {
-    const { minimumDate } = this.state;
+    // const { minimumDate } = this.state;
 
     return (
       <Form className='container mt-3' id='create-project-form' onSubmit={this.handleSubmit}>
@@ -93,8 +158,8 @@ export default class CreateProjectPage extends Component {
           <Form.Control
             name='fundraisingEndDate'
             type='date'
-            min={minimumDate}
-            required
+            // min={minimumDate}
+            // required
             onChange={this.handleInputChange}
           />
         </Form.Group>
@@ -125,7 +190,7 @@ export default class CreateProjectPage extends Component {
             name='video'
             type='url'
             placeholder='Link to YouTube video'
-            required
+            // required
             onChange={this.handleInputChange}
           />
           <Form.Text className='text-muted'>Example: https://www.youtube.com/...</Form.Text>

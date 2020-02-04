@@ -32,6 +32,31 @@ app.post('/api/auth', async (request, response) => {
   }
 });
 
+app.post('/api/create-project', async (request, response) => {
+  try {
+    console.log(request.body.imageLinks);
+    // const { imageLinks } = request.body;
+    // const user = await User.findOne({ uid });
+
+    // if (!user) {
+    //   const user = new User({
+    //     uid,
+    //     email,
+    //     displayName
+    //   });
+
+    //   await user.save();
+    //   response.status(201).json({ message: 'Account added to database' });
+    // } else {
+    //   response.status(200).json({ message: 'The account exists in the database' });
+    // }
+  } catch (error) {
+    response.status(500).json({
+      message: 'An error occured, please try again'
+    });
+  }
+});
+
 async function start() {
   try {
     await mongoose.connect(config.get('mongoUri'), {

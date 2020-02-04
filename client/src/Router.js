@@ -28,7 +28,7 @@ class Router extends Component {
 
   render() {
     const {
-      userData: { uid, displayName, photoURL }
+      userData: { uid, email, displayName, photoURL }
     } = this.props;
 
     if (uid) {
@@ -40,7 +40,7 @@ class Router extends Component {
               <ProjectsPage />
             </Route>
             <Route path='/create-project' exact>
-              <CreateProjectPage />
+              <CreateProjectPage userData={{ uid, email }} />
             </Route>
             <Redirect to='/' />
           </Switch>
