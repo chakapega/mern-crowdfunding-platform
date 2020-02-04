@@ -38,6 +38,16 @@ export default class CreateProjectPage extends Component {
   };
 
   render() {
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    let month = currentDate.getMonth() + 1;
+    let date = currentDate.getDate();
+
+    if (date < 10) date = '0' + date;
+    if (month < 10) month = '0' + month;
+
+    console.log(`${year}-${month}-${date}`);
+
     return (
       <Form className='container mt-3' id='create-project-form' onSubmit={this.handleSubmit}>
         <Form.Group>
@@ -80,9 +90,16 @@ export default class CreateProjectPage extends Component {
         </InputGroup>
         <Form.Group>
           <Form.Label>Fundraising End Date</Form.Label>
-          <Form.Control name='fundraisingEndDate' type='date' min='2020-02-04' onChange={this.handleInputChange} />
+          <Form.Control
+            name='fundraisingEndDate'
+            type='date'
+            min={`${year}-${month}-${date}`}
+            onChange={this.handleInputChange}
+          />
         </Form.Group>
-        <Button className='mb-5' type='submit'>Create project</Button>
+        <Button className='mb-5' type='submit'>
+          Create project
+        </Button>
       </Form>
     );
   }
