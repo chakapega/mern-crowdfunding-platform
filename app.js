@@ -34,7 +34,7 @@ app.post('/api/auth', async (request, response) => {
 
 app.post('/api/create-project', async (request, response) => {
   try {
-    console.log(request.body.imageLinks);
+    console.log(request.body);
     // const { imageLinks } = request.body;
     // const user = await User.findOne({ uid });
 

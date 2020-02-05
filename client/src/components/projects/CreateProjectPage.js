@@ -44,7 +44,6 @@ export default class CreateProjectPage extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    console.log('handleSubmit - 1');
 
     const {
       userData: { uid, email }
@@ -61,55 +60,64 @@ export default class CreateProjectPage extends Component {
       bonusFifty,
       video
     } = this.state;
-    const imageLinks = this.uploadImagesToStorage();
 
-    console.log('fetch');
-    fetch('/api/create-project', {
-      method: 'POST',
-      body: JSON.stringify({
-        uid,
-        email,
-        name,
-        description,
-        category,
-        tags,
-        fundraisingEndDate,
-        target,
-        bonusTen,
-        bonusTwentyFive,
-        bonusFifty,
-        video,
-        imageLinks
-      }),
-      headers: {
-        'Content-Type': 'application/json'
-      }
+    this.uploadImagesToStorage().then(imageLinks => {
+      fetch('/api/create-project', {
+        method: 'POST',
+        body: JSON.stringify({
+          uid,
+          email,
+          name,
+          description,
+          category,
+          tags,
+          fundraisingEndDate,
+          target,
+          bonusTen,
+          bonusTwentyFive,
+          bonusFifty,
+          video,
+          imageLinks
+        }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
     });
   };
 
-  uploadImagesToStorage() {
+  async uploadImagesToStorage() {
     const imageLinks = [];
     const { images } = this.state;
 
-    images.forEach(image => {
-      const storageRef = storage.ref('images/' + image.name);
-      const task = storageRef.put(image);
+    for (const image of images) {
+      const imageUrl = await this.uploadImageToStoragePromise(image);
 
-      task.on(
+      imageLinks.push(imageUrl);
+    }
+
+    return imageLinks;
+  }
+
+  uploadImageToStoragePromise = async image => {
+    return new Promise(function(resolve, reject) {
+      const storageRef = storage.ref('images/' + image.name);
+      const uploadTask = storageRef.put(image);
+
+      uploadTask.on(
         'state_changed',
         function progress() {},
-        function error() {},
+        function error(error) {
+          reject(error);
+        },
         function complete() {
-          task.snapshot.ref.getDownloadURL().then(downloadURL => {
-            console.log('link completed', downloadURL);
-            imageLinks.push(downloadURL);
+          uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
+            resolve(downloadURL);
           });
         }
       );
     });
-
-    return imageLinks;
-  }
+  };
 
   onDrop = images => {
     this.setState({
@@ -118,7 +126,7 @@ export default class CreateProjectPage extends Component {
   };
 
   render() {
-    // const { minimumDate } = this.state;
+    const { minimumDate } = this.state;
 
     return (
       <Form className='container mt-3' id='create-project-form' onSubmit={this.handleSubmit}>
@@ -158,8 +166,8 @@ export default class CreateProjectPage extends Component {
           <Form.Control
             name='fundraisingEndDate'
             type='date'
-            // min={minimumDate}
-            // required
+            min={minimumDate}
+            required
             onChange={this.handleInputChange}
           />
         </Form.Group>
@@ -190,7 +198,7 @@ export default class CreateProjectPage extends Component {
             name='video'
             type='url'
             placeholder='Link to YouTube video'
-            // required
+            required
             onChange={this.handleInputChange}
           />
           <Form.Text className='text-muted'>Example: https://www.youtube.com/...</Form.Text>
