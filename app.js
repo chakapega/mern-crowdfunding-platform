@@ -2,6 +2,7 @@ const express = require('express');
 const config = require('config');
 const mongoose = require('mongoose');
 const User = require('./models/User');
+const Created_project = require('./models/Created_project');
 
 const app = express();
 const PORT = config.get('port');
@@ -27,32 +28,50 @@ app.post('/api/auth', async (request, response) => {
     }
   } catch (error) {
     response.status(500).json({
-      message: 'An error occured, please try again'
+      message: error.message || 'An error occured, please try again'
     });
   }
 });
 
 app.post('/api/create-project', async (request, response) => {
   try {
-    console.log(request.body);
-    // const { imageLinks } = request.body;
-    // const user = await User.findOne({ uid });
+    const {
+      uid,
+      email,
+      name,
+      description,
+      category,
+      tags,
+      fundraisingEndDate,
+      target,
+      bonusTen,
+      bonusTwentyFive,
+      bonusFifty,
+      video,
+      imageLinks
+    } = request.body;
 
-    // if (!user) {
-    //   const user = new User({
-    //     uid,
-    //     email,
-    //     displayName
-    //   });
+    const createdProject = new Created_project({
+      uid,
+      email,
+      name,
+      description,
+      category,
+      tags,
+      fundraisingEndDate,
+      target,
+      bonusTen,
+      bonusTwentyFive,
+      bonusFifty,
+      video,
+      imageLinks
+    });
 
-    //   await user.save();
-    //   response.status(201).json({ message: 'Account added to database' });
-    // } else {
-    //   response.status(200).json({ message: 'The account exists in the database' });
-    // }
+    await createdProject.save();
+    response.status(201).json({ message: 'Project created' });
   } catch (error) {
     response.status(500).json({
-      message: 'An error occured, please try again'
+      message: error.message || 'An error occured, please try again'
     });
   }
 });

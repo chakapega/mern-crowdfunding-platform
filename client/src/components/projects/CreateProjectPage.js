@@ -6,7 +6,7 @@ import { storage } from '../../firebase/firebase';
 export default class CreateProjectPage extends Component {
   constructor(props) {
     super(props);
-    this.fileInput = React.createRef();
+    this.form = React.createRef();
     const currentDate = new Date();
     const year = currentDate.getFullYear();
     let month = currentDate.getMonth() + 1;
@@ -82,6 +82,8 @@ export default class CreateProjectPage extends Component {
         headers: {
           'Content-Type': 'application/json'
         }
+      }).then(() => {
+        this.form.current.reset();
       });
     });
   };
@@ -129,7 +131,7 @@ export default class CreateProjectPage extends Component {
     const { minimumDate } = this.state;
 
     return (
-      <Form className='container mt-3' id='create-project-form' onSubmit={this.handleSubmit}>
+      <Form className='container mt-3' id='create-project-form' ref={this.form} onSubmit={this.handleSubmit}>
         <Form.Group>
           <Form.Label>Project name</Form.Label>
           <Form.Control name='name' type='text' placeholder='Project name' required onChange={this.handleInputChange} />
