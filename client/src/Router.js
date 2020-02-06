@@ -12,7 +12,6 @@ import CreateProjectPage from './components/projects/CreateProjectPage';
 class Router extends Component {
   constructor(props) {
     super();
-
     auth.onAuthStateChanged(user => {
       const { setUserDataAction } = props;
 
