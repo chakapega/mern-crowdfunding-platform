@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import { Form, Button, InputGroup, FormControl, Toast } from 'react-bootstrap';
 import ImageUploader from 'react-images-upload';
 import PropTypes from 'prop-types';
@@ -31,7 +32,8 @@ export default class CreateProjectPage extends Component {
       images: [],
       minimumDate,
       isError: false,
-      error: ''
+      error: '',
+      isCreated: false
     };
   }
 
@@ -87,7 +89,10 @@ export default class CreateProjectPage extends Component {
             'Content-Type': 'application/json'
           }
         }).then(() => {
-          this.form.current.reset();
+          // this.form.current.reset();
+          this.setState({
+            isCreated: true
+          });
         });
       } else {
         this.setState({
@@ -138,99 +143,111 @@ export default class CreateProjectPage extends Component {
   }
 
   render() {
-    const { minimumDate, isError, error } = this.state;
+    const { minimumDate, isError, error, isCreated } = this.state;
 
     return (
-      <Form className='container mt-3' id='create-project-form' ref={this.form} onSubmit={this.handleSubmit}>
-        <Form.Group>
-          <Form.Label>Project name</Form.Label>
-          <Form.Control name='name' type='text' placeholder='Project name' required onChange={this.handleInputChange} />
-        </Form.Group>
-        <Form.Group>
-          <Form.Label>Project description</Form.Label>
-          <Form.Control name='description' as='textarea' rows='3' required onChange={this.handleInputChange} />
-        </Form.Group>
-        <Form.Group>
-          <Form.Label>Category</Form.Label>
-          <Form.Control name='category' as='select' required onChange={this.handleInputChange}>
-            <option>...</option>
-            <option>Technology</option>
-            <option>Education</option>
-            <option>Food</option>
-            <option>Games</option>
-            <option>Fashion</option>
-          </Form.Control>
-        </Form.Group>
-        <Form.Group>
-          <Form.Label>Tags</Form.Label>
-          <Form.Control name='tags' type='text' placeholder='Tags...' required onChange={this.handleInputChange} />
-          <Form.Text className='text-muted'>Enter tags separated by commas</Form.Text>
-        </Form.Group>
-        <Form.Label>Target amount of money</Form.Label>
-        <InputGroup className='mb-3'>
-          <InputGroup.Prepend>
-            <InputGroup.Text>$</InputGroup.Text>
-          </InputGroup.Prepend>
-          <Form.Control name='target' type='number' required onChange={this.handleInputChange} />
-        </InputGroup>
-        <Form.Group>
-          <Form.Label>Fundraising End Date (mm/dd/yyyy)</Form.Label>
-          <Form.Control
-            name='fundraisingEndDate'
-            type='date'
-            min={minimumDate}
-            required
-            onChange={this.handleInputChange}
-          />
-        </Form.Group>
-        <InputGroup className='mb-3'>
-          <InputGroup.Prepend>
-            <InputGroup.Text>$ 10 Bonus</InputGroup.Text>
-          </InputGroup.Prepend>
-          <FormControl name='bonusTen' as='textarea' required onChange={this.handleInputChange} />
-        </InputGroup>
-        <InputGroup className='mb-3'>
-          <InputGroup.Prepend>
-            <InputGroup.Text>$ 25 Bonus</InputGroup.Text>
-          </InputGroup.Prepend>
-          <FormControl name='bonusTwentyFive' as='textarea' required onChange={this.handleInputChange} />
-        </InputGroup>
-        <InputGroup className='mb-3'>
-          <InputGroup.Prepend>
-            <InputGroup.Text>$ 50 Bonus</InputGroup.Text>
-          </InputGroup.Prepend>
-          <FormControl name='bonusFifty' as='textarea' required onChange={this.handleInputChange} />
-        </InputGroup>
-        <Form.Group>
-          <ImageUploader withPreview onChange={this.onDrop} />
-        </Form.Group>
-        <Form.Group>
-          <Form.Label>Link to YouTube video</Form.Label>
-          <Form.Control
-            name='video'
-            type='url'
-            placeholder='Link to YouTube video'
-            required
-            onChange={this.handleInputChange}
-          />
-          <Form.Text className='text-muted'>Example: https://www.youtube.com/...</Form.Text>
-        </Form.Group>
-        <Button className='mb-5' type='submit'>
-          Create project
-        </Button>
-        {isError && (
-          <Toast
-            className='bootstrap-toast'
-            onClose={() => this.setState({ isError: false, error: '' })}
-            show={isError}
-          >
-            <Toast.Header>
-              <strong className='mr-auto'>Error</strong>
-            </Toast.Header>
-            <Toast.Body>{error}</Toast.Body>
-          </Toast>
+      <>
+        {isCreated ? (
+          <Redirect to='/' />
+        ) : (
+          <Form className='container mt-3' id='create-project-form' ref={this.form} onSubmit={this.handleSubmit}>
+            <Form.Group>
+              <Form.Label>Project name</Form.Label>
+              <Form.Control
+                name='name'
+                type='text'
+                placeholder='Project name'
+                required
+                onChange={this.handleInputChange}
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Project description</Form.Label>
+              <Form.Control name='description' as='textarea' rows='3' required onChange={this.handleInputChange} />
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Category</Form.Label>
+              <Form.Control name='category' as='select' required onChange={this.handleInputChange}>
+                <option>...</option>
+                <option>Technology</option>
+                <option>Education</option>
+                <option>Food</option>
+                <option>Games</option>
+                <option>Fashion</option>
+              </Form.Control>
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Tags</Form.Label>
+              <Form.Control name='tags' type='text' placeholder='Tags...' required onChange={this.handleInputChange} />
+              <Form.Text className='text-muted'>Enter tags separated by commas</Form.Text>
+            </Form.Group>
+            <Form.Label>Target amount of money</Form.Label>
+            <InputGroup className='mb-3'>
+              <InputGroup.Prepend>
+                <InputGroup.Text>$</InputGroup.Text>
+              </InputGroup.Prepend>
+              <Form.Control name='target' type='number' required onChange={this.handleInputChange} />
+            </InputGroup>
+            <Form.Group>
+              <Form.Label>Fundraising End Date (mm/dd/yyyy)</Form.Label>
+              <Form.Control
+                name='fundraisingEndDate'
+                type='date'
+                min={minimumDate}
+                required
+                onChange={this.handleInputChange}
+              />
+            </Form.Group>
+            <InputGroup className='mb-3'>
+              <InputGroup.Prepend>
+                <InputGroup.Text>$ 10 Bonus</InputGroup.Text>
+              </InputGroup.Prepend>
+              <FormControl name='bonusTen' as='textarea' required onChange={this.handleInputChange} />
+            </InputGroup>
+            <InputGroup className='mb-3'>
+              <InputGroup.Prepend>
+                <InputGroup.Text>$ 25 Bonus</InputGroup.Text>
+              </InputGroup.Prepend>
+              <FormControl name='bonusTwentyFive' as='textarea' required onChange={this.handleInputChange} />
+            </InputGroup>
+            <InputGroup className='mb-3'>
+              <InputGroup.Prepend>
+                <InputGroup.Text>$ 50 Bonus</InputGroup.Text>
+              </InputGroup.Prepend>
+              <FormControl name='bonusFifty' as='textarea' required onChange={this.handleInputChange} />
+            </InputGroup>
+            <Form.Group>
+              <ImageUploader withPreview onChange={this.onDrop} />
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Link to YouTube video</Form.Label>
+              <Form.Control
+                name='video'
+                type='url'
+                placeholder='Link to YouTube video'
+                required
+                onChange={this.handleInputChange}
+              />
+              <Form.Text className='text-muted'>Example: https://www.youtube.com/...</Form.Text>
+            </Form.Group>
+            <Button className='mb-5' type='submit'>
+              Create project
+            </Button>
+            {isError && (
+              <Toast
+                className='bootstrap-toast'
+                onClose={() => this.setState({ isError: false, error: '' })}
+                show={isError}
+              >
+                <Toast.Header>
+                  <strong className='mr-auto'>Error</strong>
+                </Toast.Header>
+                <Toast.Body>{error}</Toast.Body>
+              </Toast>
+            )}
+          </Form>
         )}
-      </Form>
+      </>
     );
   }
 }

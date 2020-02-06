@@ -1,15 +1,18 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-import Project from './Project';
+import ProjectPreview from './ProjectPreview';
 
-export default function Projects() {
+export default function Projects({ projects }) {
   return (
     <>
-      <Project />
-      <Project />
-      <Project />
-      <Project />
-      <Project />
+      {projects.map(project => (
+        <ProjectPreview key={project._id} project={project} />
+      ))}
     </>
   );
 }
+
+Projects.propTypes = {
+  projects: PropTypes.arrayOf(PropTypes.object).isRequired
+};

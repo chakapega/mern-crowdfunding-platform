@@ -76,6 +76,18 @@ app.post('/api/create-project', async (request, response) => {
   }
 });
 
+app.get('/api/projects', async (request, response) => {
+  try {
+    const projects = await Created_project.find();
+
+    response.status(200).json(projects);
+  } catch (error) {
+    response.status(500).json({
+      message: error.message || 'An error occured, please try again'
+    });
+  }
+});
+
 async function start() {
   try {
     await mongoose.connect(config.get('mongoUri'), {
