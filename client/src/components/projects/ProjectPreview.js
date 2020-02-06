@@ -7,11 +7,11 @@ export default function ProjectPreview({ project }) {
   const [image] = imageLinks;
 
   return (
-    <Card className='m-3' style={{ width: '25rem' }}>
+    <Card>
       <Card.Img variant='top' src={image} />
       <Card.Body>
         <Card.Title>{name}</Card.Title>
-        <Card.Text>{description}</Card.Text>
+        <Card.Text className='project-preview-description'>{description}</Card.Text>
         <Button variant='primary'>Show project</Button>
       </Card.Body>
     </Card>

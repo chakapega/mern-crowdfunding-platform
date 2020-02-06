@@ -10,3 +10,18 @@
   right: 0%;
   margin: 10px;
 }
+.project-preview-description {
+  max-height: 264px;
+  overflow: auto;
+}
+
+@media (max-width: 768px) {
+  .card-columns {
+    column-count: 1;
+  }
+}
+@media (min-width: 768px) and (max-width: 1199.98px) {
+  .card-columns {
+    column-count: 2;
+  }
+}

@@ -23,10 +23,6 @@ export default class ProjectsPage extends Component {
   render() {
     const { projects } = this.state;
 
-    return (
-      <div className='container row m-auto'>
-        <Projects projects={projects} />
-      </div>
-    );
+    return <Projects projects={projects} />;
   }
 }
