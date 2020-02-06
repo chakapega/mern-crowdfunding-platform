@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Form, Button, InputGroup, FormControl } from 'react-bootstrap';
+import { Form, Button, InputGroup, FormControl, Toast } from 'react-bootstrap';
 import ImageUploader from 'react-images-upload';
+import PropTypes from 'prop-types';
 import { storage } from '../../firebase/firebase';
 
 export default class CreateProjectPage extends Component {
@@ -28,7 +29,9 @@ export default class CreateProjectPage extends Component {
       bonusFifty: '',
       video: '',
       images: [],
-      minimumDate
+      minimumDate,
+      isError: false,
+      error: ''
     };
   }
 
@@ -62,56 +65,48 @@ export default class CreateProjectPage extends Component {
     } = this.state;
 
     this.uploadImagesToStorage().then(imageLinks => {
-      fetch('/api/create-project', {
-        method: 'POST',
-        body: JSON.stringify({
-          uid,
-          email,
-          name,
-          description,
-          category,
-          tags,
-          fundraisingEndDate,
-          target,
-          bonusTen,
-          bonusTwentyFive,
-          bonusFifty,
-          video,
-          imageLinks
-        }),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }).then(() => {
-        this.form.current.reset();
-      });
+      if (imageLinks.length) {
+        fetch('/api/create-project', {
+          method: 'POST',
+          body: JSON.stringify({
+            uid,
+            email,
+            name,
+            description,
+            category,
+            tags,
+            fundraisingEndDate,
+            target,
+            bonusTen,
+            bonusTwentyFive,
+            bonusFifty,
+            video,
+            imageLinks
+          }),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }).then(() => {
+          this.form.current.reset();
+        });
+      } else {
+        this.setState({
+          isError: true,
+          error: 'You must upload at least one image for your project'
+        });
+      }
     });
   };
 
-  async uploadImagesToStorage() {
-    const imageLinks = [];
-    const { images } = this.state;
-
-    for (const image of images) {
-      const imageUrl = await this.uploadImageToStoragePromise(image);
-
-      imageLinks.push(imageUrl);
-    }
-
-    return imageLinks;
-  }
-
   uploadImageToStoragePromise = async image => {
-    return new Promise(function(resolve, reject) {
-      const storageRef = storage.ref('images/' + image.name);
+    return new Promise(resolve => {
+      const storageRef = storage.ref(`images/${image.name}`);
       const uploadTask = storageRef.put(image);
 
       uploadTask.on(
         'state_changed',
         function progress() {},
-        function error(error) {
-          reject(error);
-        },
+        function error() {},
         function complete() {
           uploadTask.snapshot.ref.getDownloadURL().then(downloadURL => {
             resolve(downloadURL);
@@ -127,8 +122,23 @@ export default class CreateProjectPage extends Component {
     });
   };
 
+  async uploadImagesToStorage() {
+    const imageLinks = [];
+    const { images } = this.state;
+
+    /* eslint-disable */
+    for (const image of images) {
+      const imageUrl = await this.uploadImageToStoragePromise(image);
+
+      imageLinks.push(imageUrl);
+    }
+    /* eslint-enable */
+
+    return imageLinks;
+  }
+
   render() {
-    const { minimumDate } = this.state;
+    const { minimumDate, isError, error } = this.state;
 
     return (
       <Form className='container mt-3' id='create-project-form' ref={this.form} onSubmit={this.handleSubmit}>
@@ -208,7 +218,26 @@ export default class CreateProjectPage extends Component {
         <Button className='mb-5' type='submit'>
           Create project
         </Button>
+        {isError && (
+          <Toast
+            className='bootstrap-toast'
+            onClose={() => this.setState({ isError: false, error: '' })}
+            show={isError}
+          >
+            <Toast.Header>
+              <strong className='mr-auto'>Error</strong>
+            </Toast.Header>
+            <Toast.Body>{error}</Toast.Body>
+          </Toast>
+        )}
       </Form>
     );
   }
 }
+
+CreateProjectPage.propTypes = {
+  userData: PropTypes.shape({
+    uid: PropTypes.string.isRequired,
+    email: PropTypes.string.isRequired
+  }).isRequired
+};

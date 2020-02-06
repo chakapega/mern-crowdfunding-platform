@@ -11,7 +11,6 @@ import { setUserData } from '../../store/auth/actions';
 class Auth extends Component {
   constructor() {
     super();
-
     this.state = {
       isError: false,
       error: ''
