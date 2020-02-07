@@ -37,7 +37,9 @@ class Router extends Component {
           <Header userData={{ uid, displayName, photoURL }} />
           <Switch>
             <Route path='/' exact>
-              {/* <ProjectsPage /> */}
+              <ProjectsPage />
+            </Route>
+            <Route path='/project' exact>
               <Project />
             </Route>
             <Route path='/create-project' exact>
@@ -54,7 +56,9 @@ class Router extends Component {
         <Header userData={{ uid, displayName, photoURL }} />
         <Switch>
           <Route path='/' exact>
-            {/* <ProjectsPage /> */}
+            <ProjectsPage />
+          </Route>
+          <Route path='/project' exact>
             <Project />
           </Route>
           <Redirect to='/' />

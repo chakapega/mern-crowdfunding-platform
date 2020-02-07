@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { NavLink } from 'react-router-dom';
 import { Card, Button } from 'react-bootstrap';
 
 export default function ProjectPreview({ project }) {
@@ -12,7 +13,9 @@ export default function ProjectPreview({ project }) {
       <Card.Body>
         <Card.Title>{name}</Card.Title>
         <Card.Text className='project-preview-description'>{description}</Card.Text>
-        <Button variant='primary'>Show project</Button>
+        <Button variant='primary' as={NavLink} to='/project'>
+          Open project
+        </Button>
       </Card.Body>
     </Card>
   );
