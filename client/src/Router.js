@@ -8,6 +8,7 @@ import { setUserData } from './store/auth/actions';
 import Header from './components/header/Header';
 import ProjectsPage from './components/projects/ProjectsPage';
 import CreateProjectPage from './components/projects/CreateProjectPage';
+import Project from './components/projects/Project';
 
 class Router extends Component {
   constructor(props) {
@@ -36,7 +37,8 @@ class Router extends Component {
           <Header userData={{ uid, displayName, photoURL }} />
           <Switch>
             <Route path='/' exact>
-              <ProjectsPage />
+              {/* <ProjectsPage /> */}
+              <Project />
             </Route>
             <Route path='/create-project' exact>
               <CreateProjectPage userData={{ uid, email }} />
@@ -52,7 +54,8 @@ class Router extends Component {
         <Header userData={{ uid, displayName, photoURL }} />
         <Switch>
           <Route path='/' exact>
-            <ProjectsPage />
+            {/* <ProjectsPage /> */}
+            <Project />
           </Route>
           <Redirect to='/' />
         </Switch>

@@ -14,13 +14,129 @@
   max-height: 264px;
   overflow: auto;
 }
+.project-container {
+  margin: 16px;
 
-@media (max-width: 768px) {
+  .project-name {
+    text-align: center;
+    margin-bottom: 50px;
+    font-size: 1.5rem;
+  }
+  .project-container_first {
+    display: flex;
+    justify-content: space-around;
+
+    .project-video-container {
+      width: 50%;
+    }
+    .crowdfunding-details {
+      width: 40%;
+    }
+    .payment-buttons-container {
+      display: flex;
+      flex-direction: column;
+      height: 200px;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 30px;
+
+      .payment-button {
+        width: 40%;
+      }
+    }
+  }
+}
+
+@media (max-width: 575.98px) {
   .card-columns {
     column-count: 1;
   }
+  .project-container {
+    margin: 5px;
+
+    .project-name {
+      margin-bottom: 30px;
+    }
+    .project-container_first {
+      flex-direction: column;
+      align-items: center;
+
+      .project-video-container {
+        width: 100%;
+      }
+      .crowdfunding-details {
+        width: 100%;
+        margin-top: 20px;
+      }
+      .payment-buttons-container {
+        .payment-button {
+          width: 70%;
+        }
+      }
+    }
+  }
 }
-@media (min-width: 768px) and (max-width: 1199.98px) {
+@media (min-width: 576px) and (max-width: 767.98px) {
+  .card-columns {
+    column-count: 1;
+  }
+  .project-container {
+    margin: 10px;
+
+    .project-name {
+      margin-bottom: 30px;
+    }
+    .project-container_first {
+      flex-direction: column;
+      align-items: center;
+
+      .project-video-container {
+        width: 100%;
+      }
+      .crowdfunding-details {
+        width: 100%;
+        margin-top: 20px;
+      }
+      .payment-buttons-container {
+        .payment-button {
+          width: 70%;
+        }
+      }
+    }
+  }
+}
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .card-columns {
+    column-count: 2;
+  }
+
+  .project-container {
+    margin: 10px;
+
+    .project-name {
+      margin-bottom: 40px;
+    }
+    .project-container_first {
+      flex-direction: column;
+      align-items: center;
+
+      .project-video-container {
+        width: 90%;
+      }
+      .crowdfunding-details {
+        width: 90%;
+        margin-top: 30px;
+      }
+      .payment-buttons-container {
+        .payment-button {
+          width: 50%;
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1199.98px) {
   .card-columns {
     column-count: 2;
   }
