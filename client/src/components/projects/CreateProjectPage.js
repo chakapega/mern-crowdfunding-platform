@@ -6,6 +6,8 @@ import ImageUploader from 'react-images-upload';
 import PropTypes from 'prop-types';
 import { storage } from '../../firebase/firebase';
 
+import 'react-tagsinput/react-tagsinput.css';
+
 export default class CreateProjectPage extends Component {
   constructor(props) {
     super(props);
@@ -50,6 +52,12 @@ export default class CreateProjectPage extends Component {
 
   handleTagsInputChange = tags => {
     this.setState({ tags });
+  };
+
+  handleImageUploaderChange = images => {
+    this.setState({
+      images
+    });
   };
 
   handleSubmit = event => {
@@ -125,12 +133,6 @@ export default class CreateProjectPage extends Component {
     });
   };
 
-  onDrop = images => {
-    this.setState({
-      images
-    });
-  };
-
   async uploadImagesToStorage() {
     const imageLinks = [];
     const { images } = this.state;
@@ -147,7 +149,7 @@ export default class CreateProjectPage extends Component {
   }
 
   render() {
-    const { minimumDate, isError, error, isCreated } = this.state;
+    const { minimumDate, isError, error, isCreated, tags } = this.state;
 
     return (
       <>
@@ -188,7 +190,7 @@ export default class CreateProjectPage extends Component {
             </Form.Group>
             <Form.Group>
               <Form.Label>Tags</Form.Label>
-              <TagsInput value={this.state.tags} onChange={this.handleTagsInputChange} addOnBlur />
+              <TagsInput value={tags} onChange={this.handleTagsInputChange} addOnBlur />
             </Form.Group>
             <Form.Label>Target amount of money</Form.Label>
             <InputGroup className='mb-3'>
@@ -226,7 +228,7 @@ export default class CreateProjectPage extends Component {
               <FormControl name='bonusFifty' as='textarea' required onChange={this.handleInputChange} />
             </InputGroup>
             <Form.Group>
-              <ImageUploader withPreview onChange={this.onDrop} />
+              <ImageUploader withPreview onChange={this.handleImageUploaderChange} />
             </Form.Group>
             <Form.Group>
               <Form.Label>Link to YouTube video</Form.Label>
