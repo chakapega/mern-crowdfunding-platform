@@ -21,7 +21,7 @@ export default class CreateProjectPage extends Component {
     this.state = {
       name: '',
       description: '',
-      category: '',
+      category: 'Technology',
       tags: '',
       fundraisingEndDate: '',
       target: '',
@@ -89,7 +89,6 @@ export default class CreateProjectPage extends Component {
             'Content-Type': 'application/json'
           }
         }).then(() => {
-          // this.form.current.reset();
           this.setState({
             isCreated: true
           });
@@ -163,12 +162,18 @@ export default class CreateProjectPage extends Component {
             </Form.Group>
             <Form.Group>
               <Form.Label>Project description</Form.Label>
-              <Form.Control name='description' as='textarea' rows='3' required onChange={this.handleInputChange} />
+              <Form.Control
+                name='description'
+                placeholder='Project description'
+                as='textarea'
+                rows='3'
+                required
+                onChange={this.handleInputChange}
+              />
             </Form.Group>
             <Form.Group>
               <Form.Label>Category</Form.Label>
               <Form.Control name='category' as='select' required onChange={this.handleInputChange}>
-                <option>...</option>
                 <option>Technology</option>
                 <option>Education</option>
                 <option>Food</option>
@@ -228,7 +233,10 @@ export default class CreateProjectPage extends Component {
                 required
                 onChange={this.handleInputChange}
               />
-              <Form.Text className='text-muted'>Example: https://www.youtube.com/...</Form.Text>
+              <Form.Text className='text-muted'>
+                You must insert an address to embed the video. Under your video, click on the share button, then click
+                on the embed button and copy from the proposed code what is specified in src (without quotes).
+              </Form.Text>
             </Form.Group>
             <Button className='mb-5' type='submit'>
               Create project
