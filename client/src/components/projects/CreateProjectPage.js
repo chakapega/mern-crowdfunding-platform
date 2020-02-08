@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import { Form, Button, InputGroup, FormControl, Toast } from 'react-bootstrap';
+import TagsInput from 'react-tagsinput';
 import ImageUploader from 'react-images-upload';
 import PropTypes from 'prop-types';
 import { storage } from '../../firebase/firebase';
@@ -22,7 +23,7 @@ export default class CreateProjectPage extends Component {
       name: '',
       description: '',
       category: 'Technology',
-      tags: '',
+      tags: [],
       fundraisingEndDate: '',
       target: '',
       bonusTen: '',
@@ -45,6 +46,10 @@ export default class CreateProjectPage extends Component {
     this.setState({
       [name]: value
     });
+  };
+
+  handleTagsInputChange = tags => {
+    this.setState({ tags });
   };
 
   handleSubmit = event => {
@@ -183,8 +188,7 @@ export default class CreateProjectPage extends Component {
             </Form.Group>
             <Form.Group>
               <Form.Label>Tags</Form.Label>
-              <Form.Control name='tags' type='text' placeholder='Tags...' required onChange={this.handleInputChange} />
-              <Form.Text className='text-muted'>Enter tags separated by commas</Form.Text>
+              <TagsInput value={this.state.tags} onChange={this.handleTagsInputChange} addOnBlur />
             </Form.Group>
             <Form.Label>Target amount of money</Form.Label>
             <InputGroup className='mb-3'>
