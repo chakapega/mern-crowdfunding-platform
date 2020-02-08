@@ -35,14 +35,10 @@
     .payment-buttons-container {
       display: flex;
       flex-direction: column;
-      height: 200px;
+      height: 160px;
       justify-content: space-between;
       align-items: center;
       margin-top: 30px;
-
-      .payment-button {
-        width: 40%;
-      }
     }
   }
 }
@@ -78,11 +74,6 @@
         width: 100%;
         margin-top: 20px;
       }
-      .payment-buttons-container {
-        .payment-button {
-          width: 70%;
-        }
-      }
     }
   }
   .bootstrap-carousel-image {
@@ -109,11 +100,6 @@
       .crowdfunding-details {
         width: 100%;
         margin-top: 20px;
-      }
-      .payment-buttons-container {
-        .payment-button {
-          width: 70%;
-        }
       }
     }
   }
@@ -142,11 +128,6 @@
       .crowdfunding-details {
         width: 90%;
         margin-top: 30px;
-      }
-      .payment-buttons-container {
-        .payment-button {
-          width: 50%;
-        }
       }
     }
   }

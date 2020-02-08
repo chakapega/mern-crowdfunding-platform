@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { Card, ProgressBar, Button, Container } from 'react-bootstrap';
+import { Card, ProgressBar, ButtonGroup, Button, Container, Popover, OverlayTrigger } from 'react-bootstrap';
 import BootstrapCarousel from '../carousel/BootstrapCarousel';
 
 class Project extends Component {
@@ -22,6 +22,11 @@ class Project extends Component {
         imageLinks = []
       }
     } = this.props;
+    const popover = bonus => (
+      <Popover id='popover-basic'>
+        <Popover.Content>{bonus}</Popover.Content>
+      </Popover>
+    );
 
     return (
       <>
@@ -36,20 +41,33 @@ class Project extends Component {
                 <div className='crowdfunding-details'>
                   <ProgressBar className='mt-3' animated now={30} label={`${30}%`} />
                   <Card.Title className='m-4'>{`$${target}`}</Card.Title>
-                  <Card.Text>
-                    Date of completion of fundraising
-                    {fundraisingEndDate}
-                  </Card.Text>
+                  <Card.Text>{`Category: ${category}`}</Card.Text>
+                  <Card.Text>{`Date of completion of fundraising: ${fundraisingEndDate}`}</Card.Text>
                   <div className='payment-buttons-container'>
-                    <Button className='payment-button' variant='outline-success' size='lg'>
-                      10$
-                    </Button>
-                    <Button className='payment-button' variant='outline-success' size='lg'>
-                      25$
-                    </Button>
-                    <Button className='payment-button' variant='outline-success' size='lg'>
-                      50$
-                    </Button>
+                    <ButtonGroup className='payment-buttons-bootstrap-group'>
+                      <Button className='payment-button' variant='outline-success' size='md'>
+                        10$
+                      </Button>
+                      <OverlayTrigger trigger='focus' placement='top' overlay={popover(bonusTen)}>
+                        <Button variant='success'>Show bonus info</Button>
+                      </OverlayTrigger>
+                    </ButtonGroup>
+                    <ButtonGroup>
+                      <Button className='payment-button' variant='outline-success' size='md'>
+                        25$
+                      </Button>
+                      <OverlayTrigger trigger='focus' placement='top' overlay={popover(bonusTwentyFive)}>
+                        <Button variant='success'>Show bonus info</Button>
+                      </OverlayTrigger>
+                    </ButtonGroup>
+                    <ButtonGroup>
+                      <Button className='payment-button' variant='outline-success' size='md'>
+                        50$
+                      </Button>
+                      <OverlayTrigger trigger='focus' placement='top' overlay={popover(bonusFifty)}>
+                        <Button variant='success'>Show bonus info</Button>
+                      </OverlayTrigger>
+                    </ButtonGroup>
                   </div>
                 </div>
               </div>
