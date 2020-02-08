@@ -22,7 +22,7 @@ app.post('/api/auth', async (request, response) => {
       });
 
       await user.save();
-      response.status(201).json({ message: 'Account added to database' });
+      response.status(200).json({ message: 'Account added to database' });
     } else {
       response.status(200).json({ message: 'The account exists in the database' });
     }
@@ -68,7 +68,7 @@ app.post('/api/create-project', async (request, response) => {
     });
 
     await createdProject.save();
-    response.status(201).json({ message: 'Project created' });
+    response.status(200).json({ message: 'Project created' });
   } catch (error) {
     response.status(500).json({
       message: error.message || 'An error occured, please try again'
@@ -81,6 +81,19 @@ app.get('/api/projects', async (request, response) => {
     const projects = await Created_project.find();
 
     response.status(200).json(projects);
+  } catch (error) {
+    response.status(500).json({
+      message: error.message || 'An error occured, please try again'
+    });
+  }
+});
+
+app.get('/api/project/:id', async (request, response) => {
+  try {
+    const projectId = request.params.id;
+    const project = await Created_project.findById(projectId);
+
+    response.status(200).json(project);
   } catch (error) {
     response.status(500).json({
       message: error.message || 'An error occured, please try again'

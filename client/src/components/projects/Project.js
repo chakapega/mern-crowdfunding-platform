@@ -5,14 +5,30 @@ import PropTypes from 'prop-types';
 import { Card, ProgressBar, ButtonGroup, Button, Container, Popover, OverlayTrigger } from 'react-bootstrap';
 import BootstrapCarousel from '../carousel/BootstrapCarousel';
 
+import { setSelectedProject } from '../../store/projects/actions';
+
 class Project extends Component {
+  componentDidMount() {
+    const {
+      match: {
+        params: { id }
+      }
+    } = this.props;
+    const { setSelectedProjectAction } = this.props;
+
+    fetch(`/api/project/${id}`)
+      .then(response => response.json())
+      .then(project => {
+        setSelectedProjectAction(project);
+      });
+  }
+
   render() {
     const {
       selectedProject: {
         name,
         description,
         category,
-        tags,
         fundraisingEndDate,
         target,
         bonusTen,
@@ -98,11 +114,16 @@ Project.propTypes = {
     bonusTwentyFive: PropTypes.string.isRequired,
     bonusFifty: PropTypes.string.isRequired,
     video: PropTypes.string.isRequired
-  }).isRequired
+  }).isRequired,
+  setSelectedProjectAction: PropTypes.func.isRequired,
+  match: PropTypes.shape({ params: PropTypes.object.isRequired }).isRequired
 };
 
 const mapStateToProps = state => ({
   selectedProject: state.projects.selectedProject
 });
+const mapDispatchToProps = dispatch => ({
+  setSelectedProjectAction: selectedProject => dispatch(setSelectedProject(selectedProject))
+});
 
-export default connect(mapStateToProps)(Project);
+export default connect(mapStateToProps, mapDispatchToProps)(Project);

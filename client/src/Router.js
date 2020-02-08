@@ -36,12 +36,8 @@ class Router extends Component {
         <BrowserRouter>
           <Header userData={{ uid, displayName, photoURL }} />
           <Switch>
-            <Route path='/' exact>
-              <ProjectsPage />
-            </Route>
-            <Route path='/project' exact>
-              <Project />
-            </Route>
+            <Route path='/' component={ProjectsPage} exact />
+            <Route path='/project/:id' component={Project} exact />
             <Route path='/create-project' exact>
               <CreateProjectPage userData={{ uid, email }} />
             </Route>
@@ -55,12 +51,8 @@ class Router extends Component {
       <BrowserRouter>
         <Header userData={{ uid, displayName, photoURL }} />
         <Switch>
-          <Route path='/' exact>
-            <ProjectsPage />
-          </Route>
-          <Route path='/project' exact>
-            <Project />
-          </Route>
+          <Route path='/' component={ProjectsPage} exact />
+          <Route path='/project/:id' component={Project} exact />
           <Redirect to='/' />
         </Switch>
       </BrowserRouter>
