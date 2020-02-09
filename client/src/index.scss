@@ -56,6 +56,34 @@
 .carousel-control-next:hover {
   background-color: rgba(0, 0, 0, 0.17);
 }
+.comment-container {
+  list-style: none;
+
+  .user-avatar-container {
+    display: flex;
+    align-items: center;
+
+    .user-avatar {
+      width: 80px;
+      height: 80px;
+    }
+  }
+  .comment-text {
+    padding: 10px;
+
+    .comment-info {
+      display: inline-block;
+      border-bottom: 1px solid #afb6bd;
+
+      span {
+        font-weight: bold;
+      }
+    }
+    p {
+      font-size: 15px;
+    }
+  }
+}
 
 @media (max-width: 575.98px) {
   .card-columns {
@@ -82,6 +110,23 @@
   }
   .bootstrap-carousel-image {
     height: 260px;
+  }
+  .comment-container {
+    .user-avatar-container {
+      padding: 5px;
+
+      .user-avatar {
+        width: 60px;
+        height: 60px;
+      }
+    }
+    .comment-text {
+      padding: 5px;
+
+      p {
+        font-size: 13px;
+      }
+    }
   }
 }
 @media (min-width: 576px) and (max-width: 767.98px) {
