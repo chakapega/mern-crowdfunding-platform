@@ -6,7 +6,7 @@ import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { auth } from './firebase/firebase';
 import { setUserData } from './store/auth/actions';
 import Header from './components/header/Header';
-import ProjectsPage from './components/projects/ProjectsPage';
+import ProjectsPreviewPage from './components/projects/ProjectsPreviewPage';
 import CreateProjectPage from './components/projects/CreateProjectPage';
 import Project from './components/projects/Project';
 
@@ -36,7 +36,7 @@ class Router extends Component {
         <BrowserRouter>
           <Header userData={{ uid, displayName, photoURL }} />
           <Switch>
-            <Route path='/' component={ProjectsPage} exact />
+            <Route path='/' component={ProjectsPreviewPage} exact />
             <Route path='/project/:id' component={Project} exact />
             <Route path='/create-project' exact>
               <CreateProjectPage userData={{ uid, email }} />
@@ -51,7 +51,7 @@ class Router extends Component {
       <BrowserRouter>
         <Header userData={{ uid, displayName, photoURL }} />
         <Switch>
-          <Route path='/' component={ProjectsPage} exact />
+          <Route path='/' component={ProjectsPreviewPage} exact />
           <Route path='/project/:id' component={Project} exact />
           <Redirect to='/' />
         </Switch>

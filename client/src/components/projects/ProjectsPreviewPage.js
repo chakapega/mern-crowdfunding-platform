@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import { CardColumns } from 'react-bootstrap';
 
-import Projects from './Projects';
+import ProjectPreview from './ProjectPreview';
 
 export default class ProjectsPage extends Component {
   constructor() {
@@ -23,6 +24,12 @@ export default class ProjectsPage extends Component {
   render() {
     const { projects } = this.state;
 
-    return <Projects projects={projects} />;
+    return (
+      <CardColumns className='mt-3 ml-2 mr-2 ml-lg-5 mr-lg-5'>
+        {projects.map(project => (
+          <ProjectPreview key={project._id} project={project} />
+        ))}
+      </CardColumns>
+    );
   }
 }
