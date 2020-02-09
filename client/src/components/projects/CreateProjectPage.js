@@ -16,10 +16,8 @@ export default class CreateProjectPage extends Component {
     const year = currentDate.getFullYear();
     let month = currentDate.getMonth() + 1;
     let date = currentDate.getDate();
-    /* eslint-disable */
-    if (date < 10) date = '0' + date;
-    if (month < 10) month = '0' + month;
-    /* eslint-enable */
+    if (date < 10) date = `0${date}`;
+    if (month < 10) month = `0${month}`;
     const minimumDate = `${year}-${month}-${date}`;
     this.state = {
       name: '',
