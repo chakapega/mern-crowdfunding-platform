@@ -2,8 +2,7 @@ const express = require('express');
 const config = require('config');
 const mongoose = require('mongoose');
 const User = require('./models/User');
-const Created_project = require('./models/Created_project');
-
+const Project = require('./models/Project');
 const app = express();
 const PORT = config.get('port');
 
@@ -50,8 +49,7 @@ app.post('/api/create-project', async (request, response) => {
       video,
       imageLinks
     } = request.body;
-
-    const createdProject = new Created_project({
+    const project = new Project({
       uid,
       email,
       name,
@@ -67,7 +65,7 @@ app.post('/api/create-project', async (request, response) => {
       imageLinks
     });
 
-    await createdProject.save();
+    await project.save();
     response.status(200).json({ message: 'Project created' });
   } catch (error) {
     response.status(500).json({
@@ -78,7 +76,7 @@ app.post('/api/create-project', async (request, response) => {
 
 app.get('/api/projects', async (request, response) => {
   try {
-    const projects = await Created_project.find();
+    const projects = await Project.find();
 
     response.status(200).json(projects);
   } catch (error) {
@@ -91,7 +89,7 @@ app.get('/api/projects', async (request, response) => {
 app.get('/api/project/:id', async (request, response) => {
   try {
     const projectId = request.params.id;
-    const project = await Created_project.findById(projectId);
+    const project = await Project.findById(projectId);
 
     response.status(200).json(project);
   } catch (error) {

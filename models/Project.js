@@ -6,7 +6,7 @@ const schema = new Schema({
   name: { type: String, required: true },
   description: { type: String, required: true },
   category: { type: String, required: true },
-  tags: { type: String, required: true },
+  tags: { type: Array, required: true },
   fundraisingEndDate: { type: String, required: true },
   target: { type: String, required: true },
   bonusTen: { type: String, required: true },
@@ -16,4 +16,4 @@ const schema = new Schema({
   imageLinks: { type: Array, required: true }
 });
 
-module.exports = model('Created_project', schema);
+module.exports = model('Project', schema);
