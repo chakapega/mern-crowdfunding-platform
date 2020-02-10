@@ -76,6 +76,11 @@ export default class Project extends Component {
       video,
       imageLinks = []
     } = this.state;
+    const {
+      match: {
+        params: { id }
+      }
+    } = this.props;
     const popover = bonus => (
       <Popover id='popover-basic'>
         <Popover.Content>{bonus}</Popover.Content>
@@ -130,7 +135,7 @@ export default class Project extends Component {
             </Container>
           </Card.Body>
         </Card>
-        <Comments />
+        <Comments id={id} />
       </>
     );
   }

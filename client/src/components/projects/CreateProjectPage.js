@@ -154,7 +154,7 @@ export default class CreateProjectPage extends Component {
         {isCreated ? (
           <Redirect to='/' />
         ) : (
-          <Form className='container mt-3' id='create-project-form' ref={this.form} onSubmit={this.handleSubmit}>
+          <Form className='container mt-3' ref={this.form} onSubmit={this.handleSubmit}>
             <Form.Group>
               <Form.Label>Project name</Form.Label>
               <Form.Control
