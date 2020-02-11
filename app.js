@@ -1,10 +1,12 @@
 const express = require('express');
+const app = express();
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
 const config = require('config');
 const mongoose = require('mongoose');
 const User = require('./models/User');
 const Project = require('./models/Project');
 const Comment = require('./models/Comment');
-const app = express();
 const PORT = config.get('port');
 
 app.use(express.json({ extended: true }));
@@ -75,28 +77,6 @@ app.post('/api/create-project', async (request, response) => {
   }
 });
 
-app.post('/api/create-comment', async (request, response) => {
-  try {
-    const { uid, email, displayName, photoURL, commentText, projectId, timeStamp } = request.body;
-    const comment = new Comment({
-      uid,
-      email,
-      displayName,
-      photoURL,
-      commentText,
-      projectId,
-      timeStamp
-    });
-
-    await comment.save();
-    response.status(200).json({ message: 'Comment created' });
-  } catch (error) {
-    response.status(500).json({
-      message: error.message || 'An error occured, please try again'
-    });
-  }
-});
-
 app.get('/api/projects', async (request, response) => {
   try {
     const projects = await Project.find();
@@ -122,6 +102,33 @@ app.get('/api/project/:id', async (request, response) => {
   }
 });
 
+io.on('connection', socket => {
+  socket.on('project id', async projectId => {
+    const comments = await Comment.find({ projectId });
+
+    socket.emit('comments', comments);
+  });
+
+  socket.on('comments', async data => {
+    const { uid, email, displayName, photoURL, commentText, projectId, timeStamp } = data;
+    const comment = new Comment({
+      uid,
+      email,
+      displayName,
+      photoURL,
+      commentText,
+      projectId,
+      timeStamp
+    });
+
+    await comment.save();
+
+    const comments = await Comment.find({ projectId });
+
+    socket.emit('comments', comments);
+  });
+});
+
 async function start() {
   try {
     await mongoose.connect(config.get('mongoUri'), {
@@ -129,7 +136,7 @@ async function start() {
       useUnifiedTopology: true,
       useCreateIndex: true
     });
-    app.listen(PORT, () => console.log('App started, port: ', PORT));
+    server.listen(PORT, () => console.log('App started, port: ', PORT));
   } catch (error) {
     console.log('Server error', error.message);
     process.exit(1);

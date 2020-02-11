@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Container, Form, Button, InputGroup, FormControl } from 'react-bootstrap';
+import io from 'socket.io-client';
 
 import Comment from './Comment';
 
@@ -9,9 +10,22 @@ class Comments extends Component {
   constructor() {
     super();
     this.form = React.createRef();
+    this.socket = io.connect('http://localhost:5000');
     this.state = {
+      comments: [],
       commentText: ''
     };
+  }
+
+  componentDidMount() {
+    const { id: projectId } = this.props;
+
+    this.socket.emit('project id', projectId);
+    this.socket.on('comments', comments => {
+      this.setState({
+        comments
+      });
+    });
   }
 
   getTimeStamp() {
@@ -42,36 +56,33 @@ class Comments extends Component {
     } = this.props;
     const timeStamp = this.getTimeStamp();
 
-    fetch('/api/create-comment', {
-      method: 'POST',
-      body: JSON.stringify({
-        uid,
-        email,
-        displayName,
-        photoURL,
-        commentText,
-        projectId,
-        timeStamp
-      }),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }).then(() => {
-      this.form.current.reset();
+    this.socket.emit('comments', {
+      uid,
+      email,
+      displayName,
+      photoURL,
+      commentText,
+      projectId,
+      timeStamp
     });
+    this.form.current.reset();
   };
 
   render() {
+    const { comments } = this.state;
     const {
       userData: { uid }
     } = this.props;
+    console.log(comments);
 
     return (
       <Container>
         <div className='row mt-5'>
           <div className='col-12 pt-4'>
             <ul className='p-0'>
-              <Comment />
+              {comments.map(comment => (
+                <Comment key={comment._id} comment={comment} />
+              ))}
             </ul>
             <Form ref={this.form} onSubmit={this.handleSubmit}>
               <InputGroup className='mb-3'>
