@@ -10,6 +10,7 @@ class Comments extends Component {
   constructor() {
     super();
     this.form = React.createRef();
+    this.commentList = React.createRef();
     this.socket = io.connect('http://localhost:5000');
     this.state = {
       comments: [],
@@ -26,6 +27,10 @@ class Comments extends Component {
         comments
       });
     });
+  }
+
+  componentDidUpdate() {
+    this.commentList.current.scrollTop = this.commentList.current.scrollHeight;
   }
 
   getTimeStamp() {
@@ -73,13 +78,12 @@ class Comments extends Component {
     const {
       userData: { uid }
     } = this.props;
-    console.log(comments);
 
     return (
       <Container>
         <div className='row mt-5'>
           <div className='col-12 pt-4'>
-            <ul className='p-0'>
+            <ul className='comment-list p-0' ref={this.commentList}>
               {comments.map(comment => (
                 <Comment key={comment._id} comment={comment} />
               ))}

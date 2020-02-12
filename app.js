@@ -122,10 +122,10 @@ io.on('connection', socket => {
     });
 
     await comment.save();
-
     const comments = await Comment.find({ projectId });
 
     socket.emit('comments', comments);
+    socket.broadcast.emit('comments', comments);
   });
 });
 
