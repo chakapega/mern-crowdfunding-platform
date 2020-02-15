@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { Form, Button, InputGroup, FormControl, Toast } from 'react-bootstrap';
 import TagsInput from 'react-tagsinput';
@@ -7,8 +8,9 @@ import PropTypes from 'prop-types';
 import { storage } from '../../firebase/firebase';
 
 import 'react-tagsinput/react-tagsinput.css';
+import { setRequestStatus } from '../../store/loader/actions';
 
-export default class CreateProjectPage extends Component {
+class CreateProjectPage extends Component {
   constructor(props) {
     super(props);
     this.form = React.createRef();
@@ -34,7 +36,8 @@ export default class CreateProjectPage extends Component {
       minimumDate,
       isError: false,
       error: '',
-      isCreated: false
+      isCreated: false,
+      isCreatedAfterNotice: false
     };
   }
 
@@ -62,6 +65,7 @@ export default class CreateProjectPage extends Component {
     event.preventDefault();
 
     const {
+      setRequestStatusAction,
       userData: { uid, email }
     } = this.props;
     const {
@@ -78,6 +82,7 @@ export default class CreateProjectPage extends Component {
     } = this.state;
     const fundsRaised = 0;
 
+    setRequestStatusAction(true);
     this.uploadImagesToStorage().then(imageLinks => {
       if (imageLinks.length) {
         fetch('/api/create-project', {
@@ -105,6 +110,7 @@ export default class CreateProjectPage extends Component {
           this.setState({
             isCreated: true
           });
+          setRequestStatusAction(false);
         });
       } else {
         this.setState({
@@ -149,12 +155,25 @@ export default class CreateProjectPage extends Component {
   }
 
   render() {
-    const { minimumDate, isError, error, isCreated, tags } = this.state;
+    const { minimumDate, isError, error, isCreated, isCreatedAfterNotice, tags } = this.state;
+
+    if (isCreatedAfterNotice) {
+      return <Redirect to='/' />;
+    }
 
     return (
       <>
         {isCreated ? (
-          <Redirect to='/' />
+          <Toast
+            className='bootstrap-toast'
+            onClose={() => this.setState({ isCreated: false, isCreatedAfterNotice: true })}
+            show={isCreated}
+          >
+            <Toast.Header>
+              <strong className='mr-auto'>Notice</strong>
+            </Toast.Header>
+            <Toast.Body>Project successfully created</Toast.Body>
+          </Toast>
         ) : (
           <Form className='container mt-3' ref={this.form} onSubmit={this.handleSubmit}>
             <Form.Group>
@@ -270,5 +289,12 @@ CreateProjectPage.propTypes = {
   userData: PropTypes.shape({
     uid: PropTypes.string.isRequired,
     email: PropTypes.string.isRequired
-  }).isRequired
+  }).isRequired,
+  setRequestStatusAction: PropTypes.func.isRequired
 };
+
+const mapDispatchToProps = dispatch => ({
+  setRequestStatusAction: requestStatus => dispatch(setRequestStatus(requestStatus))
+});
+
+export default connect(null, mapDispatchToProps)(CreateProjectPage);
