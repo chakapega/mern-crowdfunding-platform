@@ -88,6 +88,16 @@
     }
   }
 }
+.botstrap-spinner-container {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 100;
+}
 
 @media (max-width: 575.98px) {
   .card-columns {

@@ -76,6 +76,7 @@ export default class CreateProjectPage extends Component {
       bonusFifty,
       video
     } = this.state;
+    const fundsRaised = 0;
 
     this.uploadImagesToStorage().then(imageLinks => {
       if (imageLinks.length) {
@@ -93,6 +94,7 @@ export default class CreateProjectPage extends Component {
             bonusTen,
             bonusTwentyFive,
             bonusFifty,
+            fundsRaised,
             video,
             imageLinks
           }),

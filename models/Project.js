@@ -8,6 +8,7 @@ const schema = new Schema({
   category: { type: String, required: true },
   tags: { type: Array, required: true },
   fundraisingEndDate: { type: String, required: true },
+  fundsRaised: { type: Number, required: true },
   target: { type: String, required: true },
   bonusTen: { type: String, required: true },
   bonusTwentyFive: { type: String, required: true },

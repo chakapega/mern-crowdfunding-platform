@@ -45,6 +45,7 @@ app.post('/api/create-project', async (request, response) => {
       category,
       tags,
       fundraisingEndDate,
+      fundsRaised,
       target,
       bonusTen,
       bonusTwentyFive,
@@ -60,6 +61,7 @@ app.post('/api/create-project', async (request, response) => {
       category,
       tags,
       fundraisingEndDate,
+      fundsRaised,
       target,
       bonusTen,
       bonusTwentyFive,
@@ -70,6 +72,24 @@ app.post('/api/create-project', async (request, response) => {
 
     await project.save();
     response.status(200).json({ message: 'Project created' });
+  } catch (error) {
+    response.status(500).json({
+      message: error.message || 'An error occured, please try again'
+    });
+  }
+});
+
+app.post('/api/project-pay', async (request, response) => {
+  try {
+    const { id, paymentAmount } = request.body;
+
+    Project.findById(id, async (error, project) => {
+      if (error) throw error;
+
+      project.fundsRaised += paymentAmount;
+      await project.save();
+      response.status(200).json({ message: 'Payment made', fundsRaised: project.fundsRaised });
+    });
   } catch (error) {
     response.status(500).json({
       message: error.message || 'An error occured, please try again'
