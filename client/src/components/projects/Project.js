@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Card, ProgressBar, ButtonGroup, Button, Container, Popover, OverlayTrigger } from 'react-bootstrap';
+import { Card, ProgressBar, ButtonGroup, Button, Container, Popover, OverlayTrigger, Toast } from 'react-bootstrap';
 import BootstrapCarousel from '../carousel/BootstrapCarousel';
 
 import Comments from '../comments/Comments';
@@ -21,7 +21,8 @@ class Project extends Component {
       bonusTen: '',
       bonusTwentyFive: '',
       bonusFifty: '',
-      video: ''
+      video: '',
+      isPayment: false
     };
   }
 
@@ -90,7 +91,8 @@ class Project extends Component {
       .then(response => {
         setTimeout(() => {
           this.setState({
-            fundsRaised: response.fundsRaised
+            fundsRaised: response.fundsRaised,
+            isPayment: true
           });
           setRequestStatusAction(false);
         }, 3000);
@@ -109,7 +111,8 @@ class Project extends Component {
       bonusFifty,
       fundsRaised,
       video,
-      imageLinks = []
+      imageLinks = [],
+      isPayment
     } = this.state;
     const {
       match: {
@@ -172,6 +175,14 @@ class Project extends Component {
           </Card.Body>
         </Card>
         <Comments id={id} />
+        {isPayment && (
+          <Toast className='bootstrap-toast' onClose={() => this.setState({ isPayment: false })} show={isPayment}>
+            <Toast.Header>
+              <strong className='mr-auto'>Notice</strong>
+            </Toast.Header>
+            <Toast.Body>Payment completed successfully</Toast.Body>
+          </Toast>
+        )}
       </>
     );
   }
