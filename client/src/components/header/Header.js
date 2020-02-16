@@ -1,14 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import { Navbar, Nav, Container, Image } from 'react-bootstrap';
+import { Navbar, Nav, Container } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
 import Auth from '../auth/Auth';
+import UserDetails from '../user/UserDetails';
 import LanguageSwitch from '../languageSwitch/LanguageSwitch';
 import { interfaceTexts } from '../../shared/constants';
 
-function Header({ language, userData: { uid, displayName, photoURL } }) {
+function Header({ language, userData: { uid } }) {
   return (
     <Navbar bg='light' expand='lg'>
       <Container>
@@ -20,16 +21,7 @@ function Header({ language, userData: { uid, displayName, photoURL } }) {
           <Nav className='ml-auto'>
             {uid && (
               <>
-                <Navbar.Brand>
-                  <Image
-                    src={photoURL}
-                    width='30'
-                    height='30'
-                    className='d-inline-block align-top mr-2 rounded-circle'
-                    alt='user'
-                  />
-                  {displayName}
-                </Navbar.Brand>
+                <UserDetails />
                 <Nav.Link as={NavLink} to='/create-project'>
                   {interfaceTexts.createProject[language]}
                 </Nav.Link>
@@ -46,16 +38,14 @@ function Header({ language, userData: { uid, displayName, photoURL } }) {
 
 Header.propTypes = {
   userData: PropTypes.shape({
-    uid: PropTypes.string.isRequired,
-    displayName: PropTypes.string.isRequired,
-    photoURL: PropTypes.string.isRequired
+    uid: PropTypes.string.isRequired
   }).isRequired,
   language: PropTypes.string.isRequired
 };
 
 const mapStateToProps = state => ({
-  userData: state.user.userData,
-  language: state.language.language
+  language: state.language.language,
+  userData: state.user.userData
 });
 
 export default connect(mapStateToProps)(Header);
