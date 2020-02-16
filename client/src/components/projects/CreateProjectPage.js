@@ -294,6 +294,7 @@ CreateProjectPage.propTypes = {
 };
 
 const mapStateToProps = state => ({
+  userData: state.user.userData,
   language: state.language.language
 });
 const mapDispatchToProps = dispatch => ({

@@ -8,12 +8,7 @@ import Auth from '../auth/Auth';
 import LanguageSwitch from '../languageSwitch/LanguageSwitch';
 import { interfaceTexts } from '../../shared/constants';
 
-function Header(props) {
-  const {
-    language,
-    userData: { uid, displayName, photoURL }
-  } = props;
-
+function Header({ language, userData: { uid, displayName, photoURL } }) {
   return (
     <Navbar bg='light' expand='lg'>
       <Container>
@@ -59,6 +54,7 @@ Header.propTypes = {
 };
 
 const mapStateToProps = state => ({
+  userData: state.user.userData,
   language: state.language.language
 });
 

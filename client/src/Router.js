@@ -30,7 +30,7 @@ class Router extends Component {
   render() {
     const {
       requestStatus,
-      userData: { uid, email, displayName, photoURL }
+      userData: { uid }
     } = this.props;
 
     if (uid) {
@@ -44,13 +44,11 @@ class Router extends Component {
             </div>
           )}
           <BrowserRouter>
-            <Header userData={{ uid, displayName, photoURL }} />
+            <Header />
             <Switch>
               <Route path='/' component={ProjectsPreviewPage} exact />
               <Route path='/project/:id' component={Project} exact />
-              <Route path='/create-project' exact>
-                <CreateProjectPage userData={{ uid, email }} />
-              </Route>
+              <Route path='/create-project' component={CreateProjectPage} exact />
               <Redirect to='/' />
             </Switch>
           </BrowserRouter>
@@ -68,7 +66,7 @@ class Router extends Component {
           </div>
         )}
         <BrowserRouter>
-          <Header userData={{ uid, displayName, photoURL }} />
+          <Header />
           <Switch>
             <Route path='/' component={ProjectsPreviewPage} exact />
             <Route path='/project/:id' component={Project} exact />
