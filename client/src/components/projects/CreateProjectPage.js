@@ -7,6 +7,7 @@ import ImageUploader from 'react-images-upload';
 import PropTypes from 'prop-types';
 import { storage } from '../../firebase/firebase';
 
+import { interfaceTexts } from '../../shared/constants';
 import 'react-tagsinput/react-tagsinput.css';
 import { setRequestStatus } from '../../store/loader/actions';
 
@@ -155,6 +156,7 @@ class CreateProjectPage extends Component {
   }
 
   render() {
+    const { language } = this.props;
     const { minimumDate, isError, error, isCreated, isCreatedAfterNotice, tags } = this.state;
 
     if (isCreatedAfterNotice) {
@@ -170,27 +172,27 @@ class CreateProjectPage extends Component {
             show={isCreated}
           >
             <Toast.Header>
-              <strong className='mr-auto'>Notice</strong>
+              <strong className='mr-auto'>{interfaceTexts.notice[language]}</strong>
             </Toast.Header>
-            <Toast.Body>Project successfully created</Toast.Body>
+            <Toast.Body>{interfaceTexts.projectSuccessfullyCreated[language]}</Toast.Body>
           </Toast>
         ) : (
           <Form className='container mt-3' ref={this.form} onSubmit={this.handleSubmit}>
             <Form.Group>
-              <Form.Label>Project name</Form.Label>
+              <Form.Label>{interfaceTexts.projectName[language]}</Form.Label>
               <Form.Control
                 name='name'
                 type='text'
-                placeholder='Project name'
+                placeholder={interfaceTexts.projectName[language]}
                 required
                 onChange={this.handleInputChange}
               />
             </Form.Group>
             <Form.Group>
-              <Form.Label>Project description</Form.Label>
+              <Form.Label>{interfaceTexts.projectDescription[language]}</Form.Label>
               <Form.Control
                 name='description'
-                placeholder='Project description'
+                placeholder={interfaceTexts.projectDescription[language]}
                 as='textarea'
                 rows='3'
                 required
@@ -198,20 +200,20 @@ class CreateProjectPage extends Component {
               />
             </Form.Group>
             <Form.Group>
-              <Form.Label>Category</Form.Label>
+              <Form.Label>{interfaceTexts.category[language]}</Form.Label>
               <Form.Control name='category' as='select' required onChange={this.handleInputChange}>
-                <option>Technology</option>
-                <option>Education</option>
-                <option>Food</option>
-                <option>Games</option>
-                <option>Fashion</option>
+                <option>{interfaceTexts.technology[language]}</option>
+                <option>{interfaceTexts.education[language]}</option>
+                <option>{interfaceTexts.food[language]}</option>
+                <option>{interfaceTexts.games[language]}</option>
+                <option>{interfaceTexts.fashion[language]}</option>
               </Form.Control>
             </Form.Group>
             <Form.Group>
-              <Form.Label>Tags</Form.Label>
+              <Form.Label>{interfaceTexts.tags[language]}</Form.Label>
               <TagsInput value={tags} onChange={this.handleTagsInputChange} addOnBlur />
             </Form.Group>
-            <Form.Label>Target amount of money</Form.Label>
+            <Form.Label>{interfaceTexts.targetAmountOfMoney[language]}</Form.Label>
             <InputGroup className='mb-3'>
               <InputGroup.Prepend>
                 <InputGroup.Text>$</InputGroup.Text>
@@ -219,7 +221,7 @@ class CreateProjectPage extends Component {
               <Form.Control name='target' type='number' required onChange={this.handleInputChange} />
             </InputGroup>
             <Form.Group>
-              <Form.Label>Fundraising End Date (mm/dd/yyyy)</Form.Label>
+              <Form.Label>{interfaceTexts.fundraisingEndDate[language]}</Form.Label>
               <Form.Control
                 name='fundraisingEndDate'
                 type='date'
@@ -230,19 +232,19 @@ class CreateProjectPage extends Component {
             </Form.Group>
             <InputGroup className='mb-3'>
               <InputGroup.Prepend>
-                <InputGroup.Text>$ 10 Bonus</InputGroup.Text>
+                <InputGroup.Text>{interfaceTexts.bonusTen[language]}</InputGroup.Text>
               </InputGroup.Prepend>
               <FormControl name='bonusTen' as='textarea' required onChange={this.handleInputChange} />
             </InputGroup>
             <InputGroup className='mb-3'>
               <InputGroup.Prepend>
-                <InputGroup.Text>$ 25 Bonus</InputGroup.Text>
+                <InputGroup.Text>{interfaceTexts.bonusTwentyFive[language]}</InputGroup.Text>
               </InputGroup.Prepend>
               <FormControl name='bonusTwentyFive' as='textarea' required onChange={this.handleInputChange} />
             </InputGroup>
             <InputGroup className='mb-3'>
               <InputGroup.Prepend>
-                <InputGroup.Text>$ 50 Bonus</InputGroup.Text>
+                <InputGroup.Text>{interfaceTexts.bonusFifty[language]}</InputGroup.Text>
               </InputGroup.Prepend>
               <FormControl name='bonusFifty' as='textarea' required onChange={this.handleInputChange} />
             </InputGroup>
@@ -250,21 +252,18 @@ class CreateProjectPage extends Component {
               <ImageUploader withPreview onChange={this.handleImageUploaderChange} />
             </Form.Group>
             <Form.Group>
-              <Form.Label>Link to YouTube video</Form.Label>
+              <Form.Label>{interfaceTexts.linkToYouTubeVideo[language]}</Form.Label>
               <Form.Control
                 name='video'
                 type='url'
-                placeholder='Link to YouTube video'
+                placeholder={interfaceTexts.linkToYouTubeVideo[language]}
                 required
                 onChange={this.handleInputChange}
               />
-              <Form.Text className='text-muted'>
-                You must insert an address to embed the video. Under your video, click on the share button, then click
-                on the embed button and copy from the proposed code what is specified in src (without quotes).
-              </Form.Text>
+              <Form.Text className='text-muted'>{interfaceTexts.linkToYouTubeVideoDescription[language]}</Form.Text>
             </Form.Group>
             <Button className='mb-5' type='submit'>
-              Create project
+              {interfaceTexts.createProject[language]}
             </Button>
             {isError && (
               <Toast
@@ -273,7 +272,7 @@ class CreateProjectPage extends Component {
                 show={isError}
               >
                 <Toast.Header>
-                  <strong className='mr-auto'>Error</strong>
+                  <strong className='mr-auto'>{interfaceTexts.error[language]}</strong>
                 </Toast.Header>
                 <Toast.Body>{error}</Toast.Body>
               </Toast>
@@ -290,11 +289,15 @@ CreateProjectPage.propTypes = {
     uid: PropTypes.string.isRequired,
     email: PropTypes.string.isRequired
   }).isRequired,
-  setRequestStatusAction: PropTypes.func.isRequired
+  setRequestStatusAction: PropTypes.func.isRequired,
+  language: PropTypes.string.isRequired
 };
 
+const mapStateToProps = state => ({
+  language: state.language.language
+});
 const mapDispatchToProps = dispatch => ({
   setRequestStatusAction: requestStatus => dispatch(setRequestStatus(requestStatus))
 });
 
-export default connect(null, mapDispatchToProps)(CreateProjectPage);
+export default connect(mapStateToProps, mapDispatchToProps)(CreateProjectPage);

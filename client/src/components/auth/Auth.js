@@ -7,6 +7,7 @@ import facebookLogo from '../../assets/images/auth_service_facebook.svg';
 import googleLogo from '../../assets/images/auth_service_google.svg';
 import { auth, arrayOfAuthProviders } from '../../firebase/firebase';
 import { setUserData } from '../../store/auth/actions';
+import { interfaceTexts } from '../../shared/constants';
 
 class Auth extends Component {
   constructor() {
@@ -53,6 +54,7 @@ class Auth extends Component {
 
   render() {
     const {
+      language,
       userData: { uid }
     } = this.props;
     const { isError, error } = this.state;
@@ -60,9 +62,9 @@ class Auth extends Component {
     return (
       <>
         {uid ? (
-          <Nav.Link onClick={this.signOut}>Sign out</Nav.Link>
+          <Nav.Link onClick={this.signOut}>{interfaceTexts.signOut[language]}</Nav.Link>
         ) : (
-          <NavDropdown title='Sign in' id='basic-nav-dropdown'>
+          <NavDropdown title={interfaceTexts.signIn[language]} id='basic-nav-dropdown'>
             <NavDropdown.Item onClick={() => this.signIn('google')}>
               <img className='sign-in-image mr-2' src={googleLogo} width='20' height='20' alt='auth-service-google' />
               Google
@@ -86,7 +88,7 @@ class Auth extends Component {
             show={isError}
           >
             <Toast.Header>
-              <strong className='mr-auto'>Error</strong>
+              <strong className='mr-auto'>{interfaceTexts.error[language]}</strong>
             </Toast.Header>
             <Toast.Body>{error}</Toast.Body>
           </Toast>
@@ -103,11 +105,13 @@ Auth.propTypes = {
     displayName: PropTypes.string.isRequired,
     photoURL: PropTypes.string.isRequired
   }).isRequired,
-  setUserDataAction: PropTypes.func.isRequired
+  setUserDataAction: PropTypes.func.isRequired,
+  language: PropTypes.string.isRequired
 };
 
 const mapStateToProps = state => ({
-  userData: state.user.userData
+  userData: state.user.userData,
+  language: state.language.language
 });
 const mapDispatchToProps = dispatch => ({
   setUserDataAction: userData => dispatch(setUserData(userData))

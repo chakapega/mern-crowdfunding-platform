@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Container, Form, Button, InputGroup, FormControl } from 'react-bootstrap';
 import io from 'socket.io-client';
 
+import { interfaceTexts } from '../../shared/constants';
 import Comment from './Comment';
 
 class Comments extends Component {
@@ -76,6 +77,7 @@ class Comments extends Component {
   render() {
     const { comments } = this.state;
     const {
+      language,
       userData: { uid }
     } = this.props;
 
@@ -95,13 +97,15 @@ class Comments extends Component {
                   rows='3'
                   required
                   maxLength='400'
-                  placeholder={uid ? 'Write a comment ...' : 'Sign in to post a comment'}
+                  placeholder={
+                    uid ? interfaceTexts.writeAComment[language] : interfaceTexts.signInToPostAComment[language]
+                  }
                   onChange={this.handleInputChange}
                   disabled={!uid}
                 />
                 <InputGroup.Append>
                   <Button type='submit' disabled={!uid}>
-                    Send
+                    {interfaceTexts.send[language]}
                   </Button>
                 </InputGroup.Append>
               </InputGroup>
@@ -120,11 +124,13 @@ Comments.propTypes = {
     displayName: PropTypes.string.isRequired,
     photoURL: PropTypes.string.isRequired
   }).isRequired,
-  id: PropTypes.string.isRequired
+  id: PropTypes.string.isRequired,
+  language: PropTypes.string.isRequired
 };
 
 const mapStateToProps = state => ({
-  userData: state.user.userData
+  userData: state.user.userData,
+  language: state.language.language
 });
 
 export default connect(mapStateToProps)(Comments);

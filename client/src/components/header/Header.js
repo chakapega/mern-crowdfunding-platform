@@ -1,12 +1,16 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { Navbar, Nav, Container, Image } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
 import Auth from '../auth/Auth';
+import LanguageSwitch from '../languageSwitch/LanguageSwitch';
+import { interfaceTexts } from '../../shared/constants';
 
-export default function Header(props) {
+function Header(props) {
   const {
+    language,
     userData: { uid, displayName, photoURL }
   } = props;
 
@@ -32,11 +36,12 @@ export default function Header(props) {
                   {displayName}
                 </Navbar.Brand>
                 <Nav.Link as={NavLink} to='/create-project'>
-                  Create project
+                  {interfaceTexts.createProject[language]}
                 </Nav.Link>
               </>
             )}
             <Auth />
+            <LanguageSwitch />
           </Nav>
         </Navbar.Collapse>
       </Container>
@@ -49,5 +54,12 @@ Header.propTypes = {
     uid: PropTypes.string.isRequired,
     displayName: PropTypes.string.isRequired,
     photoURL: PropTypes.string.isRequired
-  }).isRequired
+  }).isRequired,
+  language: PropTypes.string.isRequired
 };
+
+const mapStateToProps = state => ({
+  language: state.language.language
+});
+
+export default connect(mapStateToProps)(Header);

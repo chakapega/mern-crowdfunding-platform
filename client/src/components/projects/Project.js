@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Card, ProgressBar, ButtonGroup, Button, Container, Popover, OverlayTrigger, Toast } from 'react-bootstrap';
 import BootstrapCarousel from '../carousel/BootstrapCarousel';
 
+import { interfaceTexts } from '../../shared/constants';
 import Comments from '../comments/Comments';
 import { setRequestStatus } from '../../store/loader/actions';
 
@@ -115,6 +116,7 @@ class Project extends Component {
       isPayment
     } = this.state;
     const {
+      language,
       match: {
         params: { id }
       }
@@ -137,16 +139,20 @@ class Project extends Component {
               </div>
               <div className='crowdfunding-details'>
                 <ProgressBar className='mt-3' animated now={fundsRaisedPercent} />
-                <Card.Title className='m-4'>{`Collected ${fundsRaised} of ${target} $`}</Card.Title>
-                <Card.Text>{`Category: ${category}`}</Card.Text>
-                <Card.Text>{`Date of completion of fundraising: ${fundraisingEndDate}`}</Card.Text>
+                <Card.Title className='m-4'>
+                  {language === 'en'
+                    ? `Collected ${fundsRaised} of ${target} $`
+                    : `Собрано ${fundsRaised} из ${target} $`}
+                </Card.Title>
+                <Card.Text>{`${interfaceTexts.category[language]}: ${category}`}</Card.Text>
+                <Card.Text>{`${interfaceTexts.dateOfCompletionOfFundraising[language]}: ${fundraisingEndDate}`}</Card.Text>
                 <div className='payment-buttons-container'>
                   <ButtonGroup className='payment-buttons-bootstrap-group'>
                     <Button className='payment-button' variant='outline-success' size='md' onClick={() => this.pay(10)}>
                       10$
                     </Button>
                     <OverlayTrigger trigger='focus' placement='top' overlay={popover(bonusTen)}>
-                      <Button variant='success'>Show bonus info</Button>
+                      <Button variant='success'>{interfaceTexts.showBonusInfo[language]}</Button>
                     </OverlayTrigger>
                   </ButtonGroup>
                   <ButtonGroup>
@@ -154,7 +160,7 @@ class Project extends Component {
                       25$
                     </Button>
                     <OverlayTrigger trigger='focus' placement='top' overlay={popover(bonusTwentyFive)}>
-                      <Button variant='success'>Show bonus info</Button>
+                      <Button variant='success'>{interfaceTexts.showBonusInfo[language]}</Button>
                     </OverlayTrigger>
                   </ButtonGroup>
                   <ButtonGroup>
@@ -162,7 +168,7 @@ class Project extends Component {
                       50$
                     </Button>
                     <OverlayTrigger trigger='focus' placement='top' overlay={popover(bonusFifty)}>
-                      <Button variant='success'>Show bonus info</Button>
+                      <Button variant='success'>{interfaceTexts.showBonusInfo[language]}</Button>
                     </OverlayTrigger>
                   </ButtonGroup>
                 </div>
@@ -178,9 +184,9 @@ class Project extends Component {
         {isPayment && (
           <Toast className='bootstrap-toast' onClose={() => this.setState({ isPayment: false })} show={isPayment}>
             <Toast.Header>
-              <strong className='mr-auto'>Notice</strong>
+              <strong className='mr-auto'>{interfaceTexts.notice[language]}</strong>
             </Toast.Header>
-            <Toast.Body>Payment completed successfully</Toast.Body>
+            <Toast.Body>{interfaceTexts.paymentCompletedSuccessfully[language]}</Toast.Body>
           </Toast>
         )}
       </>
@@ -190,11 +196,15 @@ class Project extends Component {
 
 Project.propTypes = {
   match: PropTypes.shape({ params: PropTypes.object.isRequired }).isRequired,
-  setRequestStatusAction: PropTypes.func.isRequired
+  setRequestStatusAction: PropTypes.func.isRequired,
+  language: PropTypes.string.isRequired
 };
 
+const mapStateToProps = state => ({
+  language: state.language.language
+});
 const mapDispatchToProps = dispatch => ({
   setRequestStatusAction: requestStatus => dispatch(setRequestStatus(requestStatus))
 });
 
-export default connect(null, mapDispatchToProps)(Project);
+export default connect(mapStateToProps, mapDispatchToProps)(Project);

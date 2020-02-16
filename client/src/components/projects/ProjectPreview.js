@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import { Card, Button } from 'react-bootstrap';
 
-export default function ProjectPreview({ project }) {
+import { interfaceTexts } from '../../shared/constants';
+
+export default function ProjectPreview({ project, language }) {
   const {
     imageLinks: [image],
     name,
@@ -18,7 +20,7 @@ export default function ProjectPreview({ project }) {
         <Card.Title>{name}</Card.Title>
         <Card.Text className='project-preview-description'>{description}</Card.Text>
         <Button variant='primary' as={NavLink} to={`/project/${_id}`}>
-          Open project
+          {interfaceTexts.openProject[language]}
         </Button>
       </Card.Body>
     </Card>
@@ -31,5 +33,6 @@ ProjectPreview.propTypes = {
     name: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
     _id: PropTypes.string.isRequired
-  }).isRequired
+  }).isRequired,
+  language: PropTypes.string.isRequired
 };
