@@ -35,7 +35,7 @@ class UserPage extends Component {
 
     return (
       <>
-        <div className='user-page-top-container'>
+        <div className='user-page-top-container container'>
           <Card style={{ width: '18rem' }}>
             <Card.Img variant='top' src={photoURL} />
             <Card.Body>
