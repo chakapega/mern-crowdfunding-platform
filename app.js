@@ -89,7 +89,7 @@ app.post('/api/project-pay', async (request, response) => {
     await project.save();
 
     const user = await User.findOne({ uid });
-    user.paidBonuses.push({ paymentAmount, bonusInfo });
+    user.paidBonuses.push({ projectName: project.name, paymentAmount, bonusInfo });
     await user.save();
 
     response.status(200).json({ message: 'Payment made', fundsRaised: project.fundsRaised });

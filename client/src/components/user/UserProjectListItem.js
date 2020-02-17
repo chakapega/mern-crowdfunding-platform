@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { ListGroup, Nav, Button, Image } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 
@@ -16,9 +17,16 @@ export default function UserProjectListItem({ project: { _id, name } }) {
           <Image src={editProjectIcon} style={{ width: '32px', height: '32px' }} alt='edit' />
         </Button>
         <Button className='user-project-control-button' variant='light'>
-          <Image src={deleteProjectIcon} style={{ width: '32px', height: '32px' }} alt='edit' />
+          <Image src={deleteProjectIcon} style={{ width: '32px', height: '32px' }} alt='delete' />
         </Button>
       </div>
     </ListGroup.Item>
   );
 }
+
+UserProjectListItem.propTypes = {
+  project: PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired
+  }).isRequired
+};

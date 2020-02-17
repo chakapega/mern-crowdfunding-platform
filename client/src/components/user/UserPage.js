@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Card, ListGroup, ListGroupItem } from 'react-bootstrap';
 
 import UserProjectListItem from './UserProjectListItem';
+import UserPaidBonusListItem from './UserPaidBonusListItem';
 
 class UserPage extends Component {
   constructor() {
@@ -39,28 +40,41 @@ class UserPage extends Component {
     const {
       userData: { email, displayName, photoURL }
     } = this.props;
-    const { projects } = this.state;
+    const {
+      projects,
+      user: { paidBonuses }
+    } = this.state;
 
+    /* eslint-disable */
     return (
       <>
         <div className='user-page-top-container container'>
-          <Card style={{ width: '18rem' }}>
-            <Card.Img variant='top' src={photoURL} />
-            <Card.Body>
-              <Card.Title>User details</Card.Title>
-            </Card.Body>
-            <ListGroup className='list-group-flush'>
-              <ListGroupItem>{email}</ListGroupItem>
-              <ListGroupItem>{displayName}</ListGroupItem>
+          <div>
+            <h4>User details:</h4>
+            <Card style={{ width: '18rem' }}>
+              <Card.Img variant='top' src={photoURL} />
+              <ListGroup className='list-group-flush'>
+                <ListGroupItem>{email}</ListGroupItem>
+                <ListGroupItem>{displayName}</ListGroupItem>
+              </ListGroup>
+            </Card>
+          </div>
+          <div>
+            <h4>User paid bonuses:</h4>
+            <ListGroup>
+              {paidBonuses &&
+                paidBonuses.map((paidBonus, index) => <UserPaidBonusListItem key={index} paidBonus={paidBonus} />)}
             </ListGroup>
-          </Card>
+          </div>
         </div>
-        <ListGroup className='container mt-3'>
+        <div className='container mt-3'>
           <h4>User projects:</h4>
-          {projects.map(project => (
-            <UserProjectListItem key={project._id} project={project} />
-          ))}
-        </ListGroup>
+          <ListGroup>
+            {projects.map(project => (
+              <UserProjectListItem key={project._id} project={project} />
+            ))}
+          </ListGroup>
+        </div>
       </>
     );
   }
