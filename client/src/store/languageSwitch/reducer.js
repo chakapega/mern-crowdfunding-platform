@@ -7,6 +7,7 @@ const initialState = {
 const languageSwitchReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_LANGUAGE:
+      localStorage.setItem('language', action.payload);
       return { ...state, language: action.payload };
     default:
       return state;
