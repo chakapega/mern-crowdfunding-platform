@@ -111,10 +111,27 @@ app.get('/api/projects', async (request, response) => {
 
 app.get('/api/project/:id', async (request, response) => {
   try {
-    const projectId = request.params.id;
-    const project = await Project.findById(projectId);
+    const {
+      params: { id }
+    } = request;
+    const project = await Project.findById(id);
 
     response.status(200).json(project);
+  } catch (error) {
+    response.status(500).json({
+      message: error.message || 'An error occured, please try again'
+    });
+  }
+});
+
+app.get('/api/projects/user/:id', async (request, response) => {
+  try {
+    const {
+      params: { id: uid }
+    } = request;
+    const projects = await Project.find({ uid });
+
+    response.status(200).json(projects);
   } catch (error) {
     response.status(500).json({
       message: error.message || 'An error occured, please try again'

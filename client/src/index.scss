@@ -98,6 +98,16 @@
   background-color: rgba(0, 0, 0, 0.3);
   z-index: 100;
 }
+.user-page-top-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px;
+  margin-left: 16px;
+  margin-right: 16px;
+}
+.user-project-control-button {
+  padding: 3px;
+}
 
 @media (max-width: 575.98px) {
   .card-columns {
