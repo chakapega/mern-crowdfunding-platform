@@ -69,12 +69,13 @@ class Project extends Component {
       });
   }
 
-  pay = paymentAmount => {
+  pay = (paymentAmount, bonusInfo) => {
     const {
       match: {
         params: { id }
       },
-      setRequestStatusAction
+      setRequestStatusAction,
+      userData: { uid }
     } = this.props;
 
     setRequestStatusAction(true);
@@ -82,7 +83,9 @@ class Project extends Component {
       method: 'POST',
       body: JSON.stringify({
         id,
-        paymentAmount
+        paymentAmount,
+        bonusInfo,
+        uid
       }),
       headers: {
         'Content-Type': 'application/json'
@@ -148,7 +151,12 @@ class Project extends Component {
                 <Card.Text>{`${interfaceTexts.dateOfCompletionOfFundraising[language]}: ${fundraisingEndDate}`}</Card.Text>
                 <div className='payment-buttons-container'>
                   <ButtonGroup className='payment-buttons-bootstrap-group'>
-                    <Button className='payment-button' variant='outline-success' size='md' onClick={() => this.pay(10)}>
+                    <Button
+                      className='payment-button'
+                      variant='outline-success'
+                      size='md'
+                      onClick={() => this.pay(10, bonusTen)}
+                    >
                       10$
                     </Button>
                     <OverlayTrigger trigger='focus' placement='top' overlay={popover(bonusTen)}>
@@ -156,7 +164,12 @@ class Project extends Component {
                     </OverlayTrigger>
                   </ButtonGroup>
                   <ButtonGroup>
-                    <Button className='payment-button' variant='outline-success' size='md' onClick={() => this.pay(25)}>
+                    <Button
+                      className='payment-button'
+                      variant='outline-success'
+                      size='md'
+                      onClick={() => this.pay(25, bonusTwentyFive)}
+                    >
                       25$
                     </Button>
                     <OverlayTrigger trigger='focus' placement='top' overlay={popover(bonusTwentyFive)}>
@@ -164,7 +177,12 @@ class Project extends Component {
                     </OverlayTrigger>
                   </ButtonGroup>
                   <ButtonGroup>
-                    <Button className='payment-button' variant='outline-success' size='md' onClick={() => this.pay(50)}>
+                    <Button
+                      className='payment-button'
+                      variant='outline-success'
+                      size='md'
+                      onClick={() => this.pay(50, bonusFifty)}
+                    >
                       50$
                     </Button>
                     <OverlayTrigger trigger='focus' placement='top' overlay={popover(bonusFifty)}>
@@ -197,11 +215,15 @@ class Project extends Component {
 Project.propTypes = {
   match: PropTypes.shape({ params: PropTypes.object.isRequired }).isRequired,
   setRequestStatusAction: PropTypes.func.isRequired,
-  language: PropTypes.string.isRequired
+  language: PropTypes.string.isRequired,
+  userData: PropTypes.shape({
+    uid: PropTypes.string.isRequired
+  }).isRequired
 };
 
 const mapStateToProps = state => ({
-  language: state.language.language
+  language: state.language.language,
+  userData: state.user.userData
 });
 const mapDispatchToProps = dispatch => ({
   setRequestStatusAction: requestStatus => dispatch(setRequestStatus(requestStatus))

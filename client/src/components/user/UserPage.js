@@ -9,6 +9,7 @@ class UserPage extends Component {
   constructor() {
     super();
     this.state = {
+      user: {},
       projects: []
     };
   }
@@ -18,6 +19,13 @@ class UserPage extends Component {
       userData: { uid }
     } = this.props;
 
+    fetch(`/api/user/${uid}`)
+      .then(response => response.json())
+      .then(user => {
+        this.setState({
+          user
+        });
+      });
     fetch(`/api/projects/user/${uid}`)
       .then(response => response.json())
       .then(projects => {

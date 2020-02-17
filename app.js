@@ -20,7 +20,8 @@ app.post('/api/auth', async (request, response) => {
       const user = new User({
         uid,
         email,
-        displayName
+        displayName,
+        paidBonuses: []
       });
 
       await user.save();
@@ -81,15 +82,17 @@ app.post('/api/create-project', async (request, response) => {
 
 app.post('/api/project-pay', async (request, response) => {
   try {
-    const { id, paymentAmount } = request.body;
+    const { id, paymentAmount, bonusInfo, uid } = request.body;
 
-    Project.findById(id, async (error, project) => {
-      if (error) throw error;
+    const project = await Project.findById(id);
+    project.fundsRaised += paymentAmount;
+    await project.save();
 
-      project.fundsRaised += paymentAmount;
-      await project.save();
-      response.status(200).json({ message: 'Payment made', fundsRaised: project.fundsRaised });
-    });
+    const user = await User.findOne({ uid });
+    user.paidBonuses.push({ paymentAmount, bonusInfo });
+    await user.save();
+
+    response.status(200).json({ message: 'Payment made', fundsRaised: project.fundsRaised });
   } catch (error) {
     response.status(500).json({
       message: error.message || 'An error occured, please try again'
@@ -132,6 +135,21 @@ app.get('/api/projects/user/:id', async (request, response) => {
     const projects = await Project.find({ uid });
 
     response.status(200).json(projects);
+  } catch (error) {
+    response.status(500).json({
+      message: error.message || 'An error occured, please try again'
+    });
+  }
+});
+
+app.get('/api/user/:id', async (request, response) => {
+  try {
+    const {
+      params: { id: uid }
+    } = request;
+    const user = await User.findOne({ uid });
+
+    response.status(200).json(user);
   } catch (error) {
     response.status(500).json({
       message: error.message || 'An error occured, please try again'
