@@ -2,7 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Popover, ListGroup, Button, OverlayTrigger } from 'react-bootstrap';
 
-export default function UserPaidBonusListItem({ paidBonus: { projectName, paymentAmount, bonusInfo } }) {
+import { interfaceTexts } from '../../shared/constants';
+
+export default function UserPaidBonusListItem({ paidBonus: { projectName, paymentAmount, bonusInfo }, language }) {
   const popover = info => (
     <Popover id='popover-basic'>
       <Popover.Content>{info}</Popover.Content>
@@ -10,11 +12,11 @@ export default function UserPaidBonusListItem({ paidBonus: { projectName, paymen
   );
 
   return (
-    <ListGroup.Item className='d-flex justify-content-between align-items-center'>
+    <ListGroup.Item className='d-flex justify-content-between align-items-center pl-1 pr-1 pt-2 pb-2'>
       <span>{`${paymentAmount}$ ${projectName}`}</span>
       <OverlayTrigger trigger='focus' placement='top' overlay={popover(bonusInfo)}>
         <Button className='ml-2' variant='info' size='sm'>
-          Show bonus info
+          {interfaceTexts.showBonusInfo[language]}
         </Button>
       </OverlayTrigger>
     </ListGroup.Item>

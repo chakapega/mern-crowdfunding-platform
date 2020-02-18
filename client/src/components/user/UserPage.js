@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Card, ListGroup, ListGroupItem } from 'react-bootstrap';
 
+import { interfaceTexts } from '../../shared/constants';
 import UserProjectListItem from './UserProjectListItem';
 import UserPaidBonusListItem from './UserPaidBonusListItem';
 
@@ -38,6 +39,7 @@ class UserPage extends Component {
 
   render() {
     const {
+      language,
       userData: { email, displayName, photoURL }
     } = this.props;
     const {
@@ -45,12 +47,11 @@ class UserPage extends Component {
       user: { paidBonuses }
     } = this.state;
 
-    /* eslint-disable */
     return (
       <>
         <div className='user-page-top-container container'>
           <div className='mt-1'>
-            <h4>User details:</h4>
+            <h4>{interfaceTexts.userDetails[language]}</h4>
             <Card style={{ width: '18rem' }}>
               <Card.Img variant='top' src={photoURL} />
               <ListGroup className='list-group-flush'>
@@ -60,15 +61,15 @@ class UserPage extends Component {
             </Card>
           </div>
           <div className='mt-1'>
-            <h4>User paid bonuses:</h4>
+            <h4>{interfaceTexts.bonusesPaidByUser[language]}</h4>
             <ListGroup>
               {paidBonuses &&
-                paidBonuses.map((paidBonus, index) => <UserPaidBonusListItem key={index} paidBonus={paidBonus} />)}
+                paidBonuses.map((paidBonus, index) => <UserPaidBonusListItem key={index} paidBonus={paidBonus} language={language} />)}
             </ListGroup>
           </div>
         </div>
         <div className='container mt-3'>
-          <h4>User projects:</h4>
+          <h4>{interfaceTexts.userProjects[language]}</h4>
           <ListGroup>
             {projects.map(project => (
               <UserProjectListItem key={project._id} project={project} />

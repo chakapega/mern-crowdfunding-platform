@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Modal, ListGroup, Nav, Button, Image } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 
+import { interfaceTexts } from '../../shared/constants';
 import editProjectIcon from '../../assets/images/edit_project_icon.svg';
 import deleteProjectIcon from '../../assets/images/delete_project_icon.svg';
 
@@ -34,6 +35,7 @@ export default class UserProjectListItem extends Component {
 
   render() {
     const {
+      language,
       project: { _id, name }
     } = this.props;
     const { isOpenModalDeleteWindow } = this.state;
@@ -65,10 +67,10 @@ export default class UserProjectListItem extends Component {
               </Modal.Header>
               <Modal.Footer>
                 <Button variant='secondary' onClick={() => this.deleteProject(_id)}>
-                  Yes
+                  {interfaceTexts.yes[language]}
                 </Button>
                 <Button variant='primary' onClick={this.closeModalDeleteWindow}>
-                  Cancel
+                  {interfaceTexts.cancel[language]}
                 </Button>
               </Modal.Footer>
             </Modal.Dialog>
@@ -83,5 +85,6 @@ UserProjectListItem.propTypes = {
   project: PropTypes.shape({
     _id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired
-  }).isRequired
+  }).isRequired,
+  language: PropTypes.string.isRequired
 };

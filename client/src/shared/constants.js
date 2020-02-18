@@ -35,5 +35,10 @@ export const interfaceTexts = {
   showBonusInfo: { en: 'Show bonus info', ru: 'Показать информацию бонуса' },
   paymentCompletedSuccessfully: { en: 'Payment completed successfully', ru: 'Оплата произведена успешно' },
   dateOfCompletionOfFundraising: { en: 'Date of completion of fundraising', ru: 'Дата завершения сбора средств' },
-  openProject: { en: 'Open project', ru: 'Открыть проект' }
+  openProject: { en: 'Open project', ru: 'Открыть проект' },
+  userDetails: { en: 'User details:', ru: 'Данные пользователя:' },
+  bonusesPaidByUser: { en: 'Bonuses paid by user:', ru: 'Бонусы оплаченные пользователем:' },
+  userProjects: { en: 'User projects:', ru: 'Проекты пользователя:' },
+  yes: { en: 'Yes', ru: 'Да' },
+  cancel: { en: 'Cancel', ru: 'Отмена' }
 };
