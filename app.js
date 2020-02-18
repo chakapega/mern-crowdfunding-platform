@@ -100,6 +100,22 @@ app.post('/api/project-pay', async (request, response) => {
   }
 });
 
+app.post('/api/delete-project', async (request, response) => {
+  try {
+    const { _id } = request.body;
+
+    Project.deleteOne({ _id }, error => {
+      if (error) throw error;
+
+      response.status(200).json({ message: 'Project deleted' });
+    });
+  } catch (error) {
+    response.status(500).json({
+      message: error.message || 'An error occured, please try again'
+    });
+  }
+});
+
 app.get('/api/projects', async (request, response) => {
   try {
     const projects = await Project.find();
