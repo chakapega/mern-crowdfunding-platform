@@ -49,7 +49,7 @@ class UserPage extends Component {
     return (
       <>
         <div className='user-page-top-container container'>
-          <div>
+          <div className='mt-1'>
             <h4>User details:</h4>
             <Card style={{ width: '18rem' }}>
               <Card.Img variant='top' src={photoURL} />
@@ -59,7 +59,7 @@ class UserPage extends Component {
               </ListGroup>
             </Card>
           </div>
-          <div>
+          <div className='mt-1'>
             <h4>User paid bonuses:</h4>
             <ListGroup>
               {paidBonuses &&

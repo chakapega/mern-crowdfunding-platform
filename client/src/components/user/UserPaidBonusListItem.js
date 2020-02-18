@@ -13,7 +13,7 @@ export default function UserPaidBonusListItem({ paidBonus: { projectName, paymen
     <ListGroup.Item className='d-flex justify-content-between align-items-center'>
       <span>{`${paymentAmount}$ ${projectName}`}</span>
       <OverlayTrigger trigger='focus' placement='top' overlay={popover(bonusInfo)}>
-        <Button className='ml-2' variant='info'>
+        <Button className='ml-2' variant='info' size='sm'>
           Show bonus info
         </Button>
       </OverlayTrigger>
