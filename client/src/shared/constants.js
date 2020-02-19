@@ -40,5 +40,7 @@ export const interfaceTexts = {
   bonusesPaidByUser: { en: 'Bonuses paid by user:', ru: 'Бонусы оплаченные пользователем:' },
   userProjects: { en: 'User projects:', ru: 'Проекты пользователя:' },
   yes: { en: 'Yes', ru: 'Да' },
-  cancel: { en: 'Cancel', ru: 'Отмена' }
+  cancel: { en: 'Cancel', ru: 'Отмена' },
+  editProject: { en: 'Edit project', ru: 'Редактировать проект' },
+  projectSuccessfullyEdited: { en: 'Project successfully edited', ru: 'Проект успешно отредактирован' }
 };

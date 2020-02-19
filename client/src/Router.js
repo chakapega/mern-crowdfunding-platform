@@ -11,6 +11,7 @@ import ProjectsPreviewPage from './components/projects/ProjectsPreviewPage';
 import CreateProjectPage from './components/projects/CreateProjectPage';
 import Project from './components/projects/Project';
 import UserPage from './components/user/UserPage';
+import EditProjectPage from './components/projects/EditProjectPage';
 
 class Router extends Component {
   constructor(props) {
@@ -51,6 +52,7 @@ class Router extends Component {
               <Route path='/user/:id' component={UserPage} exact />
               <Route path='/project/:id' component={Project} exact />
               <Route path='/create-project' component={CreateProjectPage} exact />
+              <Route path='/edit-project/:id' component={EditProjectPage} exact />
               <Redirect to='/' />
             </Switch>
           </BrowserRouter>

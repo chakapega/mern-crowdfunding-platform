@@ -47,9 +47,17 @@ export default class UserProjectListItem extends Component {
             {name}
           </Nav.Link>
           <div>
-            <Button className='user-project-control-button mr-1' variant='light'>
+            <Button
+              className='user-project-control-button mr-1'
+              variant='light'
+              as={NavLink}
+              to={`/edit-project/${_id}`}
+            >
               <Image src={editProjectIcon} style={{ width: '32px', height: '32px' }} alt='edit' />
             </Button>
+            {/* <Nav.Link className='text-dark navbar-brand' as={NavLink} to={`/edit-project/${_id}`}>
+              <Image src={editProjectIcon} style={{ width: '32px', height: '32px' }} alt='edit' />
+            </Nav.Link> */}
             <Button
               className='user-project-control-button'
               variant='light'
