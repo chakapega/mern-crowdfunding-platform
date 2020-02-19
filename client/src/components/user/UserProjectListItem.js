@@ -55,9 +55,6 @@ export default class UserProjectListItem extends Component {
             >
               <Image src={editProjectIcon} style={{ width: '32px', height: '32px' }} alt='edit' />
             </Button>
-            {/* <Nav.Link className='text-dark navbar-brand' as={NavLink} to={`/edit-project/${_id}`}>
-              <Image src={editProjectIcon} style={{ width: '32px', height: '32px' }} alt='edit' />
-            </Nav.Link> */}
             <Button
               className='user-project-control-button'
               variant='light'
@@ -71,7 +68,7 @@ export default class UserProjectListItem extends Component {
           <div className='delete-project-modal-window-container'>
             <Modal.Dialog>
               <Modal.Header>
-                <Modal.Title>Are you sure you want to delete this project?</Modal.Title>
+                <Modal.Title>{interfaceTexts.questionAboutDeletingProject[language]}</Modal.Title>
               </Modal.Header>
               <Modal.Footer>
                 <Button variant='secondary' onClick={() => this.deleteProject(_id)}>

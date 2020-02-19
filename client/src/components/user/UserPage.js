@@ -74,7 +74,7 @@ class UserPage extends Component {
           <h4>{interfaceTexts.userProjects[language]}</h4>
           <ListGroup>
             {projects.map(project => (
-              <UserProjectListItem key={project._id} project={project} />
+              <UserProjectListItem key={project._id} project={project} language={language} />
             ))}
           </ListGroup>
         </div>

@@ -42,5 +42,9 @@ export const interfaceTexts = {
   yes: { en: 'Yes', ru: 'Да' },
   cancel: { en: 'Cancel', ru: 'Отмена' },
   editProject: { en: 'Edit project', ru: 'Редактировать проект' },
-  projectSuccessfullyEdited: { en: 'Project successfully edited', ru: 'Проект успешно отредактирован' }
+  projectSuccessfullyEdited: { en: 'Project successfully edited', ru: 'Проект успешно отредактирован' },
+  questionAboutDeletingProject: {
+    en: 'Are you sure you want to delete this project?',
+    ru: 'Вы действительно хотите удалить этот проект?'
+  }
 };
