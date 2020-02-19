@@ -19,9 +19,9 @@ export default function ProjectPreview({ project, language }) {
       <Card.Img variant='top' src={image} />
       <Card.Body>
         <Card.Title>{name}</Card.Title>
-        <Card.Text className='project-preview-description'>
+        <div className='project-preview-description'>
           <ReactMarkdown source={description} />
-        </Card.Text>
+        </div>
         <Button variant='primary' as={NavLink} to={`/project/${_id}`}>
           {interfaceTexts.openProject[language]}
         </Button>

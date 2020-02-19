@@ -193,9 +193,9 @@ class Project extends Component {
                 </div>
               </div>
             </div>
-            <Card.Text className='container mt-5 mb-5 p-1'>
+            <div className='container mt-5 mb-5 p-1'>
               <ReactMarkdown source={description} />
-            </Card.Text>
+            </div>
             <Container>
               <BootstrapCarousel imageLinks={imageLinks} />
             </Container>
