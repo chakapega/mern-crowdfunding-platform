@@ -274,7 +274,7 @@ class EditProjectPage extends Component {
             <Button className='mb-5' type='submit' variant='secondary'>
               {interfaceTexts.editProject[language]}
             </Button>
-            <Button className='mb-5 ml-3' type='button'>
+            <Button className='mb-5 ml-3' type='button' onClick={() => this.setState({ isEditedAfterNotice: true })}>
               {interfaceTexts.cancel[language]}
             </Button>
           </Form>
