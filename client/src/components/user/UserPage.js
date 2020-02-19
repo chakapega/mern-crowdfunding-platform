@@ -64,7 +64,9 @@ class UserPage extends Component {
             <h4>{interfaceTexts.bonusesPaidByUser[language]}</h4>
             <ListGroup>
               {paidBonuses &&
-                paidBonuses.map((paidBonus, index) => <UserPaidBonusListItem key={index} paidBonus={paidBonus} language={language} />)}
+                paidBonuses.map((paidBonus, index) => (
+                  <UserPaidBonusListItem key={index} paidBonus={paidBonus} language={language} />
+                ))}
             </ListGroup>
           </div>
         </div>

@@ -28,5 +28,6 @@ UserPaidBonusListItem.propTypes = {
     projectName: PropTypes.string.isRequired,
     paymentAmount: PropTypes.number.isRequired,
     bonusInfo: PropTypes.string.isRequired
-  }).isRequired
+  }).isRequired,
+  language: PropTypes.string.isRequired
 };

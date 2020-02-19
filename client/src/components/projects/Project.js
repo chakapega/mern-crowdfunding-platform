@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Card, ProgressBar, ButtonGroup, Button, Container, Popover, OverlayTrigger, Toast } from 'react-bootstrap';
+import ReactMarkdown from 'react-markdown';
 import BootstrapCarousel from '../carousel/BootstrapCarousel';
 
 import { interfaceTexts } from '../../shared/constants';
@@ -192,7 +193,9 @@ class Project extends Component {
                 </div>
               </div>
             </div>
-            <Card.Text className='container mt-5 mb-5 p-1'>{description}</Card.Text>
+            <Card.Text className='container mt-5 mb-5 p-1'>
+              <ReactMarkdown source={description} />
+            </Card.Text>
             <Container>
               <BootstrapCarousel imageLinks={imageLinks} />
             </Container>
