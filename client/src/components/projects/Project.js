@@ -17,7 +17,6 @@ class Project extends Component {
       name: '',
       description: '',
       category: '',
-      // tags: '',
       fundraisingEndDate: '',
       target: '',
       bonusTen: '',
@@ -43,7 +42,6 @@ class Project extends Component {
           name,
           description,
           category,
-          // tags,
           fundraisingEndDate,
           target,
           bonusTen,
@@ -58,7 +56,6 @@ class Project extends Component {
           name,
           description,
           category,
-          // tags,
           fundraisingEndDate,
           target,
           bonusTen,
@@ -123,7 +120,8 @@ class Project extends Component {
       language,
       match: {
         params: { id }
-      }
+      },
+      userData: { uid }
     } = this.props;
     const fundsRaisedPercent = (100 / target) * fundsRaised;
     const popover = bonus => (
@@ -153,6 +151,7 @@ class Project extends Component {
                 <div className='payment-buttons-container'>
                   <ButtonGroup className='payment-buttons-bootstrap-group'>
                     <Button
+                      disabled={!uid}
                       className='payment-button'
                       variant='outline-success'
                       size='md'
@@ -166,6 +165,7 @@ class Project extends Component {
                   </ButtonGroup>
                   <ButtonGroup>
                     <Button
+                      disabled={!uid}
                       className='payment-button'
                       variant='outline-success'
                       size='md'
@@ -179,6 +179,7 @@ class Project extends Component {
                   </ButtonGroup>
                   <ButtonGroup>
                     <Button
+                      disabled={!uid}
                       className='payment-button'
                       variant='outline-success'
                       size='md'
