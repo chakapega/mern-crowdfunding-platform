@@ -162,16 +162,14 @@ class EditProjectPage extends Component {
     return (
       <>
         {isEdited ? (
-          <Toast
-            className='bootstrap-toast'
-            onClose={() => this.setState({ isEdited: false, isEditedAfterNotice: true })}
-            show={isEdited}
-          >
-            <Toast.Header>
-              <strong className='mr-auto'>{interfaceTexts.notice[language]}</strong>
-            </Toast.Header>
-            <Toast.Body>{interfaceTexts.projectSuccessfullyEdited[language]}</Toast.Body>
-          </Toast>
+          <div className='bootstrap-toast-container'>
+            <Toast onClose={() => this.setState({ isEdited: false, isEditedAfterNotice: true })} show={isEdited}>
+              <Toast.Header>
+                <strong className='mr-auto'>{interfaceTexts.notice[language]}</strong>
+              </Toast.Header>
+              <Toast.Body>{interfaceTexts.projectSuccessfullyEdited[language]}</Toast.Body>
+            </Toast>
+          </div>
         ) : (
           <Form className='container mt-3' ref={this.form} onSubmit={this.handleSubmit}>
             <Form.Group>

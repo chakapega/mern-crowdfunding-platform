@@ -204,12 +204,14 @@ class Project extends Component {
         </Card>
         <Comments id={id} />
         {isPayment && (
-          <Toast className='bootstrap-toast' onClose={() => this.setState({ isPayment: false })} show={isPayment}>
-            <Toast.Header>
-              <strong className='mr-auto'>{interfaceTexts.notice[language]}</strong>
-            </Toast.Header>
-            <Toast.Body>{interfaceTexts.paymentCompletedSuccessfully[language]}</Toast.Body>
-          </Toast>
+          <div className='bootstrap-toast-container'>
+            <Toast onClose={() => this.setState({ isPayment: false })} show={isPayment}>
+              <Toast.Header>
+                <strong className='mr-auto'>{interfaceTexts.notice[language]}</strong>
+              </Toast.Header>
+              <Toast.Body>{interfaceTexts.paymentCompletedSuccessfully[language]}</Toast.Body>
+            </Toast>
+          </div>
         )}
       </>
     );

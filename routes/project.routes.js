@@ -46,7 +46,7 @@ router.post('/create-project', async (request, response) => {
     for (const tag of tags) {
       await new Tag({
         value: tag,
-        count: 0,
+        count: parseInt(Math.random() * (16 - 1) + 1),
         projectId: _id
       }).save();
     }

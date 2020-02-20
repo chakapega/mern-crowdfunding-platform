@@ -114,6 +114,7 @@ class CreateProjectPage extends Component {
           setRequestStatusAction(false);
         });
       } else {
+        setRequestStatusAction(false);
         this.setState({
           isError: true,
           error: 'You must upload at least one image for your project'
@@ -166,16 +167,14 @@ class CreateProjectPage extends Component {
     return (
       <>
         {isCreated ? (
-          <Toast
-            className='bootstrap-toast'
-            onClose={() => this.setState({ isCreated: false, isCreatedAfterNotice: true })}
-            show={isCreated}
-          >
-            <Toast.Header>
-              <strong className='mr-auto'>{interfaceTexts.notice[language]}</strong>
-            </Toast.Header>
-            <Toast.Body>{interfaceTexts.projectSuccessfullyCreated[language]}</Toast.Body>
-          </Toast>
+          <div className='bootstrap-toast-container'>
+            <Toast onClose={() => this.setState({ isCreated: false, isCreatedAfterNotice: true })} show={isCreated}>
+              <Toast.Header>
+                <strong className='mr-auto'>{interfaceTexts.notice[language]}</strong>
+              </Toast.Header>
+              <Toast.Body>{interfaceTexts.projectSuccessfullyCreated[language]}</Toast.Body>
+            </Toast>
+          </div>
         ) : (
           <Form className='container mt-3' ref={this.form} onSubmit={this.handleSubmit}>
             <Form.Group>
@@ -266,16 +265,14 @@ class CreateProjectPage extends Component {
               {interfaceTexts.createProject[language]}
             </Button>
             {isError && (
-              <Toast
-                className='bootstrap-toast'
-                onClose={() => this.setState({ isError: false, error: '' })}
-                show={isError}
-              >
-                <Toast.Header>
-                  <strong className='mr-auto'>{interfaceTexts.error[language]}</strong>
-                </Toast.Header>
-                <Toast.Body>{error}</Toast.Body>
-              </Toast>
+              <div className='bootstrap-toast-container'>
+                <Toast onClose={() => this.setState({ isError: false, error: '' })} show={isError}>
+                  <Toast.Header>
+                    <strong className='mr-auto'>{interfaceTexts.error[language]}</strong>
+                  </Toast.Header>
+                  <Toast.Body>{error}</Toast.Body>
+                </Toast>
+              </div>
             )}
           </Form>
         )}
