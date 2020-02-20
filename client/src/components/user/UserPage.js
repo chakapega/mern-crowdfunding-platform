@@ -37,6 +37,30 @@ class UserPage extends Component {
       });
   }
 
+  deleteProject = _id => {
+    const {
+      userData: { uid }
+    } = this.props;
+
+    fetch('/api/delete-project', {
+      method: 'POST',
+      body: JSON.stringify({
+        _id
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(() => {
+      fetch(`/api/projects/user/${uid}`)
+        .then(response => response.json())
+        .then(projects => {
+          this.setState({
+            projects
+          });
+        });
+    });
+  };
+
   render() {
     const {
       language,
@@ -74,7 +98,12 @@ class UserPage extends Component {
           <h4>{interfaceTexts.userProjects[language]}</h4>
           <ListGroup>
             {projects.map(project => (
-              <UserProjectListItem key={project._id} project={project} language={language} />
+              <UserProjectListItem
+                key={project._id}
+                project={project}
+                language={language}
+                deleteProject={this.deleteProject}
+              />
             ))}
           </ListGroup>
         </div>

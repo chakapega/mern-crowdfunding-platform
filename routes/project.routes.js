@@ -120,11 +120,10 @@ router.post('/delete-project', async (request, response) => {
   try {
     const { _id } = request.body;
 
-    Project.deleteOne({ _id }, error => {
-      if (error) throw error;
+    await Project.deleteOne({ _id });
+    await Tag.deleteMany({ projectId: _id });
 
-      response.status(200).json({ message: 'Project deleted' });
-    });
+    response.status(200).json({ message: 'Project and tags deleted' });
   } catch (error) {
     response.status(500).json({
       message: error.message || 'An error occured, please try again'

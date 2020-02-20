@@ -15,16 +15,11 @@ export default class UserProjectListItem extends Component {
     };
   }
 
-  deleteProject = _id => {
-    fetch('/api/delete-project', {
-      method: 'POST',
-      body: JSON.stringify({
-        _id
-      }),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
+  deleteProjectHandler = _id => {
+    const { deleteProject } = this.props;
+
+    deleteProject(_id);
+    this.setState({ isOpenModalDeleteWindow: false });
   };
 
   closeModalDeleteWindow = () => {
@@ -71,7 +66,7 @@ export default class UserProjectListItem extends Component {
                 <Modal.Title>{interfaceTexts.questionAboutDeletingProject[language]}</Modal.Title>
               </Modal.Header>
               <Modal.Footer>
-                <Button variant='secondary' onClick={() => this.deleteProject(_id)}>
+                <Button variant='secondary' onClick={() => this.deleteProjectHandler(_id)}>
                   {interfaceTexts.yes[language]}
                 </Button>
                 <Button variant='primary' onClick={this.closeModalDeleteWindow}>
@@ -91,5 +86,6 @@ UserProjectListItem.propTypes = {
     _id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired
   }).isRequired,
-  language: PropTypes.string.isRequired
+  language: PropTypes.string.isRequired,
+  deleteProject: PropTypes.func.isRequired
 };
