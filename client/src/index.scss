@@ -122,6 +122,9 @@
   overflow: auto;
   white-space: normal;
 }
+.tag-cloud-tag {
+  cursor: pointer;
+}
 
 @media (max-width: 575.98px) {
   .card-columns {

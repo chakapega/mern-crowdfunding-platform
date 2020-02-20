@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { CardColumns } from 'react-bootstrap';
+import { Redirect } from 'react-router-dom';
+import { CardColumns, Card } from 'react-bootstrap';
+import { TagCloud } from 'react-tagcloud';
 
 import ProjectPreview from './ProjectPreview';
 
@@ -9,11 +11,21 @@ class ProjectsPage extends Component {
   constructor() {
     super();
     this.state = {
-      projects: []
+      projects: [],
+      isRedirect: false,
+      redirectUrl: '',
+      tags: []
     };
   }
 
   componentDidMount() {
+    fetch('/api/tags')
+      .then(response => response.json())
+      .then(tags => {
+        this.setState({
+          tags
+        });
+      });
     fetch('/api/projects')
       .then(response => response.json())
       .then(projects => {
@@ -25,14 +37,27 @@ class ProjectsPage extends Component {
 
   render() {
     const { language } = this.props;
-    const { projects } = this.state;
+    const { isRedirect, redirectUrl, projects, tags } = this.state;
 
     return (
-      <CardColumns className='mt-3 ml-2 mr-2 ml-lg-5 mr-lg-5'>
-        {projects.map(project => (
-          <ProjectPreview key={project._id} project={project} language={language} />
-        ))}
-      </CardColumns>
+      <>
+        {isRedirect && <Redirect to={`/project/${redirectUrl}`} />}
+        <CardColumns className='mt-3 ml-2 mr-2 ml-lg-5 mr-lg-5'>
+          {tags.length ? (
+            <Card>
+              <TagCloud
+                minSize={12}
+                maxSize={35}
+                tags={tags}
+                onClick={tag => this.setState({ isRedirect: true, redirectUrl: tag.projectId })}
+              />
+            </Card>
+          ) : null}
+          {projects.map(project => (
+            <ProjectPreview key={project._id} project={project} language={language} />
+          ))}
+        </CardColumns>
+      </>
     );
   }
 }

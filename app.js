@@ -9,6 +9,7 @@ const PORT = config.get('port');
 
 app.use(express.json({ extended: true }));
 app.use('/api', require('./routes/auth.routes'));
+app.use('/api', require('./routes/tag.routes'));
 app.use('/api', require('./routes/project.routes'));
 app.use('/api', require('./routes/user.routes'));
 

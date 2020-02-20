@@ -2,6 +2,7 @@ const { Router } = require('express');
 const router = Router();
 const Project = require('../models/Project');
 const User = require('../models/User');
+const Tag = require('../models/Tag');
 
 router.post('/create-project', async (request, response) => {
   try {
@@ -39,6 +40,17 @@ router.post('/create-project', async (request, response) => {
     });
 
     await project.save();
+
+    const { _id } = project;
+
+    for (const tag of tags) {
+      await new Tag({
+        value: tag,
+        count: 0,
+        projectId: _id
+      }).save();
+    }
+
     response.status(200).json({ message: 'Project created' });
   } catch (error) {
     response.status(500).json({
