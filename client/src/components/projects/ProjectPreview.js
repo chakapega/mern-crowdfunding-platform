@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
-import { Card, Button } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
 import ReactMarkdown from 'react-markdown';
 
 import { interfaceTexts } from '../../shared/constants';
@@ -15,18 +15,17 @@ export default function ProjectPreview({ project, language }) {
   } = project;
 
   return (
-    <Card>
-      <Card.Img variant='top' src={image} />
-      <Card.Body>
-        <Card.Title>{name}</Card.Title>
-        <div className='project-preview-description'>
-          <ReactMarkdown source={description} />
-        </div>
-        <Button variant='primary' as={NavLink} to={`/project/${_id}`}>
-          {interfaceTexts.openProject[language]}
-        </Button>
-      </Card.Body>
-    </Card>
+    <NavLink to={`/project/${_id}`} title={interfaceTexts.openProject[language]}>
+      <Card>
+        <Card.Img variant='top' src={image} />
+        <Card.Body>
+          <Card.Title className='text-dark'>{name}</Card.Title>
+          <div className='project-preview-description text-dark'>
+            <ReactMarkdown source={description} />
+          </div>
+        </Card.Body>
+      </Card>
+    </NavLink>
   );
 }
 
