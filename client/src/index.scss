@@ -118,6 +118,10 @@
   background-color: rgba(0, 0, 0, 0.3);
   z-index: 100;
 }
+.userpage-project-link {
+  overflow: auto;
+  white-space: normal;
+}
 
 @media (max-width: 575.98px) {
   .card-columns {

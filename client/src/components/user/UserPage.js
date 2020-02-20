@@ -52,7 +52,7 @@ class UserPage extends Component {
         <div className='user-page-top-container container'>
           <div className='mt-1'>
             <h4>{interfaceTexts.userDetails[language]}</h4>
-            <Card style={{ width: '18rem' }}>
+            <Card className='mx-auto' style={{ width: '18rem' }}>
               <Card.Img variant='top' src={photoURL} />
               <ListGroup className='list-group-flush'>
                 <ListGroupItem>{email}</ListGroupItem>

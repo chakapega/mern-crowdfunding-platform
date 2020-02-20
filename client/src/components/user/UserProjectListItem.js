@@ -42,8 +42,8 @@ export default class UserProjectListItem extends Component {
 
     return (
       <>
-        <ListGroup.Item className='d-flex justify-content-between align-items-center'>
-          <Nav.Link className='text-dark navbar-brand' as={NavLink} to={`/project/${_id}`}>
+        <ListGroup.Item className='d-flex justify-content-between align-items-center pl-0 pr-0'>
+          <Nav.Link className='text-dark navbar-brand userpage-project-link pr-0' as={NavLink} to={`/project/${_id}`}>
             {name}
           </Nav.Link>
           <div>
