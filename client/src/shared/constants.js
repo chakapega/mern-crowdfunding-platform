@@ -50,5 +50,10 @@ export const interfaceTexts = {
   role: { en: 'Role:', ru: 'Роль:' },
   status: { en: 'Status:', ru: 'Статус:' },
   projects: { en: 'Projects:', ru: 'Проекты:' },
-  averageRating: { en: 'Average rating:', ru: 'Средний рейтинг:' }
+  averageRating: { en: 'Average rating:', ru: 'Средний рейтинг:' },
+  users: { en: 'Users:', ru: 'Пользователи:' },
+  actions: { en: 'Actions', ru: 'Действия' },
+  makeAdmin: { en: 'Make admin', ru: 'Сделать админом' },
+  block: { en: 'Block', ru: 'Блокировать' },
+  unBlock: { en: 'Unblock', ru: 'Разблокировать' }
 };

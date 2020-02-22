@@ -134,6 +134,14 @@
   max-height: 400px;
   overflow: auto;
 }
+.users-list {
+  height: 500px;
+  overflow-y: auto;
+
+  .user-email {
+    overflow-y: auto;
+  }
+}
 
 @media (max-width: 575.98px) {
   .card-columns {

@@ -68,7 +68,7 @@ class UserPage extends Component {
     } = this.props;
     const {
       projects,
-      user: { paidBonuses }
+      user: { paidBonuses = [] }
     } = this.state;
 
     return (
@@ -87,7 +87,7 @@ class UserPage extends Component {
           <div className='mt-1'>
             <h4>{interfaceTexts.bonusesPaidByUser[language]}</h4>
             <ListGroup className='paid-bonuses-list'>
-              {paidBonuses &&
+              {paidBonuses.length &&
                 paidBonuses.map((paidBonus, index) => (
                   <UserPaidBonusListItem key={index} paidBonus={paidBonus} language={language} />
                 ))}

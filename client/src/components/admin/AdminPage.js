@@ -5,16 +5,25 @@ import { Card, ListGroup, ListGroupItem } from 'react-bootstrap';
 
 import { interfaceTexts } from '../../shared/constants';
 import UserProjectListItem from '../user/UserProjectListItem';
+import UserListItem from './UserListItem';
 
 class AdminPage extends Component {
   constructor() {
     super();
     this.state = {
+      users: [],
       projects: []
     };
   }
 
   componentDidMount() {
+    fetch(`/api/users`)
+      .then(response => response.json())
+      .then(users => {
+        this.setState({
+          users
+        });
+      });
     fetch(`/api/projects`)
       .then(response => response.json())
       .then(projects => {
@@ -49,7 +58,7 @@ class AdminPage extends Component {
       language,
       userData: { email, displayName, photoURL, role, status }
     } = this.props;
-    const { projects } = this.state;
+    const { users, projects } = this.state;
 
     return (
       <>
@@ -65,6 +74,12 @@ class AdminPage extends Component {
                 <ListGroupItem>{`${interfaceTexts.status[language]} ${status}`}</ListGroupItem>
               </ListGroup>
             </Card>
+          </div>
+          <div className='mt-1'>
+            <h4>{interfaceTexts.users[language]}</h4>
+            <ListGroup className='users-list'>
+              {users.length && users.map((user, index) => <UserListItem key={index} user={user} language={language} />)}
+            </ListGroup>
           </div>
         </div>
         <div className='container mt-3'>

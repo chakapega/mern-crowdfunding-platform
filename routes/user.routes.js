@@ -17,4 +17,16 @@ router.get('/user/:id', async (request, response) => {
   }
 });
 
+router.get('/users', async (request, response) => {
+  try {
+    const users = await User.find();
+
+    response.status(200).json(users);
+  } catch (error) {
+    response.status(500).json({
+      message: error.message || 'An error occured, please try again'
+    });
+  }
+});
+
 module.exports = router;
