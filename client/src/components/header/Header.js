@@ -23,7 +23,7 @@ function Header({ language, userData: { uid, role } }) {
               <>
                 {role === 'admin' && (
                   <Nav.Link as={NavLink} to='/admin-page'>
-                    Admin page
+                    {interfaceTexts.adminPage[language]}
                   </Nav.Link>
                 )}
                 <UserDetails />

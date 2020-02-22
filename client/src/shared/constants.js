@@ -55,5 +55,6 @@ export const interfaceTexts = {
   actions: { en: 'Actions', ru: 'Действия' },
   makeAdmin: { en: 'Make admin', ru: 'Сделать админом' },
   block: { en: 'Block', ru: 'Блокировать' },
-  unBlock: { en: 'Unblock', ru: 'Разблокировать' }
+  unBlock: { en: 'Unblock', ru: 'Разблокировать' },
+  adminPage: { en: 'Admin page', ru: 'Страница админа' }
 };
