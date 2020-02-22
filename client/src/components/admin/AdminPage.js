@@ -71,6 +71,24 @@ class AdminPage extends Component {
       });
   };
 
+  blockUser = uid => {
+    fetch('/api/block-user', {
+      method: 'POST',
+      body: JSON.stringify({
+        uid
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(response => response.json())
+      .then(response => {
+        this.setState({
+          users: response.users
+        });
+      });
+  };
+
   render() {
     const {
       language,
@@ -98,7 +116,13 @@ class AdminPage extends Component {
             <ListGroup className='users-list'>
               {users.length &&
                 users.map((user, index) => (
-                  <UserListItem key={index} user={user} language={language} makeUserAdmin={this.makeUserAdmin} />
+                  <UserListItem
+                    key={index}
+                    user={user}
+                    language={language}
+                    makeUserAdmin={this.makeUserAdmin}
+                    blockUser={this.blockUser}
+                  />
                 ))}
             </ListGroup>
           </div>

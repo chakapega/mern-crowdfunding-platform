@@ -19,6 +19,12 @@ export default class UserListItem extends Component {
     this.setState({ isOpenModalWindow: false });
   };
 
+  blockUserHandler = uid => {
+    const { blockUser } = this.props;
+
+    blockUser(uid);
+  };
+
   closeModalWindow = () => {
     this.setState({
       isOpenModalWindow: false
@@ -28,7 +34,8 @@ export default class UserListItem extends Component {
   render() {
     const {
       user: { email, role, uid, status },
-      language
+      language,
+      blockUser
     } = this.props;
     const { isOpenModalWindow } = this.state;
 
@@ -44,7 +51,7 @@ export default class UserListItem extends Component {
               <Dropdown.Item onClick={() => this.setState({ isOpenModalWindow: true })}>
                 {interfaceTexts.makeAdmin[language]}
               </Dropdown.Item>
-              <Dropdown.Item>
+              <Dropdown.Item onClick={() => blockUser(uid)}>
                 {status === 'active' ? interfaceTexts.block[language] : interfaceTexts.unBlock[language]}
               </Dropdown.Item>
             </Dropdown.Menu>
@@ -80,5 +87,6 @@ UserListItem.propTypes = {
     role: PropTypes.string.isRequired
   }).isRequired,
   language: PropTypes.string.isRequired,
-  makeUserAdmin: PropTypes.func.isRequired
+  makeUserAdmin: PropTypes.func.isRequired,
+  blockUser: PropTypes.func.isRequired
 };
