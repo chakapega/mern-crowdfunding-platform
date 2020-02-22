@@ -53,6 +53,24 @@ class AdminPage extends Component {
     });
   };
 
+  makeUserAdmin = uid => {
+    fetch('/api/make-user-admin', {
+      method: 'POST',
+      body: JSON.stringify({
+        uid
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(response => response.json())
+      .then(response => {
+        this.setState({
+          users: response.users
+        });
+      });
+  };
+
   render() {
     const {
       language,
@@ -78,7 +96,10 @@ class AdminPage extends Component {
           <div className='mt-1'>
             <h4>{interfaceTexts.users[language]}</h4>
             <ListGroup className='users-list'>
-              {users.length && users.map((user, index) => <UserListItem key={index} user={user} language={language} />)}
+              {users.length &&
+                users.map((user, index) => (
+                  <UserListItem key={index} user={user} language={language} makeUserAdmin={this.makeUserAdmin} />
+                ))}
             </ListGroup>
           </div>
         </div>

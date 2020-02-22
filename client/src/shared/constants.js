@@ -56,5 +56,9 @@ export const interfaceTexts = {
   makeAdmin: { en: 'Make admin', ru: 'Сделать админом' },
   block: { en: 'Block', ru: 'Блокировать' },
   unBlock: { en: 'Unblock', ru: 'Разблокировать' },
-  adminPage: { en: 'Admin page', ru: 'Страница админа' }
+  adminPage: { en: 'Admin page', ru: 'Страница админа' },
+  questionAboutMakeUserAdmin: {
+    en: 'Are you sure you want to make the user an admin? This action cannot be undone.',
+    ru: 'Вы действительно хотите сделать пользователя админом? Это действие нельзя отменить.'
+  }
 };
