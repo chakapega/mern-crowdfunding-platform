@@ -7,6 +7,7 @@ import { Spinner } from 'react-bootstrap';
 import { auth } from './firebase/firebase';
 import { setUserData } from './store/auth/actions';
 import Header from './components/header/Header';
+import AdminPage from './components/admin/AdminPage';
 import ProjectsPreviewPage from './components/projects/ProjectsPreviewPage';
 import CreateProjectPage from './components/projects/CreateProjectPage';
 import Project from './components/projects/Project';
@@ -22,9 +23,22 @@ class Router extends Component {
       if (user) {
         const { uid, email, displayName, photoURL } = user;
 
-        setUserDataAction({ uid, email, displayName, photoURL });
+        fetch('/api/auth', {
+          method: 'POST',
+          body: JSON.stringify({ uid, email, displayName }),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+          .then(response => response.json())
+          .then(response => {
+            const {
+              user: { role, status }
+            } = response;
+            setUserDataAction({ uid, email, displayName, photoURL, role, status });
+          });
       } else {
-        setUserDataAction({ uid: '', email: '', displayName: '', photoURL: '' });
+        setUserDataAction({ uid: '', email: '', displayName: '', photoURL: '', role: '', status: '' });
       }
     });
   }
@@ -49,6 +63,7 @@ class Router extends Component {
             <Header />
             <Switch>
               <Route path='/' component={ProjectsPreviewPage} exact />
+              <Route path='/admin-page' component={AdminPage} exact />
               <Route path='/user/:id' component={UserPage} exact />
               <Route path='/project/:id' component={Project} exact />
               <Route path='/create-project' component={CreateProjectPage} exact />

@@ -22,7 +22,7 @@ class Auth extends Component {
     const { setUserDataAction } = this.props;
 
     auth.signOut().then(() => {
-      setUserDataAction({ uid: '', email: '', displayName: '', photoURL: '' });
+      setUserDataAction({ uid: '', email: '', displayName: '', photoURL: '', role: '', status: '' });
     });
   };
 
@@ -35,14 +35,20 @@ class Auth extends Component {
         const { uid, email, displayName, photoURL } = result.user;
         this.isAutorized = true;
 
-        setUserDataAction({ uid, email, displayName, photoURL });
         fetch('/api/auth', {
           method: 'POST',
           body: JSON.stringify({ uid, email, displayName }),
           headers: {
             'Content-Type': 'application/json'
           }
-        });
+        })
+          .then(response => response.json())
+          .then(response => {
+            const {
+              user: { role, status }
+            } = response;
+            setUserDataAction({ uid, email, displayName, photoURL, role, status });
+          });
       })
       .catch(error => {
         this.setState({

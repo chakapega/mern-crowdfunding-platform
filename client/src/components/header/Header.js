@@ -9,7 +9,7 @@ import UserDetails from '../user/UserDetails';
 import LanguageSwitch from '../languageSwitch/LanguageSwitch';
 import { interfaceTexts } from '../../shared/constants';
 
-function Header({ language, userData: { uid } }) {
+function Header({ language, userData: { uid, role } }) {
   return (
     <Navbar bg='light' expand='lg'>
       <Container>
@@ -21,6 +21,11 @@ function Header({ language, userData: { uid } }) {
           <Nav className='ml-auto'>
             {uid && (
               <>
+                {role === 'admin' && (
+                  <Nav.Link as={NavLink} to='/admin-page'>
+                    Admin page
+                  </Nav.Link>
+                )}
                 <UserDetails />
                 <Nav.Link as={NavLink} to='/create-project'>
                   {interfaceTexts.createProject[language]}
@@ -38,7 +43,8 @@ function Header({ language, userData: { uid } }) {
 
 Header.propTypes = {
   userData: PropTypes.shape({
-    uid: PropTypes.string.isRequired
+    uid: PropTypes.string.isRequired,
+    role: PropTypes.string.isRequired
   }).isRequired,
   language: PropTypes.string.isRequired
 };

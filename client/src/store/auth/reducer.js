@@ -5,7 +5,9 @@ const initialState = {
     uid: '',
     email: '',
     displayName: '',
-    photoURL: ''
+    photoURL: '',
+    role: '',
+    status: ''
   }
 };
 

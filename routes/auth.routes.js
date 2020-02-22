@@ -12,13 +12,15 @@ router.post('/auth', async (request, response) => {
         uid,
         email,
         displayName,
-        paidBonuses: []
+        paidBonuses: [],
+        role: 'user',
+        status: 'active'
       });
 
       await user.save();
-      response.status(200).json({ message: 'Account added to database' });
+      response.status(200).json({ message: 'Account added to database', user });
     } else {
-      response.status(200).json({ message: 'The account exists in the database' });
+      response.status(200).json({ message: 'The account exists in the database', user });
     }
   } catch (error) {
     response.status(500).json({
