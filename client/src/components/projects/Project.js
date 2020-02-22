@@ -211,7 +211,7 @@ class Project extends Component {
                 <Card.Text>{`${interfaceTexts.dateOfCompletionOfFundraising[language]}: ${fundraisingEndDate}`}</Card.Text>
                 <div className='d-flex'>
                   <Rating readonly={!uid} initialRating={userRating} onChange={this.handleRatingChange} />
-                  <span className='ml-3 mt-1'>{`Average rating: ${averageRating}`}</span>
+                  <span className='ml-3 mt-1'>{`${interfaceTexts.averageRating[language]} ${averageRating}`}</span>
                 </div>
                 <div className='payment-buttons-container'>
                   <ButtonGroup className='payment-buttons-bootstrap-group'>

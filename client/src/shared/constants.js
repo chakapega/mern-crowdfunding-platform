@@ -46,5 +46,9 @@ export const interfaceTexts = {
   questionAboutDeletingProject: {
     en: 'Are you sure you want to delete this project?',
     ru: 'Вы действительно хотите удалить этот проект?'
-  }
+  },
+  role: { en: 'Role:', ru: 'Роль:' },
+  status: { en: 'Status:', ru: 'Статус:' },
+  projects: { en: 'Projects:', ru: 'Проекты:' },
+  averageRating: { en: 'Average rating:', ru: 'Средний рейтинг:' }
 };
