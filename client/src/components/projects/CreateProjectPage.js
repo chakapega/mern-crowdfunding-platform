@@ -81,7 +81,6 @@ class CreateProjectPage extends Component {
       bonusFifty,
       video
     } = this.state;
-    const fundsRaised = 0;
 
     setRequestStatusAction(true);
     this.uploadImagesToStorage().then(imageLinks => {
@@ -100,9 +99,10 @@ class CreateProjectPage extends Component {
             bonusTen,
             bonusTwentyFive,
             bonusFifty,
-            fundsRaised,
+            fundsRaised: 0,
             video,
-            imageLinks
+            imageLinks,
+            ratings: []
           }),
           headers: {
             'Content-Type': 'application/json'

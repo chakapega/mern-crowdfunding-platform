@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Card, ProgressBar, ButtonGroup, Button, Container, Popover, OverlayTrigger, Toast } from 'react-bootstrap';
 import ReactMarkdown from 'react-markdown';
+import Rating from 'react-rating';
 import BootstrapCarousel from '../carousel/BootstrapCarousel';
 
 import { interfaceTexts } from '../../shared/constants';
@@ -23,6 +24,7 @@ class Project extends Component {
       bonusTwentyFive: '',
       bonusFifty: '',
       video: '',
+      ratings: [],
       isPayment: false
     };
   }
@@ -48,7 +50,8 @@ class Project extends Component {
           bonusTwentyFive,
           bonusFifty,
           fundsRaised,
-          video
+          video,
+          ratings
         } = project;
 
         this.setState({
@@ -62,7 +65,8 @@ class Project extends Component {
           bonusTwentyFive,
           bonusFifty,
           fundsRaised,
-          video
+          video,
+          ratings
         });
       });
   }
@@ -101,6 +105,60 @@ class Project extends Component {
       });
   };
 
+  handleRatingChange = value => {
+    const {
+      match: {
+        params: { id }
+      },
+      userData: { uid }
+    } = this.props;
+
+    fetch('/api/project-change-rating', {
+      method: 'POST',
+      body: JSON.stringify({
+        id,
+        uid,
+        value
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(response => response.json())
+      .then(response => {
+        this.setState({ ratings: response.ratings });
+      });
+  };
+
+  calculateAverageRating = ratings => {
+    if (ratings.length) {
+      let sumOfAllRatings = 0;
+
+      ratings.forEach(rating => {
+        sumOfAllRatings += rating.value;
+      });
+
+      return sumOfAllRatings / ratings.length;
+    }
+
+    return 0;
+  };
+
+  getUserRating = ratings => {
+    const {
+      userData: { uid }
+    } = this.props;
+    let userRating = 0;
+
+    ratings.forEach(rating => {
+      if (rating.uid === uid) {
+        userRating = rating.value;
+      }
+    });
+
+    return userRating;
+  };
+
   render() {
     const {
       name,
@@ -113,7 +171,8 @@ class Project extends Component {
       bonusFifty,
       fundsRaised,
       video,
-      imageLinks = [],
+      imageLinks,
+      ratings,
       isPayment
     } = this.state;
     const {
@@ -129,6 +188,8 @@ class Project extends Component {
         <Popover.Content>{bonus}</Popover.Content>
       </Popover>
     );
+    const averageRating = this.calculateAverageRating(ratings);
+    const userRating = this.getUserRating(ratings);
 
     return (
       <>
@@ -148,6 +209,10 @@ class Project extends Component {
                 </Card.Title>
                 <Card.Text>{`${interfaceTexts.category[language]}: ${category}`}</Card.Text>
                 <Card.Text>{`${interfaceTexts.dateOfCompletionOfFundraising[language]}: ${fundraisingEndDate}`}</Card.Text>
+                <div className='d-flex'>
+                  <Rating readonly={!uid} initialRating={userRating} onChange={this.handleRatingChange} />
+                  <span className='ml-3 mt-1'>{`Average rating: ${averageRating}`}</span>
+                </div>
                 <div className='payment-buttons-container'>
                   <ButtonGroup className='payment-buttons-bootstrap-group'>
                     <Button

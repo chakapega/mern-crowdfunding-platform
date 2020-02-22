@@ -99,16 +99,48 @@ router.post('/edit-project', async (request, response) => {
 router.post('/project-pay', async (request, response) => {
   try {
     const { id, paymentAmount, bonusInfo, uid } = request.body;
-
     const project = await Project.findById(id);
+
     project.fundsRaised += paymentAmount;
     await project.save();
-
     const user = await User.findOne({ uid });
     user.paidBonuses.push({ projectName: project.name, paymentAmount, bonusInfo });
     await user.save();
-
     response.status(200).json({ message: 'Payment made', fundsRaised: project.fundsRaised });
+  } catch (error) {
+    response.status(500).json({
+      message: error.message || 'An error occured, please try again'
+    });
+  }
+});
+
+router.post('/project-change-rating', async (request, response) => {
+  try {
+    const { id, uid, value } = request.body;
+    const project = await Project.findById(id);
+    let isUserRating = false;
+
+    project.ratings.forEach(rating => {
+      if (rating.uid === uid) {
+        isUserRating = true;
+      }
+    });
+    if (!isUserRating) {
+      project.ratings.push({
+        id,
+        uid,
+        value
+      });
+    } else {
+      project.ratings.forEach(rating => {
+        if (rating.uid === uid) {
+          rating.value = value;
+        }
+      });
+    }
+    project.markModified('ratings');
+    await project.save();
+    response.status(200).json({ message: 'Rating changed', ratings: project.ratings });
   } catch (error) {
     response.status(500).json({
       message: error.message || 'An error occured, please try again'
