@@ -130,6 +130,10 @@
   background-color: rgba(0, 0, 0, 0.3);
   z-index: 100;
 }
+.paid-bonuses-list {
+  max-height: 400px;
+  overflow: auto;
+}
 
 @media (max-width: 575.98px) {
   .card-columns {
