@@ -9,7 +9,7 @@ import UserDetails from '../user/UserDetails';
 import LanguageSwitch from '../languageSwitch/LanguageSwitch';
 import { interfaceTexts } from '../../shared/constants';
 
-function Header({ language, userData: { uid, role } }) {
+function Header({ language, userData: { uid, role, status } }) {
   return (
     <Navbar bg='light' expand='lg'>
       <Container>
@@ -27,7 +27,7 @@ function Header({ language, userData: { uid, role } }) {
                   </Nav.Link>
                 )}
                 <UserDetails />
-                <Nav.Link as={NavLink} to='/create-project'>
+                <Nav.Link disabled={status === 'blocked'} as={NavLink} to='/create-project'>
                   {interfaceTexts.createProject[language]}
                 </Nav.Link>
               </>
@@ -44,7 +44,8 @@ function Header({ language, userData: { uid, role } }) {
 Header.propTypes = {
   userData: PropTypes.shape({
     uid: PropTypes.string.isRequired,
-    role: PropTypes.string.isRequired
+    role: PropTypes.string.isRequired,
+    status: PropTypes.string.isRequired
   }).isRequired,
   language: PropTypes.string.isRequired
 };

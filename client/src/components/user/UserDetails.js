@@ -4,9 +4,9 @@ import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Nav, Image } from 'react-bootstrap';
 
-function UserDetails({ userData: { uid, photoURL, displayName } }) {
+function UserDetails({ userData: { uid, photoURL, displayName, status } }) {
   return (
-    <Nav.Link as={NavLink} to={`/user/${uid}`}>
+    <Nav.Link className='position-relative' as={NavLink} to={`/user/${uid}`}>
       <Image
         src={photoURL}
         width='30'
@@ -15,6 +15,7 @@ function UserDetails({ userData: { uid, photoURL, displayName } }) {
         alt='user'
       />
       {displayName}
+      {status === 'blocked' && <span className='user-details-status'>blocked</span>}
     </Nav.Link>
   );
 }
@@ -23,7 +24,8 @@ UserDetails.propTypes = {
   userData: PropTypes.shape({
     uid: PropTypes.string.isRequired,
     displayName: PropTypes.string.isRequired,
-    photoURL: PropTypes.string.isRequired
+    photoURL: PropTypes.string.isRequired,
+    status: PropTypes.string.isRequired
   }).isRequired
 };
 

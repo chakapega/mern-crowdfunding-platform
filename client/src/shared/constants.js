@@ -10,7 +10,7 @@ export const interfaceTexts = {
   signInToPostAComment: { en: 'Sign in to post a comment', ru: 'Войдите чтобы написать комментарий' },
   send: { en: 'Send', ru: 'Отправить' },
   notice: { en: 'Notice', ru: 'Уведомление' },
-  projectSuccessfullyCreated: { en: 'Project successfully created', ru: 'Уведомление' },
+  projectSuccessfullyCreated: { en: 'Project successfully created', ru: 'Проект успешно создан' },
   projectName: { en: 'Project name', ru: 'Имя проекта' },
   projectDescription: { en: 'Project description', ru: 'Описание проекта' },
   category: { en: 'Category', ru: 'Категория' },

@@ -180,7 +180,7 @@ class Project extends Component {
       match: {
         params: { id }
       },
-      userData: { uid }
+      userData: { uid, status }
     } = this.props;
     const fundsRaisedPercent = (100 / target) * fundsRaised;
     const popover = bonus => (
@@ -210,13 +210,17 @@ class Project extends Component {
                 <Card.Text>{`${interfaceTexts.category[language]}: ${category}`}</Card.Text>
                 <Card.Text>{`${interfaceTexts.dateOfCompletionOfFundraising[language]}: ${fundraisingEndDate}`}</Card.Text>
                 <div className='d-flex'>
-                  <Rating readonly={!uid} initialRating={userRating} onChange={this.handleRatingChange} />
+                  <Rating
+                    readonly={!uid || status === 'blocked'}
+                    initialRating={userRating}
+                    onChange={this.handleRatingChange}
+                  />
                   <span className='ml-3 mt-1'>{`${interfaceTexts.averageRating[language]} ${averageRating}`}</span>
                 </div>
                 <div className='payment-buttons-container'>
                   <ButtonGroup className='payment-buttons-bootstrap-group'>
                     <Button
-                      disabled={!uid}
+                      disabled={!uid || status === 'blocked'}
                       className='payment-button'
                       variant='outline-success'
                       size='md'
@@ -230,7 +234,7 @@ class Project extends Component {
                   </ButtonGroup>
                   <ButtonGroup>
                     <Button
-                      disabled={!uid}
+                      disabled={!uid || status === 'blocked'}
                       className='payment-button'
                       variant='outline-success'
                       size='md'
@@ -244,7 +248,7 @@ class Project extends Component {
                   </ButtonGroup>
                   <ButtonGroup>
                     <Button
-                      disabled={!uid}
+                      disabled={!uid || status === 'blocked'}
                       className='payment-button'
                       variant='outline-success'
                       size='md'
@@ -288,7 +292,8 @@ Project.propTypes = {
   setRequestStatusAction: PropTypes.func.isRequired,
   language: PropTypes.string.isRequired,
   userData: PropTypes.shape({
-    uid: PropTypes.string.isRequired
+    uid: PropTypes.string.isRequired,
+    status: PropTypes.string.isRequired
   }).isRequired
 };
 

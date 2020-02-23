@@ -78,7 +78,7 @@ class Comments extends Component {
     const { comments } = this.state;
     const {
       language,
-      userData: { uid }
+      userData: { uid, status }
     } = this.props;
 
     return (
@@ -101,10 +101,10 @@ class Comments extends Component {
                     uid ? interfaceTexts.writeAComment[language] : interfaceTexts.signInToPostAComment[language]
                   }
                   onChange={this.handleInputChange}
-                  disabled={!uid}
+                  disabled={!uid || status === 'blocked'}
                 />
                 <InputGroup.Append>
-                  <Button type='submit' disabled={!uid}>
+                  <Button type='submit' disabled={!uid || status === 'blocked'}>
                     {interfaceTexts.send[language]}
                   </Button>
                 </InputGroup.Append>
@@ -122,7 +122,8 @@ Comments.propTypes = {
     uid: PropTypes.string.isRequired,
     email: PropTypes.string.isRequired,
     displayName: PropTypes.string.isRequired,
-    photoURL: PropTypes.string.isRequired
+    photoURL: PropTypes.string.isRequired,
+    status: PropTypes.string.isRequired
   }).isRequired,
   id: PropTypes.string.isRequired,
   language: PropTypes.string.isRequired

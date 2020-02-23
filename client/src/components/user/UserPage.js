@@ -64,11 +64,11 @@ class UserPage extends Component {
   render() {
     const {
       language,
-      userData: { email, displayName, photoURL }
+      userData: { email, displayName, photoURL, role, status }
     } = this.props;
     const {
       projects,
-      user: { paidBonuses = [] }
+      user: { paidBonuses }
     } = this.state;
 
     return (
@@ -81,13 +81,15 @@ class UserPage extends Component {
               <ListGroup className='list-group-flush'>
                 <ListGroupItem>{email}</ListGroupItem>
                 <ListGroupItem>{displayName}</ListGroupItem>
+                <ListGroupItem>{`${interfaceTexts.role[language]} ${role}`}</ListGroupItem>
+                <ListGroupItem>{`${interfaceTexts.status[language]} ${status}`}</ListGroupItem>
               </ListGroup>
             </Card>
           </div>
           <div className='mt-1'>
             <h4>{interfaceTexts.bonusesPaidByUser[language]}</h4>
             <ListGroup className='paid-bonuses-list'>
-              {paidBonuses.length &&
+              {paidBonuses &&
                 paidBonuses.map((paidBonus, index) => (
                   <UserPaidBonusListItem key={index} paidBonus={paidBonus} language={language} />
                 ))}
@@ -103,6 +105,7 @@ class UserPage extends Component {
                 project={project}
                 language={language}
                 deleteProject={this.deleteProject}
+                status={status}
               />
             ))}
           </ListGroup>
@@ -117,7 +120,9 @@ UserPage.propTypes = {
     uid: PropTypes.string.isRequired,
     email: PropTypes.string.isRequired,
     displayName: PropTypes.string.isRequired,
-    photoURL: PropTypes.string.isRequired
+    photoURL: PropTypes.string.isRequired,
+    status: PropTypes.string.isRequired,
+    role: PropTypes.string.isRequired
   }).isRequired,
   language: PropTypes.string.isRequired
 };
