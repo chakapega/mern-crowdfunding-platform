@@ -18,6 +18,35 @@ class Auth extends Component {
     };
   }
 
+  componentDidMount() {
+    auth.onAuthStateChanged(user => {
+      const { setUserDataAction } = this.props;
+
+      if (user) {
+        const { uid, email, displayName, photoURL } = user;
+
+        setTimeout(() => {
+          fetch('/api/auth', {
+            method: 'POST',
+            body: JSON.stringify({ uid, email, displayName }),
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          })
+            .then(response => response.json())
+            .then(response => {
+              const {
+                user: { role, status }
+              } = response;
+              setUserDataAction({ uid, email, displayName, photoURL, role, status });
+            });
+        }, 1000);
+      } else {
+        setUserDataAction({ uid: '', email: '', displayName: '', photoURL: '', role: '', status: '' });
+      }
+    });
+  }
+
   signOut = () => {
     const { setUserDataAction } = this.props;
 
@@ -33,7 +62,6 @@ class Auth extends Component {
       .signInWithPopup(arrayOfAuthProviders[authProvider])
       .then(result => {
         const { uid, email, displayName, photoURL } = result.user;
-        this.isAutorized = true;
 
         fetch('/api/auth', {
           method: 'POST',
