@@ -40,7 +40,7 @@ class Auth extends Component {
               } = response;
               setUserDataAction({ uid, email, displayName, photoURL, role, status });
             });
-        }, 1000);
+        }, 1555);
       } else {
         setUserDataAction({ uid: '', email: '', displayName: '', photoURL: '', role: '', status: '' });
       }
