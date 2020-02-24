@@ -88,16 +88,14 @@ class Auth extends Component {
           </NavDropdown>
         )}
         {isError && (
-          <Toast
-            className='bootstrap-toast'
-            onClose={() => this.setState({ isError: false, error: '' })}
-            show={isError}
-          >
-            <Toast.Header>
-              <strong className='mr-auto'>{interfaceTexts.error[language]}</strong>
-            </Toast.Header>
-            <Toast.Body>{error}</Toast.Body>
-          </Toast>
+          <div className='bootstrap-toast-container'>
+            <Toast onClose={() => this.setState({ isError: false, error: '' })} show={isError}>
+              <Toast.Header>
+                <strong className='mr-auto'>{interfaceTexts.error[language]}</strong>
+              </Toast.Header>
+              <Toast.Body>{error}</Toast.Body>
+            </Toast>
+          </div>
         )}
       </>
     );

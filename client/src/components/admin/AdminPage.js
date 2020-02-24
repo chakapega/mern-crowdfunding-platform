@@ -89,7 +89,6 @@ class AdminPage extends Component {
       });
   };
 
-  /* eslint-disable */
   render() {
     const {
       language,
@@ -116,9 +115,9 @@ class AdminPage extends Component {
             <h4>{interfaceTexts.users[language]}</h4>
             <ListGroup className='users-list'>
               {users.length &&
-                users.map((user, index) => (
+                users.map(user => (
                   <UserListItem
-                    key={index}
+                    key={user._id}
                     user={user}
                     language={language}
                     makeUserAdmin={this.makeUserAdmin}
@@ -137,6 +136,7 @@ class AdminPage extends Component {
                 project={project}
                 language={language}
                 deleteProject={this.deleteProject}
+                status={status}
               />
             ))}
           </ListGroup>
