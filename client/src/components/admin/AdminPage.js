@@ -89,6 +89,7 @@ class AdminPage extends Component {
       });
   };
 
+  /* eslint-disable */
   render() {
     const {
       language,
