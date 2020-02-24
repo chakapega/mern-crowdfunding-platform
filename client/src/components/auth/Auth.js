@@ -25,22 +25,20 @@ class Auth extends Component {
       if (user) {
         const { uid, email, displayName, photoURL } = user;
 
-        setTimeout(() => {
-          fetch('/api/auth', {
-            method: 'POST',
-            body: JSON.stringify({ uid, email, displayName }),
-            headers: {
-              'Content-Type': 'application/json'
-            }
-          })
-            .then(response => response.json())
-            .then(response => {
-              const {
-                user: { role, status }
-              } = response;
-              setUserDataAction({ uid, email, displayName, photoURL, role, status });
-            });
-        }, 1555);
+        fetch('/api/auth', {
+          method: 'POST',
+          body: JSON.stringify({ uid, email, displayName }),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+          .then(response => response.json())
+          .then(response => {
+            const {
+              user: { role, status }
+            } = response;
+            setUserDataAction({ uid, email, displayName, photoURL, role, status });
+          });
       } else {
         setUserDataAction({ uid: '', email: '', displayName: '', photoURL: '', role: '', status: '' });
       }
@@ -56,34 +54,12 @@ class Auth extends Component {
   };
 
   signIn(authProvider) {
-    const { setUserDataAction } = this.props;
-
-    auth
-      .signInWithPopup(arrayOfAuthProviders[authProvider])
-      .then(result => {
-        const { uid, email, displayName, photoURL } = result.user;
-
-        fetch('/api/auth', {
-          method: 'POST',
-          body: JSON.stringify({ uid, email, displayName }),
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        })
-          .then(response => response.json())
-          .then(response => {
-            const {
-              user: { role, status }
-            } = response;
-            setUserDataAction({ uid, email, displayName, photoURL, role, status });
-          });
-      })
-      .catch(error => {
-        this.setState({
-          isError: true,
-          error: error.message
-        });
+    auth.signInWithPopup(arrayOfAuthProviders[authProvider]).catch(error => {
+      this.setState({
+        isError: true,
+        error: error.message
       });
+    });
   }
 
   render() {
