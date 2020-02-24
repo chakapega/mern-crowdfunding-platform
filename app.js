@@ -2,16 +2,28 @@ const express = require('express');
 const app = express();
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
-const config = require('config');
 const mongoose = require('mongoose');
 const Comment = require('./models/Comment');
-const PORT = config.get('port');
+const path = require('path');
+const mongoURI =
+  process.env.MONGO_URI ||
+  'mongodb://chakapega:chakapegacrowdfunding@cluster0-shard-00-00-iytq9.azure.mongodb.net:27017,cluster0-shard-00-01-iytq9.azure.mongodb.net:27017,cluster0-shard-00-02-iytq9.azure.mongodb.net:27017/app?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority';
+const PORT = process.env.PORT || 5000;
 
 app.use(express.json({ extended: true }));
 app.use('/api', require('./routes/auth.routes'));
 app.use('/api', require('./routes/tag.routes'));
 app.use('/api', require('./routes/project.routes'));
 app.use('/api', require('./routes/user.routes'));
+
+mongoose
+  .connect(mongoURI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true
+  })
+  .then(() => console.log('MongoDB connected'))
+  .catch(error => console.log(error));
 
 io.on('connection', socket => {
   socket.on('project id', async projectId => {
@@ -40,18 +52,11 @@ io.on('connection', socket => {
   });
 });
 
-async function start() {
-  try {
-    await mongoose.connect(config.get('mongoUri'), {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      useCreateIndex: true
-    });
-    server.listen(PORT, () => console.log('App started, port: ', PORT));
-  } catch (error) {
-    console.log('Server error', error.message);
-    process.exit(1);
-  }
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('client/build'));
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  });
 }
 
-start();
+server.listen(PORT, () => console.log(`Server started on PORT ${PORT}`));
