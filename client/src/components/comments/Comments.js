@@ -12,7 +12,7 @@ class Comments extends Component {
     super();
     this.form = React.createRef();
     this.commentList = React.createRef();
-    this.socket = io.connect('http://localhost:5000');
+    this.socket = io();
     this.state = {
       comments: [],
       commentText: ''
