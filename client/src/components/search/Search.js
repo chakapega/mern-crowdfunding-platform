@@ -60,7 +60,7 @@ class Search extends Component {
 
     return (
       <div className='ml-auto'>
-        <Form className='d-flex mt-1' onSubmit={this.search}>
+        <Form className='d-flex' onSubmit={this.search}>
           <FormControl type='text' placeholder='Search' required onChange={this.handleInputChange} />
           <Button className='ml-1' variant='outline-success' type='submit'>
             Search
