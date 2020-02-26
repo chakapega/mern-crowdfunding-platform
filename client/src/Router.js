@@ -11,6 +11,7 @@ import CreateProjectPage from './components/projects/CreateProjectPage';
 import Project from './components/projects/Project';
 import UserPage from './components/user/UserPage';
 import EditProjectPage from './components/projects/EditProjectPage';
+import SearchingResults from './components/search/SearchingResults';
 
 function Router({ requestStatus, userData: { uid } }) {
   if (uid) {
@@ -32,6 +33,7 @@ function Router({ requestStatus, userData: { uid } }) {
             <Route path='/project/:id' component={Project} exact />
             <Route path='/create-project' component={CreateProjectPage} exact />
             <Route path='/edit-project/:id' component={EditProjectPage} exact />
+            <Route path='/search' component={SearchingResults} exact />
             <Redirect to='/' />
           </Switch>
         </BrowserRouter>
@@ -53,6 +55,7 @@ function Router({ requestStatus, userData: { uid } }) {
         <Switch>
           <Route path='/' component={ProjectsPreviewPage} exact />
           <Route path='/project/:id' component={Project} exact />
+          <Route path='/search' component={SearchingResults} exact />
           <Redirect to='/' />
         </Switch>
       </BrowserRouter>

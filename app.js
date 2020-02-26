@@ -14,6 +14,7 @@ app.use('/api', require('./routes/auth.routes'));
 app.use('/api', require('./routes/tag.routes'));
 app.use('/api', require('./routes/project.routes'));
 app.use('/api', require('./routes/user.routes'));
+app.use('/api', require('./routes/search.routes'));
 
 mongoose
   .connect(mongoURI, {
