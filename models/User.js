@@ -5,7 +5,7 @@ const schema = new Schema({
   displayName: { type: String, required: true },
   paidBonuses: { type: Array, required: true },
   role: { type: String, required: true },
-  status: { type: String, required: true }
+  status: { type: String, required: true },
 });
 
 module.exports = model('User', schema);

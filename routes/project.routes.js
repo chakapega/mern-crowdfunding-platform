@@ -20,7 +20,7 @@ router.post('/create-project', async (request, response) => {
       bonusTwentyFive,
       bonusFifty,
       video,
-      imageLinks
+      imageLinks,
     } = request.body;
     const project = new Project({
       uid,
@@ -36,7 +36,7 @@ router.post('/create-project', async (request, response) => {
       bonusTwentyFive,
       bonusFifty,
       video,
-      imageLinks
+      imageLinks,
     });
 
     await project.save();
@@ -47,14 +47,14 @@ router.post('/create-project', async (request, response) => {
       await new Tag({
         value: tag,
         count: parseInt(Math.random() * (16 - 1) + 1),
-        projectId: _id
+        projectId: _id,
       }).save();
     }
 
     response.status(200).json({ message: 'Project created' });
   } catch (error) {
     response.status(500).json({
-      message: error.message || 'An error occured, please try again'
+      message: error.message || 'An error occured, please try again',
     });
   }
 });
@@ -72,7 +72,7 @@ router.post('/edit-project', async (request, response) => {
       bonusTen,
       bonusTwentyFive,
       bonusFifty,
-      video
+      video,
     } = request.body;
     const project = await Project.findById(_id);
 
@@ -91,7 +91,7 @@ router.post('/edit-project', async (request, response) => {
     response.status(200).json({ message: 'Project edited' });
   } catch (error) {
     response.status(500).json({
-      message: error.message || 'An error occured, please try again'
+      message: error.message || 'An error occured, please try again',
     });
   }
 });
@@ -104,12 +104,18 @@ router.post('/project-pay', async (request, response) => {
     project.fundsRaised += paymentAmount;
     await project.save();
     const user = await User.findOne({ uid });
-    user.paidBonuses.push({ projectName: project.name, paymentAmount, bonusInfo });
+    user.paidBonuses.push({
+      projectName: project.name,
+      paymentAmount,
+      bonusInfo,
+    });
     await user.save();
-    response.status(200).json({ message: 'Payment made', fundsRaised: project.fundsRaised });
+    response
+      .status(200)
+      .json({ message: 'Payment made', fundsRaised: project.fundsRaised });
   } catch (error) {
     response.status(500).json({
-      message: error.message || 'An error occured, please try again'
+      message: error.message || 'An error occured, please try again',
     });
   }
 });
@@ -120,7 +126,7 @@ router.post('/project-change-rating', async (request, response) => {
     const project = await Project.findById(id);
     let isUserRating = false;
 
-    project.ratings.forEach(rating => {
+    project.ratings.forEach((rating) => {
       if (rating.uid === uid) {
         isUserRating = true;
       }
@@ -129,10 +135,10 @@ router.post('/project-change-rating', async (request, response) => {
       project.ratings.push({
         id,
         uid,
-        value
+        value,
       });
     } else {
-      project.ratings.forEach(rating => {
+      project.ratings.forEach((rating) => {
         if (rating.uid === uid) {
           rating.value = value;
         }
@@ -140,10 +146,12 @@ router.post('/project-change-rating', async (request, response) => {
     }
     project.markModified('ratings');
     await project.save();
-    response.status(200).json({ message: 'Rating changed', ratings: project.ratings });
+    response
+      .status(200)
+      .json({ message: 'Rating changed', ratings: project.ratings });
   } catch (error) {
     response.status(500).json({
-      message: error.message || 'An error occured, please try again'
+      message: error.message || 'An error occured, please try again',
     });
   }
 });
@@ -158,7 +166,7 @@ router.post('/delete-project', async (request, response) => {
     response.status(200).json({ message: 'Project and tags deleted' });
   } catch (error) {
     response.status(500).json({
-      message: error.message || 'An error occured, please try again'
+      message: error.message || 'An error occured, please try again',
     });
   }
 });
@@ -170,7 +178,7 @@ router.get('/projects', async (request, response) => {
     response.status(200).json(projects);
   } catch (error) {
     response.status(500).json({
-      message: error.message || 'An error occured, please try again'
+      message: error.message || 'An error occured, please try again',
     });
   }
 });
@@ -178,14 +186,14 @@ router.get('/projects', async (request, response) => {
 router.get('/project/:id', async (request, response) => {
   try {
     const {
-      params: { id }
+      params: { id },
     } = request;
     const project = await Project.findById(id);
 
     response.status(200).json(project);
   } catch (error) {
     response.status(500).json({
-      message: error.message || 'An error occured, please try again'
+      message: error.message || 'An error occured, please try again',
     });
   }
 });
@@ -193,14 +201,14 @@ router.get('/project/:id', async (request, response) => {
 router.get('/projects/user/:id', async (request, response) => {
   try {
     const {
-      params: { id: uid }
+      params: { id: uid },
     } = request;
     const projects = await Project.find({ uid });
 
     response.status(200).json(projects);
   } catch (error) {
     response.status(500).json({
-      message: error.message || 'An error occured, please try again'
+      message: error.message || 'An error occured, please try again',
     });
   }
 });

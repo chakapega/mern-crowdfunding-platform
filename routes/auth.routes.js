@@ -14,17 +14,19 @@ router.post('/auth', async (request, response) => {
         displayName,
         paidBonuses: [],
         role: 'user',
-        status: 'active'
+        status: 'active',
       });
 
       await user.save();
       response.status(200).json({ message: 'Account added to database', user });
     } else {
-      response.status(200).json({ message: 'The account exists in the database', user });
+      response
+        .status(200)
+        .json({ message: 'The account exists in the database', user });
     }
   } catch (error) {
     response.status(500).json({
-      message: error.message || 'An error occured, please try again'
+      message: error.message || 'An error occured, please try again',
     });
   }
 });

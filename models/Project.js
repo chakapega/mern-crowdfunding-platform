@@ -14,7 +14,7 @@ const schema = new Schema({
   bonusFifty: { type: String, required: true },
   video: { type: String, required: true },
   imageLinks: { type: Array, required: true },
-  ratings: { type: Array, required: true }
+  ratings: { type: Array, required: true },
 });
 
 module.exports = model('Project', schema);

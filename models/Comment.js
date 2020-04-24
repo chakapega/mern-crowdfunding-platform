@@ -6,7 +6,7 @@ const schema = new Schema({
   photoURL: { type: String, required: true },
   commentText: { type: String, required: true },
   projectId: { type: String, required: true },
-  timeStamp: { type: String, required: true }
+  timeStamp: { type: String, required: true },
 });
 
 module.exports = model('Comment', schema);

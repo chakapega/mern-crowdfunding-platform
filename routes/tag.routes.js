@@ -9,7 +9,7 @@ router.get('/tags', async (request, response) => {
     response.status(200).json(tags);
   } catch (error) {
     response.status(500).json({
-      message: error.message || 'An error occured, please try again'
+      message: error.message || 'An error occured, please try again',
     });
   }
 });
