@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const router = Router();
 const Project = require('../models/Project');
-const User = require('../models/User');
+const User = require('../src/resources/users/user.model');
 const Tag = require('../models/Tag');
 
 router.post('/create-project', async (request, response) => {
@@ -126,7 +126,7 @@ router.post('/project-change-rating', async (request, response) => {
     const project = await Project.findById(id);
     let isUserRating = false;
 
-    project.ratings.forEach((rating) => {
+    project.ratings.forEach(rating => {
       if (rating.uid === uid) {
         isUserRating = true;
       }
@@ -138,7 +138,7 @@ router.post('/project-change-rating', async (request, response) => {
         value,
       });
     } else {
-      project.ratings.forEach((rating) => {
+      project.ratings.forEach(rating => {
         if (rating.uid === uid) {
           rating.value = value;
         }
