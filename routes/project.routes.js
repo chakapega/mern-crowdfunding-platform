@@ -2,7 +2,7 @@ const { Router } = require('express');
 const router = Router();
 const Project = require('../models/Project');
 const User = require('../src/resources/users/user.model');
-const Tag = require('../models/Tag');
+const Tag = require('../src/resources/tags/tag.model');
 
 router.post('/create-project', async (request, response) => {
   try {

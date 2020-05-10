@@ -5,6 +5,8 @@ const errorHandler = (err, req, res, next) => {
     res
       .status(INTERNAL_SERVER_ERROR)
       .send(getStatusText(INTERNAL_SERVER_ERROR));
+
+    return;
   }
 
   next();
