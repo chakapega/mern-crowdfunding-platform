@@ -2,4 +2,6 @@ const tagDbRepository = require('./tag.db.repository');
 
 const getAll = () => tagDbRepository.getAll();
 
-module.exports = { getAll };
+const create = (tags, projectId) => tagDbRepository.create(tags, projectId);
+
+module.exports = { getAll, create };

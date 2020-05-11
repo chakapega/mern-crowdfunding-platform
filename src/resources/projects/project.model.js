@@ -1,5 +1,6 @@
 const { Schema, model } = require('mongoose');
-const schema = new Schema({
+
+const Project = new Schema({
   uid: { type: String, required: true },
   email: { type: String, required: true },
   name: { type: String, required: true },
@@ -17,4 +18,4 @@ const schema = new Schema({
   ratings: { type: Array, required: true },
 });
 
-module.exports = model('Project', schema);
+module.exports = model('Project', Project);
