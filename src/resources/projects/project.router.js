@@ -49,8 +49,8 @@ projectRouter.route('/create-project').post(
   })
 );
 
-projectRouter.post('/edit-project', async (request, response) => {
-  try {
+projectRouter.route('/edit-project').put(
+  catchError(async (req, res) => {
     const {
       _id,
       name,
@@ -63,28 +63,24 @@ projectRouter.post('/edit-project', async (request, response) => {
       bonusTwentyFive,
       bonusFifty,
       video,
-    } = request.body;
-    const project = await Project.findById(_id);
-
-    project.name = name;
-    project.description = description;
-    project.category = category;
-    project.tags = tags;
-    project.fundraisingEndDate = fundraisingEndDate;
-    project.target = target;
-    project.bonusTen = bonusTen;
-    project.bonusTwentyFive = bonusTwentyFive;
-    project.bonusFifty = bonusFifty;
-    project.video = video;
-
-    await project.save();
-    response.status(200).json({ message: 'Project edited' });
-  } catch (error) {
-    response.status(500).json({
-      message: error.message || 'An error occured, please try again',
+    } = req.body;
+    await projectService.update({
+      _id,
+      name,
+      description,
+      category,
+      tags,
+      fundraisingEndDate,
+      target,
+      bonusTen,
+      bonusTwentyFive,
+      bonusFifty,
+      video,
     });
-  }
-});
+
+    res.status(OK).json({ message: 'Project edited' });
+  })
+);
 
 projectRouter.post('/project-pay', async (request, response) => {
   try {

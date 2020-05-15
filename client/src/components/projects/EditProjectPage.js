@@ -112,7 +112,7 @@ class EditProjectPage extends Component {
 
     setRequestStatusAction(true);
     fetch('/api/edit-project', {
-      method: 'POST',
+      method: 'PUT',
       body: JSON.stringify({
         _id,
         name,

@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const router = Router();
-const Project = require('../models/Project');
+const Project = require('../src/resources/projects/project.model');
 
 router.post('/search', async (request, response) => {
   try {
