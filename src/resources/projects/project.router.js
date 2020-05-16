@@ -82,29 +82,24 @@ projectRouter.route('/edit-project').put(
   })
 );
 
-projectRouter.post('/project-pay', async (request, response) => {
-  try {
-    const { id, paymentAmount, bonusInfo, uid } = request.body;
-    const project = await Project.findById(id);
+projectRouter.route('/project-pay').post(
+  catchError(async (req, res) => {
+    const { id, paymentAmount, bonusInfo, uid } = req.body;
 
-    project.fundsRaised += paymentAmount;
-    await project.save();
-    const user = await User.findOne({ uid });
-    user.paidBonuses.push({
-      projectName: project.name,
+    await projectService.addPaymentToProject({
+      id,
       paymentAmount,
       bonusInfo,
+      uid,
     });
-    await user.save();
-    response
-      .status(200)
+
+    const project = await projectService.getById(id);
+
+    res
+      .status(OK)
       .json({ message: 'Payment made', fundsRaised: project.fundsRaised });
-  } catch (error) {
-    response.status(500).json({
-      message: error.message || 'An error occured, please try again',
-    });
-  }
-});
+  })
+);
 
 projectRouter.post('/project-change-rating', async (request, response) => {
   try {

@@ -8,4 +8,6 @@ const update = projectData => {
   return Project.updateOne({ _id }, projectData);
 };
 
-module.exports = { create, update };
+const getById = id => Project.findById(id);
+
+module.exports = { create, update, getById };
