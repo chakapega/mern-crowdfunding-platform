@@ -21,4 +21,38 @@ const addPaymentToProject = async paymentData => {
 
 const getById = id => projectDbRepository.getById(id);
 
-module.exports = { create, update, addPaymentToProject, getById };
+const changeProjectRating = async projectRatingData => {
+  const { id, uid, value } = projectRatingData;
+  const project = await getById(id);
+  let isUserRating = false;
+
+  project.ratings.forEach(rating => {
+    if (rating.uid === uid) {
+      isUserRating = true;
+    }
+  });
+
+  if (!isUserRating) {
+    project.ratings.push({
+      id,
+      uid,
+      value,
+    });
+  } else {
+    project.ratings.forEach(rating => {
+      if (rating.uid === uid) {
+        rating.value = value;
+      }
+    });
+  }
+
+  return await update(project);
+};
+
+module.exports = {
+  create,
+  update,
+  addPaymentToProject,
+  getById,
+  changeProjectRating,
+};

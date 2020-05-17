@@ -4,7 +4,6 @@ const { OK } = require('http-status-codes');
 const projectService = require('./project.service');
 const tagService = require('../tags/tag.service');
 const Project = require('./project.model');
-const User = require('../users/user.model');
 const Tag = require('../tags/tag.model');
 
 projectRouter.route('/create-project').post(
@@ -101,41 +100,19 @@ projectRouter.route('/project-pay').post(
   })
 );
 
-projectRouter.post('/project-change-rating', async (request, response) => {
-  try {
-    const { id, uid, value } = request.body;
-    const project = await Project.findById(id);
-    let isUserRating = false;
+projectRouter.route('/project-change-rating').post(
+  catchError(async (req, res) => {
+    const { id, uid, value } = req.body;
 
-    project.ratings.forEach(rating => {
-      if (rating.uid === uid) {
-        isUserRating = true;
-      }
-    });
-    if (!isUserRating) {
-      project.ratings.push({
-        id,
-        uid,
-        value,
-      });
-    } else {
-      project.ratings.forEach(rating => {
-        if (rating.uid === uid) {
-          rating.value = value;
-        }
-      });
-    }
-    project.markModified('ratings');
-    await project.save();
-    response
-      .status(200)
+    await projectService.changeProjectRating({ id, uid, value });
+
+    const project = await projectService.getById(id);
+
+    res
+      .status(OK)
       .json({ message: 'Rating changed', ratings: project.ratings });
-  } catch (error) {
-    response.status(500).json({
-      message: error.message || 'An error occured, please try again',
-    });
-  }
-});
+  })
+);
 
 projectRouter.post('/delete-project', async (request, response) => {
   try {
