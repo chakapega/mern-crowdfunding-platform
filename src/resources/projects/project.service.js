@@ -1,9 +1,17 @@
 const projectDbRepository = require('./project.db.repository');
 const userService = require('../users/user.service');
+const tagService = require('../tags/tag.service');
 
 const create = projectData => projectDbRepository.create(projectData);
 
 const update = projectData => projectDbRepository.update(projectData);
+
+const getById = id => projectDbRepository.getById(id);
+
+const remove = async _id => {
+  await projectDbRepository.remove(_id);
+  await tagService.removeByProjectId(_id);
+};
 
 const addPaymentToProject = async paymentData => {
   const { id, paymentAmount, bonusInfo, uid } = paymentData;
@@ -18,8 +26,6 @@ const addPaymentToProject = async paymentData => {
     bonusInfo,
   });
 };
-
-const getById = id => projectDbRepository.getById(id);
 
 const changeProjectRating = async projectRatingData => {
   const { id, uid, value } = projectRatingData;
@@ -52,7 +58,8 @@ const changeProjectRating = async projectRatingData => {
 module.exports = {
   create,
   update,
-  addPaymentToProject,
   getById,
+  remove,
+  addPaymentToProject,
   changeProjectRating,
 };

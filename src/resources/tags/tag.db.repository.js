@@ -12,4 +12,6 @@ const create = async (tags, projectId) => {
   }
 };
 
-module.exports = { getAll, create };
+const removeByProjectId = projectId => Tag.deleteMany({ projectId });
+
+module.exports = { getAll, create, removeByProjectId };

@@ -114,20 +114,15 @@ projectRouter.route('/project-change-rating').post(
   })
 );
 
-projectRouter.post('/delete-project', async (request, response) => {
-  try {
-    const { _id } = request.body;
+projectRouter.route('/delete-project').delete(
+  catchError(async (req, res) => {
+    const { _id } = req.body;
 
-    await Project.deleteOne({ _id });
-    await Tag.deleteMany({ projectId: _id });
+    await projectService.remove(_id);
 
-    response.status(200).json({ message: 'Project and tags deleted' });
-  } catch (error) {
-    response.status(500).json({
-      message: error.message || 'An error occured, please try again',
-    });
-  }
-});
+    res.status(OK).json({ message: 'Project and tags deleted' });
+  })
+);
 
 projectRouter.route('/projects').get(
   catchError(async (req, res) => {

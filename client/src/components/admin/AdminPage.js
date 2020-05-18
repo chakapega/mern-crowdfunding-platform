@@ -35,7 +35,7 @@ class AdminPage extends Component {
 
   deleteProject = _id => {
     fetch('/api/delete-project', {
-      method: 'POST',
+      method: 'DELETE',
       body: JSON.stringify({
         _id
       }),

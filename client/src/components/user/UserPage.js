@@ -43,7 +43,7 @@ class UserPage extends Component {
     } = this.props;
 
     fetch('/api/delete-project', {
-      method: 'POST',
+      method: 'DELETE',
       body: JSON.stringify({
         _id
       }),
