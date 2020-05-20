@@ -126,26 +126,22 @@ projectRouter.route('/delete-project').delete(
 
 projectRouter.route('/projects').get(
   catchError(async (req, res) => {
-    const projects = await Project.find();
+    const projects = await projectService.getAll();
 
-    res.status(200).json(projects);
+    res.status(OK).json(projects);
   })
 );
 
-projectRouter.get('/project/:id', async (request, response) => {
-  try {
+projectRouter.route('/project/:id').get(
+  catchError(async (req, res) => {
     const {
       params: { id },
-    } = request;
-    const project = await Project.findById(id);
+    } = req;
+    const project = await projectService.getById(id);
 
-    response.status(200).json(project);
-  } catch (error) {
-    response.status(500).json({
-      message: error.message || 'An error occured, please try again',
-    });
-  }
-});
+    res.status(OK).json(project);
+  })
+);
 
 projectRouter.get('/projects/user/:id', async (request, response) => {
   try {

@@ -8,6 +8,8 @@ const update = projectData => projectDbRepository.update(projectData);
 
 const getById = id => projectDbRepository.getById(id);
 
+const getAll = () => projectDbRepository.getAll();
+
 const remove = async _id => {
   await projectDbRepository.remove(_id);
   await tagService.removeByProjectId(_id);
@@ -59,6 +61,7 @@ module.exports = {
   create,
   update,
   getById,
+  getAll,
   remove,
   addPaymentToProject,
   changeProjectRating,

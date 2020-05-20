@@ -10,6 +10,8 @@ const update = projectData => {
 
 const getById = id => Project.findById(id);
 
+const getAll = () => Project.find();
+
 const remove = _id => Project.deleteOne({ _id });
 
-module.exports = { create, update, getById, remove };
+module.exports = { create, update, getById, getAll, remove };
