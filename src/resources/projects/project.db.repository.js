@@ -12,6 +12,8 @@ const getById = id => Project.findById(id);
 
 const getAll = () => Project.find();
 
+const getByUserId = uid => Project.find({ uid });
+
 const remove = _id => Project.deleteOne({ _id });
 
-module.exports = { create, update, getById, getAll, remove };
+module.exports = { create, update, getById, getAll, getByUserId, remove };

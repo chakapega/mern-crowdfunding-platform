@@ -3,8 +3,6 @@ const catchError = require('../../common/catchError');
 const { OK } = require('http-status-codes');
 const projectService = require('./project.service');
 const tagService = require('../tags/tag.service');
-const Project = require('./project.model');
-const Tag = require('../tags/tag.model');
 
 projectRouter.route('/create-project').post(
   catchError(async (req, res) => {
@@ -143,19 +141,15 @@ projectRouter.route('/project/:id').get(
   })
 );
 
-projectRouter.get('/projects/user/:id', async (request, response) => {
-  try {
+projectRouter.route('/projects/user/:id').get(
+  catchError(async (req, res) => {
     const {
       params: { id: uid },
-    } = request;
-    const projects = await Project.find({ uid });
+    } = req;
+    const projects = await projectService.getByUserId(uid);
 
-    response.status(200).json(projects);
-  } catch (error) {
-    response.status(500).json({
-      message: error.message || 'An error occured, please try again',
-    });
-  }
-});
+    res.status(OK).json(projects);
+  })
+);
 
 module.exports = projectRouter;

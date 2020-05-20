@@ -10,6 +10,8 @@ const getById = id => projectDbRepository.getById(id);
 
 const getAll = () => projectDbRepository.getAll();
 
+const getByUserId = uid => projectDbRepository.getByUserId(uid);
+
 const remove = async _id => {
   await projectDbRepository.remove(_id);
   await tagService.removeByProjectId(_id);
@@ -62,6 +64,7 @@ module.exports = {
   update,
   getById,
   getAll,
+  getByUserId,
   remove,
   addPaymentToProject,
   changeProjectRating,
