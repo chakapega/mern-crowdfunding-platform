@@ -59,6 +59,9 @@ const changeProjectRating = async projectRatingData => {
   return await update(project);
 };
 
+const findBySearchText = searchText =>
+  projectDbRepository.findBySearchText(searchText);
+
 module.exports = {
   create,
   update,
@@ -68,4 +71,5 @@ module.exports = {
   remove,
   addPaymentToProject,
   changeProjectRating,
+  findBySearchText,
 };

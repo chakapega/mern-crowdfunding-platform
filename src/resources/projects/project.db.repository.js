@@ -16,4 +16,15 @@ const getByUserId = uid => Project.find({ uid });
 
 const remove = _id => Project.deleteOne({ _id });
 
-module.exports = { create, update, getById, getAll, getByUserId, remove };
+const findBySearchText = searchText =>
+  Project.find({ $text: { $search: searchText } });
+
+module.exports = {
+  create,
+  update,
+  getById,
+  getAll,
+  getByUserId,
+  remove,
+  findBySearchText,
+};
