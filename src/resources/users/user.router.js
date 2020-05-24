@@ -1,23 +1,21 @@
-const { Router } = require('express');
-const router = Router();
-const User = require('../src/resources/users/user.model');
+const userRouter = require('express').Router();
+const catchError = require('../../common/catchError');
+const userService = require('./user.db.repository');
+const User = require('./user.model');
+const { OK } = require('http-status-codes');
 
-router.get('/user/:id', async (request, response) => {
-  try {
+userRouter.route('/user/:id').get(
+  catchError(async (req, res) => {
     const {
       params: { id: uid },
-    } = request;
-    const user = await User.findOne({ uid });
+    } = req;
+    const user = await userService.getByUid(uid);
 
-    response.status(200).json(user);
-  } catch (error) {
-    response.status(500).json({
-      message: error.message || 'An error occured, please try again',
-    });
-  }
-});
+    res.status(OK).json(user);
+  })
+);
 
-router.get('/users', async (request, response) => {
+userRouter.get('/users', async (request, response) => {
   try {
     const users = await User.find();
 
@@ -29,7 +27,7 @@ router.get('/users', async (request, response) => {
   }
 });
 
-router.post('/make-user-admin', async (request, response) => {
+userRouter.post('/make-user-admin', async (request, response) => {
   try {
     const { uid } = request.body;
     const user = await User.findOne({ uid });
@@ -47,7 +45,7 @@ router.post('/make-user-admin', async (request, response) => {
   }
 });
 
-router.post('/block-user', async (request, response) => {
+userRouter.post('/block-user', async (request, response) => {
   try {
     const { uid } = request.body;
     const user = await User.findOne({ uid });
@@ -69,4 +67,4 @@ router.post('/block-user', async (request, response) => {
   }
 });
 
-module.exports = router;
+module.exports = userRouter;
