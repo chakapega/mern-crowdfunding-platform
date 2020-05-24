@@ -1,5 +1,5 @@
 const io = require('socket.io');
-const Comment = require('../../models/Comment');
+const Comment = require('./Comment.model');
 
 const addSocketConnectionListener = server => {
   io(server).on('connection', socket => {
