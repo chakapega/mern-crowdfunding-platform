@@ -15,17 +15,13 @@ userRouter.route('/user/:id').get(
   })
 );
 
-userRouter.get('/users', async (request, response) => {
-  try {
-    const users = await User.find();
+userRouter.route('/users').get(
+  catchError(async (req, res) => {
+    const users = await userService.getAll();
 
-    response.status(200).json(users);
-  } catch (error) {
-    response.status(500).json({
-      message: error.message || 'An error occured, please try again',
-    });
-  }
-});
+    res.status(OK).json(users);
+  })
+);
 
 userRouter.post('/make-user-admin', async (request, response) => {
   try {
