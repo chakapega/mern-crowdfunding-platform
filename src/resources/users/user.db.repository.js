@@ -12,4 +12,10 @@ const update = userData => {
   return User.updateOne({ uid }, userData);
 };
 
-module.exports = { getByUid, getAll, create, update };
+const makeUserAdmin = userData => {
+  const { uid } = userData;
+
+  return User.updateOne({ uid }, { role: 'admin' });
+};
+
+module.exports = { getByUid, getAll, create, update, makeUserAdmin };

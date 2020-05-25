@@ -2,7 +2,7 @@ const userRouter = require('express').Router();
 const catchError = require('../../common/catchError');
 const userService = require('./user.db.repository');
 const User = require('./user.model');
-const { OK } = require('http-status-codes');
+const { OK, NOT_FOUND } = require('http-status-codes');
 
 userRouter.route('/user/:id').get(
   catchError(async (req, res) => {
@@ -23,23 +23,22 @@ userRouter.route('/users').get(
   })
 );
 
-userRouter.post('/make-user-admin', async (request, response) => {
-  try {
-    const { uid } = request.body;
-    const user = await User.findOne({ uid });
+userRouter.route('/make-user-admin').post(
+  catchError(async (req, res) => {
+    const { uid } = req.body;
+    const potentialUser = await userService.getByUid(uid);
 
-    user.role = 'admin';
-    await user.save();
+    if (potentialUser) {
+      await userService.makeUserAdmin(potentialUser);
 
-    const users = await User.find();
+      const users = await userService.getAll();
 
-    response.status(200).json({ message: 'User assigned by admin', users });
-  } catch (error) {
-    response.status(500).json({
-      message: error.message || 'An error occured, please try again',
-    });
-  }
-});
+      res.status(OK).json({ message: 'User assigned by admin', users });
+    } else {
+      res.status(NOT_FOUND).json({ message: 'User not found' });
+    }
+  })
+);
 
 userRouter.post('/block-user', async (request, response) => {
   try {

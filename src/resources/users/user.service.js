@@ -21,4 +21,13 @@ const addPaidBonus = async paidBonusData => {
   return userDbRepository.update(user);
 };
 
-module.exports = { getByUid, getAll, create, update, addPaidBonus };
+const makeUserAdmin = userData => userDbRepository.makeUserAdmin(userData);
+
+module.exports = {
+  getByUid,
+  getAll,
+  create,
+  update,
+  addPaidBonus,
+  makeUserAdmin,
+};
