@@ -8,4 +8,5 @@ dotenv.config({
 module.exports = {
   PORT: process.env.PORT,
   MONGO_CONNECTION_STRING: process.env.MONGO_CONNECTION_STRING,
+  NODE_ENV: process.env.NODE_ENV,
 };
