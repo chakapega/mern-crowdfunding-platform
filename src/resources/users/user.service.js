@@ -23,6 +23,8 @@ const addPaidBonus = async paidBonusData => {
 
 const makeUserAdmin = userData => userDbRepository.makeUserAdmin(userData);
 
+const blockUser = userData => userDbRepository.blockUser(userData);
+
 module.exports = {
   getByUid,
   getAll,
@@ -30,4 +32,5 @@ module.exports = {
   update,
   addPaidBonus,
   makeUserAdmin,
+  blockUser,
 };

@@ -18,4 +18,21 @@ const makeUserAdmin = userData => {
   return User.updateOne({ uid }, { role: 'admin' });
 };
 
-module.exports = { getByUid, getAll, create, update, makeUserAdmin };
+const blockUser = async userData => {
+  const { uid, status } = userData;
+
+  if (status === 'active') {
+    return User.updateOne({ uid }, { status: 'blocked' });
+  } else if (status === 'blocked') {
+    return User.updateOne({ uid }, { status: 'active' });
+  }
+};
+
+module.exports = {
+  getByUid,
+  getAll,
+  create,
+  update,
+  makeUserAdmin,
+  blockUser,
+};

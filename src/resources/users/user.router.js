@@ -40,26 +40,21 @@ userRouter.route('/make-user-admin').post(
   })
 );
 
-userRouter.post('/block-user', async (request, response) => {
-  try {
-    const { uid } = request.body;
-    const user = await User.findOne({ uid });
+userRouter.route('/block-user').post(
+  catchError(async (req, res) => {
+    const { uid } = req.body;
+    const potentialUser = await userService.getByUid(uid);
 
-    if (user.status === 'active') {
-      user.status = 'blocked';
-    } else if (user.status === 'blocked') {
-      user.status = 'active';
+    if (potentialUser) {
+      await userService.blockUser(potentialUser);
+
+      const users = await userService.getAll();
+
+      res.status(OK).json({ message: 'User successfully blocked', users });
+    } else {
+      res.status(NOT_FOUND).json({ message: 'User not found' });
     }
-    await user.save();
-
-    const users = await User.find();
-
-    response.status(200).json({ message: 'User assigned by admin', users });
-  } catch (error) {
-    response.status(500).json({
-      message: error.message || 'An error occured, please try again',
-    });
-  }
-});
+  })
+);
 
 module.exports = userRouter;
