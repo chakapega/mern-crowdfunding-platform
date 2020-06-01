@@ -61,5 +61,6 @@ export const interfaceTexts = {
     en: 'Are you sure you want to make the user an admin? This action cannot be undone.',
     ru: 'Вы действительно хотите сделать пользователя админом? Это действие нельзя отменить.'
   },
-  searchingResults: { en: 'Searching results:', ru: 'Результаты поиска:' }
+  searchingResults: { en: 'Searching results:', ru: 'Результаты поиска:' },
+  search: { en: 'Search', ru: 'Поиск' }
 };

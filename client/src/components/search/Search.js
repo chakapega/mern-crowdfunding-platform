@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { Form, FormControl, Button } from 'react-bootstrap';
 
 import { setSearchingResults } from '../../store/search/actions';
+import { interfaceTexts } from '../../shared/constants';
 
 class Search extends Component {
   constructor() {
@@ -56,14 +57,20 @@ class Search extends Component {
   };
 
   render() {
+    const { language } = this.props;
     const { showResults } = this.state;
 
     return (
       <div className='ml-auto'>
         <Form className='d-flex' onSubmit={this.search}>
-          <FormControl type='text' placeholder='Search' required onChange={this.handleInputChange} />
+          <FormControl
+            type='text'
+            placeholder={interfaceTexts.search[language]}
+            required
+            onChange={this.handleInputChange}
+          />
           <Button className='ml-1' variant='outline-success' type='submit'>
-            Search
+            {interfaceTexts.search[language]}
           </Button>
         </Form>
         {showResults && <Redirect to='/search' />}
@@ -76,8 +83,11 @@ Search.propTypes = {
   setSearchingResultsAction: PropTypes.func.isRequired
 };
 
+const mapStateToProps = state => ({
+  language: state.language.language
+});
 const mapDispatchToProps = dispatch => ({
   setSearchingResultsAction: searchingResults => dispatch(setSearchingResults(searchingResults))
 });
 
-export default connect(null, mapDispatchToProps)(Search);
+export default connect(mapStateToProps, mapDispatchToProps)(Search);
